@@ -1,6 +1,5 @@
 import 'package:firearrow_admin_app/app_logger.dart';
 import 'package:firearrow_admin_app/clock/app_clock.dart';
-import 'package:firearrow_admin_app/environment.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,20 +11,17 @@ import 'package:talker_flutter/talker_flutter.dart';
 import 'package:time_machine/time_machine.dart';
 
 Future<void> bootstrap() async {
-  await Environment.init();
-  GoRouter.optionURLReflectsImperativeAPIs = true;
+  final talker = TalkerFlutter.init(
+    logger: AppLogger.instance.logger,
+  );
+  Bloc.observer = TalkerBlocObserver(talker: talker);
 
   await TimeMachine.initialize({
     'rootBundle': rootBundle,
   });
+  GoRouter.optionURLReflectsImperativeAPIs = true;
 
-  Bloc.observer = TalkerBlocObserver(
-    talker: TalkerFlutter.init(
-      logger: AppLogger.instance.logger,
-    ),
-  );
-
-  GetIt.instance.registerSingleton(() => GlobalKey<NavigatorState>());
-  GetIt.instance.registerFactoryAsync(() => SharedPreferences.getInstance());
-  GetIt.instance.registerLazySingleton<Clock>(() => AppClock.instance);
+  GetIt.instance.registerSingleton(GlobalKey<NavigatorState>());
+  GetIt.instance.registerSingleton(await SharedPreferences.getInstance());
+  GetIt.instance.registerSingleton<Clock>(AppClock.instance);
 }

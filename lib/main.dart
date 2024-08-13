@@ -1,4 +1,5 @@
 import 'package:firearrow_admin_app/app.dart';
+import 'package:firearrow_admin_app/app_logger.dart';
 import 'package:firearrow_admin_app/bootstrap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -12,6 +13,9 @@ Future<void> main() async {
       await bootstrap();
       FlutterNativeSplash.remove();
       runApp(App());
+    },
+    onError: (error, chain) {
+      AppLogger.instance.e(error);
     },
   );
 }
