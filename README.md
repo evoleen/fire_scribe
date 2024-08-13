@@ -33,14 +33,7 @@ Run
 dart run flutter_native_splash:create --path=flutter_native_splash.yaml
 ```
 
-## Development
-
-### Update Flutter version based in .fvmrc
-```bash
-$ dart run fastapp:update_flutter_version
-```
-
-### Release
+## Release
 ```bash
 dart run fastapp_flutter:release
 ```

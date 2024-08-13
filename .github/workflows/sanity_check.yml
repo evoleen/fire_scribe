@@ -1,12 +1,16 @@
 name: Sanity Check
 on:
   push:
-    branches:
-      - "**"
+  workflow_call:
 
 permissions:
   id-token: write
   contents: read
+  pull-requests: write
+
+env:
+  LC_ALL: en_US.UTF-8
+  LANG: en_US.UTF-8
 
 jobs:
   lint-and-test:
