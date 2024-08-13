@@ -1,0 +1,68 @@
+name: Initial commit
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: write
+
+env:
+  LC_ALL: en_US.UTF-8
+  LANG: en_US.UTF-8
+
+jobs:
+  lint-and-test:
+    name: Initial commit
+    if: github.event_name == 'push' && github.event.before == '0000000000000000000000000000000000000000'
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for all branches and tags
+      - name: 🏗️ Setup Flutter
+        uses: ./.github/actions/setup_flutter
+        with:
+          cloudsmith-token: ${{ secrets.CLOUDSMITH_DART_PACKAGES_ACCESS_TOKEN }}
+      - name: ⛪ Sanity Check
+        uses: ./.github/actions/sanity_check
+      - name: 📝 Configure github
+        run: |
+          git config --global user.name "sh1l0n"
+          git config --global user.email "jesusmanresaparres@protonmail.com"
+      - name: 📝 Change name
+        run: |
+          REPO_NAME=$(basename `git rev-parse --show-toplevel`)
+          dart run flutter_fastapp:change_package_name --app_name=$REPO_NAME_DART_FORMAT --package_name=com.example.$REPO_NAME_DART_FORMAT        
+          git add .
+          git commit -m "[DART_PACKAGE_CREATE] Update name"
+          git push -f
+      - name: 📝 Update Pubspec
+        working-directory: ${{ github.workspace }}
+        run: |
+          REPO_NAME=$(basename `git rev-parse --show-toplevel`)
+          # Convert to lowercase
+          REPO_NAME_LOWER=$(echo "$REPO_NAME" | tr '[:upper:]' '[:lower:]')
+          REPO_NAME_FORMATTED=$(echo "$REPO_NAME_LOWER" | tr '-' '_')
+          REPO_NAME_DART_FORMAT=$(echo "$REPO_NAME_FORMATTED" | sed 's/[^a-z0-9_]//g')
+          DESCRIPTION="A starting point for Dart libraries or applications."
+          HOMEPAGE="https://github.com/your-username/${REPO_NAME}"
+          REPOSITORY="https://github.com/your-username/${REPO_NAME}"
+          ISSUE_TRACKER="https://github.com/your-username/${REPO_NAME}/issues"
+        
+          # Modify the pubspec.yaml file
+          sed -i "s/description: .*/description: \"$DESCRIPTION\"/" pubspec.yaml
+          sed -i "s|homepage: .*|homepage: \"$HOMEPAGE\"|" pubspec.yaml
+          sed -i "s|repository: .*|repository: \"$REPOSITORY\"|" pubspec.yaml
+          sed -i "s|issue_tracker: .*|issue_tracker: \"$ISSUE_TRACKER\"|" pubspec.yaml
+          
+          cat pubspec.yaml 
+
+          git add .
+          git commit -m "[DART_PACKAGE_CREATE] Update pubspec content"
+          git push -f
+          
+

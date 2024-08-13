@@ -1,0 +1,42 @@
+name: Setup Flutter
+description: Setup of the flutter application
+
+inputs:
+  cloudsmith-token:
+    description: Cloudsmith token for accesing to cloudmisth dart_packages
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Read Flutter version from file
+      id: flutter_version
+      shell: sh
+      run: |
+        FLUTTER_VERSION=$(jq -r '.flutter' .fvmrc)
+        echo "Flutter version: $FLUTTER_VERSION"
+        echo "::set-output name=flutter_version::$FLUTTER_VERSION"
+    - name: ☕ Java Setup
+      uses: actions/setup-java@v4
+      with:
+        java-version: "17.x"
+        distribution: "adopt"
+    - name: 🦅 Flutter Setup
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: "${{ steps.flutter_version.outputs.flutter_version }}"
+        channel: "stable"
+    - name: 🩺 Flutter Doctor
+      shell: sh
+      run: flutter doctor -v
+    - name: Setup cloudsmith dart_packages token
+      shell: sh
+      run: echo ${{ inputs.cloudsmith-token }} | dart pub token add https://dart.cloudsmith.io/flutterbesties/dart_packages/
+    - name: 📦 Fetch Packages
+      shell: sh
+      run: |
+        if [ -f "example/pubspec.yaml" ]; then
+          mv example/pubspec.yaml example/foo
+          flutter pub get
+          mv example/foo example/pubspec.yaml
+        fi

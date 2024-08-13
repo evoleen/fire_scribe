@@ -1,0 +1,26 @@
+name: Sanity Check
+on:
+  push:
+    branches:
+      - "**"
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  lint-and-test:
+    name: Sanity Check
+    if: github.event_name == 'push' && github.event.before != '0000000000000000000000000000000000000000'
+    runs-on: ubuntu-latest
+    steps:
+      - name: ⬇️ Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch all history for all branches and tags
+      - name: 🏗️ Setup Flutter
+        uses: ./.github/actions/setup_flutter
+        with:
+          cloudsmith-token: ${{ secrets.CLOUDSMITH_DART_PACKAGES_ACCESS_TOKEN }}
+      - name: ⛪ Sanity Check
+        uses: ./.github/actions/sanity_check

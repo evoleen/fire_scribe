@@ -1,0 +1,9 @@
+{
+  "@@locale": "de",
+  "appTitle": "Meine App",
+  "welcomeMessage": "Willkommen in meiner App!",
+  "appErrorPageMessage": "Hoppla! Etwas ist schief gelaufen.",
+  "refresh": "Aktualisieren",
+  "loginEmailPassword": "Login with Email/Password",
+  "clients": "Clients"
+}

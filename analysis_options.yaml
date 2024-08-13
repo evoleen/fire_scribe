@@ -1,0 +1,20 @@
+include: package:lints/recommended.yaml
+
+analyzer:
+  errors:
+    todo: ignore
+  exclude:
+    - "**/*.g.dart"
+
+linter:
+  rules:
+    - prefer_const_literals_to_create_immutables
+    - use_named_constants
+    - prefer_const_declarations
+    - directives_ordering
+    - non_constant_identifier_names
+    - constant_identifier_names
+    - curly_braces_in_flow_control_structures
+    - camel_case_types
+    - file_names
+    - package_names
