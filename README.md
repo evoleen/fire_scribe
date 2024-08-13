@@ -35,5 +35,5 @@ dart run flutter_native_splash:create --path=flutter_native_splash.yaml
 
 ## Release
 ```bash
-dart run fastapp_flutter:release
+dart run firearrow_admin_app:release
 ```
