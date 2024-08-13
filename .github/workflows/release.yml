@@ -17,28 +17,9 @@ env:
 jobs:
   build-and-deploy:
     name: Build and Deploy
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, macos]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: 🏗️ Setup Flutter
         uses: ./.github/actions/setup_flutter
-        with:
-          cloudsmith-token: ${{ secrets.CLOUDSMITH_DART_PACKAGES_ACCESS_TOKEN }}
-      - name: ⛪ Sanity Check
-        uses: ./.github/actions/sanity_check
-      - name: Extract version number
-        id: extract_version
-        run: |
-          NEW_VERSION=$(echo $GITHUB_REF | perl -ne 'm/v(\d+\.\d+\.\d+)/; print "$1" ')
-          echo "::set-output name=new_version::$NEW_VERSION"
-      - name: Update version in pubspec.yaml
-        run: |
-          NEW_VERSION="${{ steps.extract_version.outputs.new_version }}"
-          awk -v new_version="$NEW_VERSION" '/version:/ && !done { sub(/: .*/, ": " new_version); done=1 } 1' pubspec.yaml > tmpfile && mv tmpfile pubspec.yaml
-      - name:  Get publish url where to deploy the package
-        run: echo "PUBLISH_TO=$(sed -n 's/^publish_to:[[:space:]]*\(.*\)/\1/p' pubspec.yaml)" >> $GITHUB_ENV
-      - name: Publish package
-        run: |
-          echo ${{ secrets.CLOUDSMITH_UPLOAD_TOKEN }} | dart pub token add ${{ env.PUBLISH_TO }}
-          dart pub lish --force

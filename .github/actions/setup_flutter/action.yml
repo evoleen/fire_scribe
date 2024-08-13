@@ -1,11 +1,6 @@
 name: Setup Flutter
 description: Setup of the flutter application
 
-inputs:
-  cloudsmith-token:
-    description: Cloudsmith token for accesing to cloudmisth dart_packages
-    required: true
-
 runs:
   using: composite
   steps:
@@ -29,14 +24,6 @@ runs:
     - name: 🩺 Flutter Doctor
       shell: sh
       run: flutter doctor -v
-    - name: Setup cloudsmith dart_packages token
-      shell: sh
-      run: echo ${{ inputs.cloudsmith-token }} | dart pub token add https://dart.cloudsmith.io/flutterbesties/dart_packages/
     - name: 📦 Fetch Packages
       shell: sh
-      run: |
-        if [ -f "example/pubspec.yaml" ]; then
-          mv example/pubspec.yaml example/foo
-          flutter pub get
-          mv example/foo example/pubspec.yaml
-        fi
+      run: flutter pub get
