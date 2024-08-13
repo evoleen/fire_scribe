@@ -1,51 +1,14 @@
-# fastapp
-Basic Flutter app template to avoid basic infrasctrure work and make developers based in features
+# Firearrow Admin app
+Admin app to manage Firearrow
 
-## Getting Started
-### Configure Firebase 
-1. **Install Firebase CLI:**
-- Install the Firebase CLI by following the instructions [here](https://firebase.google.com/docs/cli/).
-- Login to Firebase using the following command:
-```bash
-npm install -g firebase-tools
-firebase login
-```
+## Localizations
 
-2. **Create a Firebase Project:**
-- firebase projects:create
+Using https://localise.biz/ as translator manager.
 
-3. **Activate FlutterFire CLI:**
-- Activate FlutterFire CLI using the following command:
-```bash
-dart pub global activate flutterfire_cli
-```
-
-4. **Add Apps to Your Firebase Project:**
-- Add new apps for iOS, Android, and web:
-- For Android:
-  - Use package name: `com.example.flutter_fastapp`.
-- For iOS:
-  - Use bundle ID: `com.example.flutter_fastapp`.
-- For web:
-  - No specific configuration is required.
-
-5. **Enable Authentication Providers:**
-- Go to the Authentication section in the Firebase Console.
-- Enable Email/Password authentication method.
-
-6. **Configure Firebase Options:**
-- Run the following command in example project to configure Firebase options:
-```bash
-flutterfire configure --project=fastapp-dev --platforms="android,ios,web" --android-package-name=com.example.flutter_fastapp --ios-bundle-id=com.example.flutter_fastapp --overwrite-firebase-options --out=lib/firebase_options.dev.dart
-  ```
-
-This command generates `firebase_options.dart` file in the `lib` directory.
-
-### Localizations
-AppLocalizations is generated automatically in based to the .arb files contained in lib/l10n. To autogenerate them use:
-```dart
-fvm dart run intl_utils:generate
-```
+- **bin/localization-extract.sh**: Generates basic intl_messages.arb for checking if all our strings in app_localizations have the right sintax.
+- **bin/localization-generate.sh**: Generate string files for the different locales.
+- **bin/localization-upload.sh**: Uploads the current strings of app_localizations.dart to Loco
+- **bin/localization-download.sh**: Download Loco translations to our project
 
 ### App min assets
 #### App icon
@@ -71,16 +34,6 @@ dart run flutter_native_splash:create --path=flutter_native_splash.yaml
 ```
 
 ## Development
-
-### Change package name
-```bash
-$ dart run flutter_fastapp:change_package_name --app_name=myapp --package_name=com.example.myapp
-```
-
-**Note:** After run the command, project name will be changed. so next run of all bin scripts should be like
-```bash
-dart run myapp:XXX ....
-```
 
 ### Update Flutter version based in .fvmrc
 ```bash

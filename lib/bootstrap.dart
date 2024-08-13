@@ -1,11 +1,9 @@
-import 'package:firebase_core/firebase_core.dart';
+import 'package:firearrow_admin_app/app_logger.dart';
+import 'package:firearrow_admin_app/clock/app_clock.dart';
+import 'package:firearrow_admin_app/environment.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_fastapp/app_logger.dart';
-import 'package:flutter_fastapp/clock/app_clock.dart';
-import 'package:flutter_fastapp/environment.dart';
-import 'package:flutter_fastapp/firebase_options.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -18,10 +16,6 @@ Future<void> bootstrap() async {
   await Environment.init();
   usePathUrlStrategy();
   GoRouter.optionURLReflectsImperativeAPIs = true;
-
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
 
   await TimeMachine.initialize({
     'rootBundle': rootBundle,

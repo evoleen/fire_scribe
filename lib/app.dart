@@ -1,16 +1,13 @@
-import 'dart:async';
-
-import 'package:auth_cubit/auth_cubit.dart';
+import 'package:firearrow_admin_app/app_scaffold.dart';
+import 'package:firearrow_admin_app/app_theme.dart';
+import 'package:firearrow_admin_app/dashboard/dashboard_route.dart';
+import 'package:firearrow_admin_app/l10n/app_localizations.dart';
+import 'package:firearrow_admin_app/l10n/cubit/localization_cubit.dart';
+import 'package:firearrow_admin_app/l10n/supported_locales.dart';
+import 'package:firearrow_admin_app/routes.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_fastapp/app_scaffold.dart';
-import 'package:flutter_fastapp/app_theme.dart';
-import 'package:flutter_fastapp/auth/auth_route.dart';
-import 'package:flutter_fastapp/clients/clients_route.dart';
-import 'package:flutter_fastapp/l10n/generated/l10n.dart';
-import 'package:flutter_fastapp/listenable_stream.dart';
-import 'package:flutter_fastapp/routes.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
@@ -19,66 +16,13 @@ class App extends StatelessWidget {
     super.key,
   });
 
-  static FutureOr<String?> authGuardRedirect(
-    final BuildContext context,
-    final GoRouterState state,
-  ) async {
-    final redirectTo = GetIt.instance.get<AuthCubit>().state.whenOrNull(
-      authenticated: (_) {
-        if (state.uri.toString().startsWith(AuthRoute().location)) {
-          return decodeUrlRedirect(state.uri.toString()) ??
-              ClientsRoute().location;
-        }
-      },
-      unauthenticated: () {
-        if (!state.uri.toString().startsWith(AuthRoute().location)) {
-          return encodeUrlRedirect(
-            AuthRoute().location,
-            state.uri.toString(),
-          );
-        }
-      },
-    );
-
-    return redirectTo;
-  }
-
-  static String encodeUrlRedirect(
-    final String route,
-    final String routeToRedirect,
-  ) {
-    if (routeToRedirect.isEmpty) {
-      return route;
-    }
-    final uri = Uri.encodeFull(routeToRedirect);
-    if (route.contains('redirect=')) {
-      return '$route&redirect=$uri';
-    } else {
-      return '$route?redirect=$uri';
-    }
-  }
-
-  static String? decodeUrlRedirect(final String routeToRedirect) {
-    if (routeToRedirect.contains('redirect=')) {
-      final uri = Uri.dataFromString(Uri.decodeFull(routeToRedirect));
-      final redirectUri = uri.queryParametersAll['redirect']?.last ?? '';
-      return redirectUri.isEmpty ? null : redirectUri;
-    } else {
-      return null;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final router = GoRouter(
-      initialLocation: ClientsRoute().location,
+      initialLocation: DashboardRoute().location,
       debugLogDiagnostics: kDebugMode,
       navigatorKey: GetIt.instance<GlobalKey<NavigatorState>>(),
-      redirect: authGuardRedirect,
       routes: $appRoutes,
-      refreshListenable: ListenableStream(
-        BlocProvider.of<AuthCubit>(context).stream,
-      ),
       errorBuilder: (context, state) {
         return AppScaffold(
           childBuilder: (context) => _AppErrorPage(),
@@ -86,16 +30,32 @@ class App extends StatelessWidget {
       },
     );
 
-    return MaterialApp.router(
-      theme: appTheme,
-      debugShowCheckedModeBanner: false,
-      routeInformationProvider: router.routeInformationProvider,
-      routeInformationParser: router.routeInformationParser,
-      routerDelegate: router.routerDelegate,
-      localizationsDelegates: const [
-        S.delegate,
-      ],
-      supportedLocales: S.delegate.supportedLocales,
+    return BlocProvider(
+      create: (final context) => LocalizationCubit(
+        sharedPreferences: GetIt.instance(),
+      ),
+      child: BlocBuilder<LocalizationCubit, LocalizationCubitState>(
+        buildWhen: (final _, final current) => current.when(
+          initial: () => false,
+          locale: (final _) => true,
+        ),
+        builder: (final context, final state) {
+          return state.when(
+            initial: () => const SizedBox(),
+            locale: (final locale) => MaterialApp.router(
+              title: S.of(context).appTitle,
+              theme: appTheme,
+              debugShowCheckedModeBanner: false,
+              supportedLocales: supportedLocales,
+              locale: locale,
+              localizationsDelegates: S.delegates,
+              routeInformationProvider: router.routeInformationProvider,
+              routeInformationParser: router.routeInformationParser,
+              routerDelegate: router.routerDelegate,
+            ),
+          );
+        },
+      ),
     );
   }
 }
@@ -109,18 +69,20 @@ class _AppErrorPage extends StatelessWidget {
         children: [
           Icon(
             Icons.error_outline,
-            color: Colors.red,
+            color: Theme.of(context).colorScheme.error,
             size: 100,
           ),
           SizedBox(height: 20),
           Text(
-            S.current.appErrorPageMessage,
+            S.of(context).appErrorPageMessage,
             style: TextStyle(fontSize: 20),
           ),
           SizedBox(height: 10),
           ElevatedButton(
             onPressed: () => GoRouter.of(context).refresh(),
-            child: Text(S.current.refresh),
+            child: Text(
+              S.of(context).refresh,
+            ),
           ),
         ],
       ),

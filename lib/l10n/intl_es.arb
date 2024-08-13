@@ -1,9 +1,0 @@
-{
-  "@@locale": "es",
-  "appTitle": "App",
-  "welcomeMessage": "Bienvenido a mi app!",
-  "appErrorPageMessage": "¡Ups! Algo salió mal.",
-  "refresh": "Actualizar",
-  "loginEmailPassword": "Login with Email/Password",
-  "clients": "Clients"
-}

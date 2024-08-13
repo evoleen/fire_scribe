@@ -1,4 +1,4 @@
-import 'package:flutter_fastapp/clock/fake_clock.dart';
+import 'package:firearrow_admin_app/clock/fake_clock.dart';
 import 'package:time_machine/time_machine.dart';
 
 /// Singleton implementation of [Clock] for this app which reads
