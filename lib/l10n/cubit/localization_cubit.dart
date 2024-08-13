@@ -1,8 +1,8 @@
 import 'dart:ui';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firearrow_admin_app/app_logger.dart';
 import 'package:firearrow_admin_app/l10n/supported_locales.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
