@@ -1,3 +1,5 @@
+import 'dart:developer' as developer;
+
 import 'package:flutter/foundation.dart';
 import 'package:stack_trace/stack_trace.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -6,7 +8,9 @@ class AppLogger {
   static AppLogger get instance => AppLogger._internal();
   factory AppLogger() => instance;
 
-  final logger = TalkerLogger();
+  final logger = TalkerLogger(
+    output: (message) => developer.log(message),
+  );
 
   AppLogger._internal();
 
