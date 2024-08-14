@@ -1,3 +1,6 @@
+import 'package:firearrow_admin_app/dashboard/dashboard_entity_list.dart';
+import 'package:firearrow_admin_app/dashboard/server_url_form.dart';
+import 'package:firearrow_admin_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -5,6 +8,33 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Placeholder();
+    return Row(
+      children: [
+        Flexible(
+          flex: 1,
+          child: DashboardEntityList(),
+        ),
+        Expanded(
+          flex: 3,
+          child: ColoredBox(
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+            child: Column(
+              children: [
+                ServerUrlForm(),
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      S.of(context).connectToServerHelpText,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }

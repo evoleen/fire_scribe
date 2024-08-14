@@ -96,4 +96,25 @@ class S {
         'Refresh',
         name: 'refresh',
       );
+
+  String get allResources => Intl.message(
+        'All resources',
+        name: 'allResources',
+      );
+
+  String get serverUrl => Intl.message(
+        'Server URL',
+        name: 'serverUrl',
+      );
+
+  String get introduceServerUrl => Intl.message(
+        'Enter Server URL',
+        name: 'introduceServerUrl',
+      );
+
+  String get connectToServerHelpText => Intl.message(
+        '''To view all resources please connect to server.
+Copy and paste the link to your server’s URL above.''',
+        name: 'connectToServerHelpText',
+      );
 }

@@ -1,5 +1,6 @@
 import 'dart:developer' as developer;
 
+import 'package:flutter/foundation.dart';
 import 'package:stack_trace/stack_trace.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
@@ -13,10 +14,10 @@ class AppLogger {
 
   AppLogger._internal();
 
-  void e(dynamic message, [dynamic error, StackTrace? stackTrace]) {
+  void e(final dynamic message,
+      [final dynamic error, final StackTrace? stackTrace]) {
     final trace =
         stackTrace == null ? Chain.current(1) : Trace.from(stackTrace);
-
     logger.error(message);
 
     if (error != null) {
@@ -26,11 +27,15 @@ class AppLogger {
     logger.error(trace);
   }
 
-  void i(dynamic message, [dynamic error, StackTrace? stackTrace]) {
+  void i(final dynamic message,
+      [final dynamic error, final StackTrace? stackTrace]) {
     logger.info(message);
   }
 
-  void d(dynamic message, [dynamic error, StackTrace? stackTrace]) {
-    logger.debug(message);
+  void d(final dynamic message,
+      [final dynamic error, final StackTrace? stackTrace]) {
+    if (kDebugMode) {
+      logger.debug(message);
+    }
   }
 }

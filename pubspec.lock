@@ -257,22 +257,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.4.1"
-  dio:
-    dependency: transitive
-    description:
-      name: dio
-      sha256: e17f6b3097b8c51b72c74c9f071a605c47bcc8893839bd66732457a5ebe73714
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.5.0+1"
-  dio_web_adapter:
-    dependency: transitive
-    description:
-      name: dio_web_adapter
-      sha256: "36c5b2d79eb17cdae41e974b7a8284fec631651d2a6f39a8a2ff22327e90aeac"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.1"
   fake_async:
     dependency: transitive
     description:
@@ -318,14 +302,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "8.1.6"
-  flutter_dotenv:
-    dependency: "direct main"
-    description:
-      name: flutter_dotenv
-      sha256: "9357883bdd153ab78cbf9ffa07656e336b8bbb2b5a3ca596b0b27e119f7c7d77"
-      url: "https://pub.dev"
-    source: hosted
-    version: "5.1.0"
   flutter_launcher_icons:
     dependency: "direct dev"
     description:
@@ -481,10 +457,10 @@ packages:
     dependency: "direct main"
     description:
       name: intl
-      sha256: d6f56758b7d3014a48af9701c085700aac781a92a87a62b1333b46d8879661cf
+      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
       url: "https://pub.dev"
     source: hosted
-    version: "0.19.0"
+    version: "0.18.1"
   intl_generator:
     dependency: "direct dev"
     description:
@@ -574,13 +550,13 @@ packages:
     source: hosted
     version: "0.8.0"
   meta:
-    dependency: "direct overridden"
+    dependency: transitive
     description:
       name: meta
-      sha256: "7687075e408b093f36e6bbf6c91878cc0d4cd10f409506f7bc996f68220b9136"
+      sha256: d584fa6707a52763a52446f02cc621b077888fb63b93bbcb1143a7be5a0c0c04
       url: "https://pub.dev"
     source: hosted
-    version: "1.12.0"
+    version: "1.11.0"
   mime:
     dependency: transitive
     description:
@@ -745,18 +721,18 @@ packages:
     dependency: transitive
     description:
       name: share_plus
-      sha256: fb5319f3aab4c5dda5ebb92dca978179ba21f8c783ee4380910ef4c1c6824f51
+      sha256: ef3489a969683c4f3d0239010cc8b7a2a46543a8d139e111c06c558875083544
       url: "https://pub.dev"
     source: hosted
-    version: "8.0.3"
+    version: "9.0.0"
   share_plus_platform_interface:
     dependency: transitive
     description:
       name: share_plus_platform_interface
-      sha256: "251eb156a8b5fa9ce033747d73535bf53911071f8d3b6f4f0b578505ce0d4496"
+      sha256: "0f9e4418835d1b2c3ae78fdb918251959106cefdbc4dd43526e182f80e82f6d4"
       url: "https://pub.dev"
     source: hosted
-    version: "3.4.0"
+    version: "4.0.0"
   shared_preferences:
     dependency: "direct main"
     description:
@@ -931,37 +907,29 @@ packages:
     source: hosted
     version: "1.2.0"
   talker:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: talker
-      sha256: "30bbc526bb2e7d465c630f087479616b6b84570728539fde536a3b652acad2f6"
+      sha256: f876081a34027464e3f1ac785c7e470a5fca2515f4c8c277fb6f78a63e5cda1e
       url: "https://pub.dev"
     source: hosted
-    version: "4.4.1"
+    version: "4.2.3"
   talker_bloc_logger:
     dependency: "direct main"
     description:
       name: talker_bloc_logger
-      sha256: "18ca2bc7cccbc8a331e2e81df66b0a203e5e7498f46761e37b34c874582fb9ca"
+      sha256: "98ac511c36987f7131ff6f01f40fc04d47a3016551898267462bbc37bf3734f5"
       url: "https://pub.dev"
     source: hosted
-    version: "4.1.3"
-  talker_dio_logger:
-    dependency: "direct main"
-    description:
-      name: talker_dio_logger
-      sha256: dcebff059ccb52c5a04830a3fcd777c2760474c8991be99d02343edd4629ef50
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.1.3"
+    version: "4.2.3"
   talker_flutter:
     dependency: "direct main"
     description:
       name: talker_flutter
-      sha256: a74adf63123a748020c04715ca4809dbea9772fe193e52f799a4afbc5e943d14
+      sha256: "45dab03948d8a611b97d396a782497d567f8fa5694466a2d306f84cfffca6910"
       url: "https://pub.dev"
     source: hosted
-    version: "4.1.3"
+    version: "4.2.3"
   talker_logger:
     dependency: transitive
     description:
@@ -1002,15 +970,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.9"
-  time_machine:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: fix-canonical-timezones-for-web
-      resolved-ref: "1433c735fe2b99badea3073b14a81d5cce97ef7e"
-      url: "https://github.com/evoleen/time_machine.git"
-    source: git
-    version: "0.9.17"
   timing:
     dependency: transitive
     description:

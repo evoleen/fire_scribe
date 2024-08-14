@@ -2,26 +2,20 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Run Debug",
+            "name": "Run Debug OS",
             "request": "launch",
             "type": "dart",
             "flutterMode": "debug",
             "program": "lib/main.dart",
-            // In order to use new Material Symbols with material_symbols_icons instead of Icon we need to disable icon tree shaking.
-            "args": ["no-tree-shake-icons", "-d", "Chrome","--web-port", "5000"],
         },
-        {
-            "name": "Run Release",
+         {
+            "name": "Run Debug Web",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release",
+            "flutterMode": "debug",
             "program": "lib/main.dart",
+            "args": ["-d", "Chrome","--web-port", "5000"],
         },
-        {
-            "name": "Run Tests",
-            "request": "launch",
-            "type": "dart",
-            "program": "./test/"
-        },
+       
     ]
 }
