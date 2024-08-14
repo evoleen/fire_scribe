@@ -970,15 +970,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.9"
-  time_machine:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: fix-canonical-timezones-for-web
-      resolved-ref: "1433c735fe2b99badea3073b14a81d5cce97ef7e"
-      url: "https://github.com/evoleen/time_machine.git"
-    source: git
-    version: "0.9.17"
   timing:
     dependency: transitive
     description:

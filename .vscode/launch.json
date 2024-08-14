@@ -2,14 +2,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Run OS",
+            "name": "Run Debug OS",
             "request": "launch",
             "type": "dart",
             "flutterMode": "debug",
             "program": "lib/main.dart",
         },
          {
-            "name": "Run Web",
+            "name": "Run Debug Web",
             "request": "launch",
             "type": "dart",
             "flutterMode": "debug",

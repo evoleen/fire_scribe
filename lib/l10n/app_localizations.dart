@@ -108,7 +108,7 @@ class S {
       );
 
   String get introduceServerUrl => Intl.message(
-        'Introduce Server URL',
+        'Enter Server URL',
         name: 'introduceServerUrl',
       );
 
