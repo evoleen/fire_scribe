@@ -15,7 +15,7 @@ class DashboardEntityList extends StatelessWidget {
               vertical: 12,
             ),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceVariant,
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
               border: Border.all(
                 color: Theme.of(context).colorScheme.outlineVariant,
               ),
