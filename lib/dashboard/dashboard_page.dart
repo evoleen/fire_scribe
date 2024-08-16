@@ -17,7 +17,7 @@ class DashboardPage extends StatelessWidget {
         Expanded(
           flex: 3,
           child: ColoredBox(
-            color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+            color: Theme.of(context).colorScheme.surfaceContainerLow,
             child: Column(
               children: [
                 ServerUrlForm(),
