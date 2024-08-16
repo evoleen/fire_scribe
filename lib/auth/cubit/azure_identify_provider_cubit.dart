@@ -1,10 +1,12 @@
 import 'package:auth_cubit/auth_cubit.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'azure_identify_provider_cubit.freezed.dart';
-part 'azure_identify_provider_state.dart';
+class AzureIdentifyProviderCubitParams extends AuthProviderCubitParams {
+  final String serverUrl;
 
-class AzureIdentifyProviderCubitParams extends AuthProviderCubitParams {}
+  AzureIdentifyProviderCubitParams({
+    required this.serverUrl,
+  });
+}
 
 class AzureIdentifyProviderCubit
     extends AuthProviderCubit<AzureIdentifyProviderCubitParams> {
