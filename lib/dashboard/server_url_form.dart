@@ -24,12 +24,13 @@ class _ServerUrlFormState extends State<ServerUrlForm> {
         vertical: 16,
         horizontal: 24,
       ),
-      color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+      color: Theme.of(context).colorScheme.surfaceContainer,
       child: TextField(
         controller: textController,
         decoration: InputDecoration(
           hintText: S.of(context).introduceServerUrl,
           labelText: S.of(context).serverUrl,
+          hintStyle: Theme.of(context).textTheme.bodyLarge,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(4),
             borderSide: BorderSide(
