@@ -14,6 +14,7 @@ final _colorScheme = ColorScheme.light(
   surfaceContainerLow: Color(0xfff7f2fa),
   surfaceContainerLowest: Color(0xffffffff),
   surfaceDim: Color(0xffded8e1),
+  error: Color(0xffff3322),
 );
 
 final _textTheme = TextTheme(
