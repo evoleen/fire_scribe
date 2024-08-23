@@ -30,7 +30,7 @@ class _Main extends StatelessWidget {
     return BlocProvider<AuthCubit>(
       create: (_) => AuthCubit(
         providers: {
-          AzureIdentifyProviderCubit(
+          AzureIdentityProviderCubit(
             defaultAzureCredential: DefaultAzureCredential(
               logger: AppLogger.instance.d,
             ),

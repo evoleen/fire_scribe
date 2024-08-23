@@ -30,12 +30,13 @@ class _ServerUrlFormState extends State<ServerUrlForm> {
       color: Theme.of(context).colorScheme.surfaceContainer,
       child: TextField(
         controller: textController,
-        onSubmitted: (_) {
+        onSubmitted: (text) {
           BlocProvider.of<AuthCubit>(context)
-              .provider<AzureIdentifyProviderCubit>()
+              .provider<AzureIdentityProviderCubit>()
               .signIn(
-                AzureIdentifyProviderCubitParams(
-                    serverUrl: textController.text),
+                AzureIdentityProviderCubitParams(
+                  serverUrl: text,
+                ),
               );
         },
         decoration: InputDecoration(

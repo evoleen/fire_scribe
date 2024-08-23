@@ -2,25 +2,25 @@ import 'package:auth_cubit/auth_cubit.dart';
 import 'package:azure_identity/azure_identity.dart';
 import 'package:firearrow_admin_app/app_logger.dart';
 
-class AzureIdentifyProviderCubitParams extends AuthProviderCubitParams {
+class AzureIdentityProviderCubitParams extends AuthProviderCubitParams {
   final String serverUrl;
 
-  AzureIdentifyProviderCubitParams({
+  AzureIdentityProviderCubitParams({
     required this.serverUrl,
   });
 }
 
-class AzureIdentifyProviderCubit
-    extends AuthProviderCubit<AzureIdentifyProviderCubitParams> {
+class AzureIdentityProviderCubit
+    extends AuthProviderCubit<AzureIdentityProviderCubitParams> {
   final DefaultAzureCredential defaultAzureCredential;
 
   CredentialManager? _credentialManager;
 
-  AzureIdentifyProviderCubit({required this.defaultAzureCredential})
+  AzureIdentityProviderCubit({required this.defaultAzureCredential})
       : super(const AuthProviderState.unauthenticated());
 
   @override
-  Future<bool> signIn([AzureIdentifyProviderCubitParams? params]) async {
+  Future<bool> signIn([AzureIdentityProviderCubitParams? params]) async {
     if (params == null) {
       return false;
     }
@@ -35,6 +35,9 @@ class AzureIdentifyProviderCubit
 
     try {
       final token = await _credentialManager!.getAccessToken();
+      if (token?.token != null) {
+        emit(AuthProviderState.authenticated());
+      }
       return token?.token != null;
     } catch (e) {
       AppLogger.instance.e(e);
@@ -43,19 +46,23 @@ class AzureIdentifyProviderCubit
   }
 
   @override
-  Future<bool> signIn2FA([AzureIdentifyProviderCubitParams? params]) async {
+  Future<bool> signIn2FA([AuthProviderCubitParams? params]) async {
     return false;
   }
 
   @override
   Future<bool> signOut() async {
     _credentialManager = null;
+    emit(AuthProviderState.unauthenticated());
     return true;
   }
 
   @override
   Future<String?> accessToken() async {
     final token = await _credentialManager?.getAccessToken();
+    if (token?.token == null) {
+      emit(AuthProviderState.unauthenticated());
+    }
     return token?.token;
   }
 }
