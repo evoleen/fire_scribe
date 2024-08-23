@@ -1,4 +1,5 @@
 import 'package:auth_cubit/auth_cubit.dart';
+import 'package:azure_identity/azure_identity.dart';
 import 'package:firearrow_admin_app/app.dart';
 import 'package:firearrow_admin_app/app_logger.dart';
 import 'package:firearrow_admin_app/auth/cubit/azure_identify_provider_cubit.dart';
@@ -29,7 +30,11 @@ class _Main extends StatelessWidget {
     return BlocProvider<AuthCubit>(
       create: (_) => AuthCubit(
         providers: {
-          AzureIdentifyProviderCubit(),
+          AzureIdentifyProviderCubit(
+            defaultAzureCredential: DefaultAzureCredential(
+              logger: AppLogger.instance.d,
+            ),
+          ),
         },
       ),
       child: const App(),

@@ -1,4 +1,6 @@
 import 'package:auth_cubit/auth_cubit.dart';
+import 'package:azure_identity/azure_identity.dart';
+import 'package:firearrow_admin_app/app_logger.dart';
 
 class AzureIdentifyProviderCubitParams extends AuthProviderCubitParams {
   final String serverUrl;
@@ -10,13 +12,34 @@ class AzureIdentifyProviderCubitParams extends AuthProviderCubitParams {
 
 class AzureIdentifyProviderCubit
     extends AuthProviderCubit<AzureIdentifyProviderCubitParams> {
-  AzureIdentifyProviderCubit()
+  final DefaultAzureCredential defaultAzureCredential;
+
+  CredentialManager? _credentialManager;
+
+  AzureIdentifyProviderCubit({required this.defaultAzureCredential})
       : super(const AuthProviderState.unauthenticated());
 
   @override
   Future<bool> signIn([AzureIdentifyProviderCubitParams? params]) async {
-    // Add your sign-in logic here
-    return true; // Placeholder return value
+    if (params == null) {
+      return false;
+    }
+    _credentialManager = CredentialManager(
+      credential: defaultAzureCredential,
+      options: GetTokenOptions(
+        scopes: [
+          params.serverUrl,
+        ],
+      ),
+    );
+
+    try {
+      final token = await _credentialManager!.getAccessToken();
+      return token?.token != null;
+    } catch (e) {
+      AppLogger.instance.e(e);
+      return false;
+    }
   }
 
   @override
@@ -26,13 +49,13 @@ class AzureIdentifyProviderCubit
 
   @override
   Future<bool> signOut() async {
-    // Add your sign-out logic here
-    return true; // Placeholder return value
+    _credentialManager = null;
+    return true;
   }
 
   @override
   Future<String?> accessToken() async {
-    // Add your access token retrieval logic here
-    return 'access_token'; // Placeholder return value
+    final token = await _credentialManager?.getAccessToken();
+    return token?.token;
   }
 }
