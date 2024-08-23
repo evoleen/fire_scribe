@@ -1,6 +1,6 @@
 {
-    "name": "fastapp",
-    "short_name": "fastapp",
+    "name": "firearrow_admin_app",
+    "short_name": "firearrow_admin_app",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
