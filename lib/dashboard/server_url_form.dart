@@ -1,5 +1,5 @@
 import 'package:auth_cubit/auth_cubit.dart';
-import 'package:firearrow_admin_app/auth/cubit/azure_identify_provider_cubit.dart';
+import 'package:firearrow_admin_app/auth/azure_identify_provider_cubit.dart';
 import 'package:firearrow_admin_app/extensions/build_context.dart';
 import 'package:firearrow_admin_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
