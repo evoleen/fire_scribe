@@ -40,6 +40,7 @@ class AzureIdentityProviderCubit
       }
       return token?.token != null;
     } catch (e) {
+      print(e);
       AppLogger.instance.e(e);
       return false;
     }
