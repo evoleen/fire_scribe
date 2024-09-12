@@ -112,6 +112,16 @@ class S {
         name: 'introduceServerUrl',
       );
 
+  String get serverConnectedWarning => Intl.message(
+        'Connected to server',
+        name: 'serverConnectedWarning',
+      );
+
+  String get serverNotConnectedWarning => Intl.message(
+        'Cannot connect to specified url',
+        name: 'serverNotConnectedWarning',
+      );
+
   String get connectToServerHelpText => Intl.message(
         '''To view all resources please connect to server.
 Copy and paste the link to your server’s URL above.''',
