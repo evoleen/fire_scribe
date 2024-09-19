@@ -45,14 +45,20 @@ class DashboardEntityList extends StatelessWidget {
               builder: (context, state) {
                 return state.maybeWhen(
                   authenticated: (_) {
-                    return ListView(
-                      children: supportedTypes
-                          .map(
-                            (item) => EntityCard(
-                              type: item,
-                            ),
-                          )
-                          .toList(),
+                    return ListView.separated(
+                      itemBuilder: (context, index) {
+                        return EntityCard(
+                          type: supportedTypes[index],
+                        );
+                      },
+                      separatorBuilder: (context, index) {
+                        return Container(
+                          width: double.infinity,
+                          height: 1,
+                          color: Theme.of(context).colorScheme.outlineVariant,
+                        );
+                      },
+                      itemCount: supportedTypes.length,
                     );
                   },
                   unauthenticated: () {
@@ -83,6 +89,7 @@ class EntityCard extends StatelessWidget {
         overlayColor: WidgetStatePropertyAll(
           Theme.of(context).colorScheme.surfaceContainerLow,
         ),
+        padding: WidgetStatePropertyAll(EdgeInsets.zero),
         shape: WidgetStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.zero,

@@ -20,6 +20,8 @@ dependencies:
   azure_identity: 0.0.3
   built_collection: 5.1.1
   collection: 1.18.0
+  evoleen_fhir:
+    path: ../evoleen_fhir
   flutter:
     sdk: flutter
   flutter_bloc: 8.1.6
@@ -43,8 +45,6 @@ dev_dependencies:
   bloc_test: 9.1.7
   build_runner: 2.4.12
   dartz: 0.10.1
-  evoleen_fhir:
-    path: ../evoleen_fhir
   flutter_launcher_icons: 0.13.1
   flutter_lints: 3.0.2
   flutter_oss_licenses: 2.0.1
