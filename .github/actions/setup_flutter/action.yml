@@ -32,7 +32,6 @@ runs:
     - name: Setup evoleen_fhir token
       shell: sh
       run: echo ${{ secrets.CLOUDSMITH_ACCESS_TOKEN }} | dart pub token add https://dart.cloudsmith.io/evoleen/evoleen_fhir/
-    
     - name: 📦 Fetch Packages
       shell: sh
       run: flutter pub get
