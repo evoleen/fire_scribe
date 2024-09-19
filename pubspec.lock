@@ -305,10 +305,11 @@ packages:
   evoleen_fhir:
     dependency: "direct main"
     description:
-      path: "../evoleen_fhir"
-      relative: true
-    source: path
-    version: "0.0.1"
+      name: evoleen_fhir
+      sha256: "7f794fa41b1d641d0694dbd030be1f5e2c958d665dab07ac96396a952d1e18f2"
+      url: "https://dart.cloudsmith.io/evoleen/evoleen_fhir/"
+    source: hosted
+    version: "0.0.28"
   fake_async:
     dependency: transitive
     description:

@@ -21,7 +21,10 @@ dependencies:
   built_collection: 5.1.1
   collection: 1.18.0
   evoleen_fhir:
-    path: ../evoleen_fhir
+    hosted:
+      url: https://dart.cloudsmith.io/evoleen/evoleen_fhir
+      name: evoleen_fhir
+      version: 0.0.24
   flutter:
     sdk: flutter
   flutter_bloc: 8.1.6
