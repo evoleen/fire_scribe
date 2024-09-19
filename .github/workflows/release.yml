@@ -24,4 +24,4 @@ jobs:
       - name: 🏗️ Setup Flutter
         uses: ./.github/actions/setup_flutter
         with:
-            cloudsmith_access_token: ${{ secrets.CLOUDSMITH_ACCESS_TOKEN }}
+            cloudsmith-access-token: ${{ secrets.CLOUDSMITH_ACCESS_TOKEN }}

@@ -2,7 +2,7 @@ name: Setup Flutter
 description: Setup of the flutter application
 
 inputs:
-  cloudsmith_access_token: 
+  cloudsmith-access-token: 
     required: true
     description: 'Needed to get evoleen/evoleen_fhir'
 
@@ -31,7 +31,7 @@ runs:
       run: flutter doctor -v
     - name: Setup evoleen_fhir token
       shell: sh
-      run: echo ${{ secrets.CLOUDSMITH_ACCESS_TOKEN }} | dart pub token add https://dart.cloudsmith.io/evoleen/evoleen_fhir/
+      run: echo ${{ inputs.cloudsmith-access-token }} | dart pub token add https://dart.cloudsmith.io/evoleen/evoleen_fhir/
     - name: 📦 Fetch Packages
       shell: sh
       run: flutter pub get
