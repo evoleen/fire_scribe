@@ -1,5 +1,5 @@
-import 'package:firearrow_admin_app/dashboard/dashboard_entity_list.dart';
-import 'package:firearrow_admin_app/dashboard/server_url_form.dart';
+import 'package:firearrow_admin_app/dashboard/widgets/dashboard_entity_list.dart';
+import 'package:firearrow_admin_app/dashboard/widgets/server_url_form.dart';
 import 'package:firearrow_admin_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
