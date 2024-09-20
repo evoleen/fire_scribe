@@ -24,7 +24,7 @@ dependencies:
     hosted:
       url: https://dart.cloudsmith.io/evoleen/evoleen_fhir
       name: evoleen_fhir
-      version: 0.0.24
+    version: 0.0.30
   flutter:
     sdk: flutter
   flutter_bloc: 8.1.6
