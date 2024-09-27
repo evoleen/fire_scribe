@@ -1,18 +1,19 @@
 import 'package:auth_cubit/auth_cubit.dart';
 import 'package:firearrow_admin_app/auth/azure_identity_provider_cubit.dart';
+import 'package:firearrow_admin_app/connection/cubit/connection_cubit.dart';
 import 'package:firearrow_admin_app/extensions/build_context.dart';
 import 'package:firearrow_admin_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ServerUrlForm extends StatefulWidget {
-  const ServerUrlForm({super.key});
+class ConnectionForm extends StatefulWidget {
+  const ConnectionForm({super.key});
 
   @override
-  State<ServerUrlForm> createState() => _ServerUrlFormState();
+  State<ConnectionForm> createState() => _ConnectionFormState();
 }
 
-class _ServerUrlFormState extends State<ServerUrlForm> {
+class _ConnectionFormState extends State<ConnectionForm> {
   final textController = TextEditingController();
   var isConnecting = false;
 
@@ -49,9 +50,20 @@ class _ServerUrlFormState extends State<ServerUrlForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AzureIdentityProviderCubit, AuthProviderState>(
+    return BlocConsumer<AzureIdentityProviderCubit, AuthProviderState>(
       bloc: BlocProvider.of<AuthCubit>(context)
           .provider<AzureIdentityProviderCubit>(),
+      listener: (context, state) {
+        state.maybeWhen(
+          authenticated: (url) =>
+              BlocProvider.of<ConnectionCubit>(context).connect(
+            uri: Uri.parse(url),
+          ),
+          unauthenticated: () =>
+              BlocProvider.of<ConnectionCubit>(context).disconnect(),
+          orElse: () {},
+        );
+      },
       builder: (context, state) {
         return Container(
           padding: EdgeInsets.symmetric(

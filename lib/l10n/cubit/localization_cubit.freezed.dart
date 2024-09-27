@@ -73,6 +73,9 @@ class _$LocalizationCubitStateCopyWithImpl<$Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of LocalizationCubitState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -89,6 +92,9 @@ class __$$InitialImplCopyWithImpl<$Res>
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of LocalizationCubitState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -194,6 +200,8 @@ class __$$LocaleImplCopyWithImpl<$Res>
       _$LocaleImpl _value, $Res Function(_$LocaleImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LocalizationCubitState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -232,7 +240,9 @@ class _$LocaleImpl implements _Locale {
   @override
   int get hashCode => Object.hash(runtimeType, locale);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LocalizationCubitState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LocaleImplCopyWith<_$LocaleImpl> get copyWith =>
@@ -305,7 +315,10 @@ abstract class _Locale implements LocalizationCubitState {
   const factory _Locale({required final Locale locale}) = _$LocaleImpl;
 
   Locale get locale;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of LocalizationCubitState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LocaleImplCopyWith<_$LocaleImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

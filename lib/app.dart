@@ -1,5 +1,6 @@
 import 'package:firearrow_admin_app/app_scaffold.dart';
 import 'package:firearrow_admin_app/app_theme.dart';
+import 'package:firearrow_admin_app/connection/cubit/connection_cubit.dart';
 import 'package:firearrow_admin_app/dashboard/dashboard_route.dart';
 import 'package:firearrow_admin_app/l10n/app_localizations.dart';
 import 'package:firearrow_admin_app/l10n/cubit/localization_cubit.dart';
@@ -30,10 +31,17 @@ class App extends StatelessWidget {
       },
     );
 
-    return BlocProvider(
-      create: (final context) => LocalizationCubit(
-        sharedPreferences: GetIt.instance(),
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (final context) => LocalizationCubit(
+            sharedPreferences: GetIt.instance(),
+          ),
+        ),
+        BlocProvider(
+          create: (context) => ConnectionCubit(),
+        ),
+      ],
       child: BlocBuilder<LocalizationCubit, LocalizationCubitState>(
         buildWhen: (final _, final current) => current.when(
           initial: () => false,
