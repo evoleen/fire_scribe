@@ -1,6 +1,5 @@
-import 'package:auth_cubit/auth_cubit.dart';
 import 'package:evoleen_fhir/evoleen_fhir.dart';
-import 'package:firearrow_admin_app/auth/azure_identity_provider_cubit.dart';
+import 'package:firearrow_admin_app/connection/cubit/fhir_repositories_cubit.dart';
 import 'package:firearrow_admin_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,16 +38,16 @@ class DashboardEntityList extends StatelessWidget {
                 color: Theme.of(context).colorScheme.outlineVariant,
               ),
             ),
-            child: BlocBuilder<AzureIdentityProviderCubit, AuthProviderState>(
-              bloc: BlocProvider.of<AuthCubit>(context)
-                  .provider<AzureIdentityProviderCubit>(),
+            child:
+                BlocBuilder<FhirRepositoriesCubit, FhirRepositoriesCubitState>(
               builder: (context, state) {
-                return state.maybeWhen(
-                  authenticated: (_) {
+                return state.when(
+                  connected: (_) {
                     return ListView.separated(
                       itemBuilder: (context, index) {
                         return EntityCard(
-                          type: supportedTypes[index],
+                          type: EvoleenFhirSchema.entityToRepository.keys
+                              .elementAt(index),
                         );
                       },
                       separatorBuilder: (context, index) {
@@ -58,15 +57,13 @@ class DashboardEntityList extends StatelessWidget {
                           color: Theme.of(context).colorScheme.outlineVariant,
                         );
                       },
-                      itemCount: supportedTypes.length,
+                      itemCount:
+                          EvoleenFhirSchema.entityToRepository.keys.length,
                     );
                   },
-                  unauthenticated: () {
+                  disconnected: () {
                     return SizedBox();
                   },
-                  orElse: () => Center(
-                    child: CircularProgressIndicator(),
-                  ),
                 );
               },
             ),

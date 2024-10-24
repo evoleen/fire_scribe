@@ -16,6 +16,7 @@ Future<void> bootstrap() async {
       logger: AppLogger.instance.logger,
     ),
   );
+
   Bloc.observer = TalkerBlocObserver(talker: GetIt.instance<Talker>());
 
   GoRouter.optionURLReflectsImperativeAPIs = true;

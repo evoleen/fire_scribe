@@ -1,6 +1,5 @@
 import 'package:auth_cubit/auth_cubit.dart';
 import 'package:firearrow_admin_app/auth/azure_identity_provider_cubit.dart';
-import 'package:firearrow_admin_app/connection/cubit/connection_cubit.dart';
 import 'package:firearrow_admin_app/extensions/build_context.dart';
 import 'package:firearrow_admin_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -50,20 +49,9 @@ class _ConnectionFormState extends State<ConnectionForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AzureIdentityProviderCubit, AuthProviderState>(
+    return BlocBuilder<AzureIdentityProviderCubit, AuthProviderState>(
       bloc: BlocProvider.of<AuthCubit>(context)
           .provider<AzureIdentityProviderCubit>(),
-      listener: (context, state) {
-        state.maybeWhen(
-          authenticated: (url) =>
-              BlocProvider.of<ConnectionCubit>(context).connect(
-            uri: Uri.parse(url),
-          ),
-          unauthenticated: () =>
-              BlocProvider.of<ConnectionCubit>(context).disconnect(),
-          orElse: () {},
-        );
-      },
       builder: (context, state) {
         return Container(
           padding: EdgeInsets.symmetric(

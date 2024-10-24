@@ -1,6 +1,9 @@
+import 'package:auth_cubit/auth_cubit.dart';
+import 'package:firearrow_admin_app/app_logger.dart';
 import 'package:firearrow_admin_app/app_scaffold.dart';
 import 'package:firearrow_admin_app/app_theme.dart';
-import 'package:firearrow_admin_app/connection/cubit/connection_cubit.dart';
+import 'package:firearrow_admin_app/auth/azure_identity_provider_cubit.dart';
+import 'package:firearrow_admin_app/connection/cubit/fhir_repositories_cubit.dart';
 import 'package:firearrow_admin_app/dashboard/dashboard_route.dart';
 import 'package:firearrow_admin_app/l10n/app_localizations.dart';
 import 'package:firearrow_admin_app/l10n/cubit/localization_cubit.dart';
@@ -39,30 +42,58 @@ class App extends StatelessWidget {
           ),
         ),
         BlocProvider(
-          create: (context) => ConnectionCubit(),
+          create: (context) => FhirRepositoriesCubit(),
         ),
       ],
-      child: BlocBuilder<LocalizationCubit, LocalizationCubitState>(
-        buildWhen: (final _, final current) => current.when(
-          initial: () => false,
-          locale: (final _) => true,
-        ),
-        builder: (final context, final state) {
-          return state.when(
-            initial: () => const SizedBox(),
-            locale: (final locale) => MaterialApp.router(
-              title: S.of(context).appTitle,
-              theme: appTheme,
-              debugShowCheckedModeBanner: false,
-              supportedLocales: supportedLocales,
-              locale: locale,
-              localizationsDelegates: S.delegates,
-              routeInformationProvider: router.routeInformationProvider,
-              routeInformationParser: router.routeInformationParser,
-              routerDelegate: router.routerDelegate,
+      child: BlocListener<AuthProviderCubit, AuthProviderState>(
+        bloc: BlocProvider.of<AuthCubit>(context)
+            .provider<AzureIdentityProviderCubit>(),
+        listener: (context, state) {
+          state.maybeWhen(
+            authenticated: (url) =>
+                BlocProvider.of<FhirRepositoriesCubit>(context).connect(
+              uri: Uri.parse(url),
+              getToken: () async {
+                final token = await BlocProvider.of<AuthCubit>(context)
+                    .provider<AzureIdentityProviderCubit>()
+                    .accessToken();
+                if (token == null) {
+                  return null;
+                }
+                final authHeader = 'Bearer $token';
+                if (kDebugMode) {
+                  AppLogger.instance.d(authHeader);
+                }
+                return authHeader;
+              },
             ),
+            unauthenticated: () =>
+                BlocProvider.of<FhirRepositoriesCubit>(context).disconnect(),
+            orElse: () {},
           );
         },
+        child: BlocBuilder<LocalizationCubit, LocalizationCubitState>(
+          buildWhen: (final _, final current) => current.when(
+            initial: () => false,
+            locale: (final _) => true,
+          ),
+          builder: (final context, final state) {
+            return state.when(
+              initial: () => const SizedBox(),
+              locale: (final locale) => MaterialApp.router(
+                title: S.of(context).appTitle,
+                theme: appTheme,
+                debugShowCheckedModeBanner: false,
+                supportedLocales: supportedLocales,
+                locale: locale,
+                localizationsDelegates: S.delegates,
+                routeInformationProvider: router.routeInformationProvider,
+                routeInformationParser: router.routeInformationParser,
+                routerDelegate: router.routerDelegate,
+              ),
+            );
+          },
+        ),
       ),
     );
   }

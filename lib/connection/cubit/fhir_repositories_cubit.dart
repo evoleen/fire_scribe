@@ -1,7 +1,9 @@
-import 'package:auth_cubit/auth_cubit.dart';
+import 'dart:async';
+
+import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
-import 'package:firearrow_admin_app/app_logger.dart';
-import 'package:firearrow_admin_app/auth/azure_identity_provider_cubit.dart';
+import 'package:evoleen_fhir/evoleen_fhir.dart';
+import 'package:fhir/r4.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -11,42 +13,32 @@ import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:talker_dio_logger/talker_dio_logger.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
-part 'connection_cubit.freezed.dart';
+part 'fhir_repositories_cubit.freezed.dart';
 
 @freezed
-class ConnectionState with _$ConnectionState {
-  const factory ConnectionState.disconnected() = _Disconnected;
-  const factory ConnectionState.connected(
-      {required final GraphQLClient graphQLClient}) = _Connected;
+class FhirRepositoriesCubitState with _$FhirRepositoriesCubitState {
+  const factory FhirRepositoriesCubitState.disconnected() = _Disconnected;
+  const factory FhirRepositoriesCubitState.connected(
+          {required final List<EvoleenFhirGqlRepository> repositories}) =
+      _Connected;
 }
 
-class ConnectionCubit extends Cubit<ConnectionState> {
-  ConnectionCubit() : super(_Disconnected());
+class FhirRepositoriesCubit extends Cubit<FhirRepositoriesCubitState> {
+  FhirRepositoriesCubit() : super(_Disconnected());
 
   void disconnect() {
     emit(_Disconnected());
   }
 
-  void connect({required final Uri uri}) {
+  void connect({
+    required final Uri uri,
+    required FutureOr<String?> Function() getToken,
+  }) async {
     final graphQLClient = GraphQLClient(
       link: Link.from(
         [
           AuthLink(
-            getToken: () async {
-              final token = await GetIt.instance
-                  .get<AuthCubit>()
-                  .provider<AzureIdentityProviderCubit>()
-                  .accessToken();
-              if (kDebugMode) {
-                AppLogger.instance.d('Bearer $token');
-              }
-
-              if (token == null) {
-                return null;
-              }
-
-              return 'Bearer $token';
-            },
+            getToken: getToken,
           ),
           DioLink(
             uri.toString(),
@@ -69,6 +61,19 @@ class ConnectionCubit extends Cubit<ConnectionState> {
       ),
       cache: GraphQLCache(),
     );
-    emit(_Connected(graphQLClient: graphQLClient));
+    final repositories = EvoleenFhirSchema.entityToRepository.values
+        .map(
+          (repoBuilder) => repoBuilder(graphQLClient),
+        )
+        .whereNotNull()
+        .toList();
+
+    final patientRepo = repositories.firstWhereOrNull(
+      (repository) => repository.baseType == Patient,
+    );
+
+    final patients = await patientRepo?.search();
+
+    emit(_Connected(repositories: repositories));
   }
 }

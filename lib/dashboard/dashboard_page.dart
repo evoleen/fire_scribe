@@ -1,7 +1,10 @@
 import 'package:firearrow_admin_app/connection/connection_form.dart';
+import 'package:firearrow_admin_app/connection/cubit/fhir_repositories_cubit.dart';
+import 'package:firearrow_admin_app/dashboard/widgets/dashboard_entity_data_display.dart';
 import 'package:firearrow_admin_app/dashboard/widgets/dashboard_entity_list.dart';
 import 'package:firearrow_admin_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage();
@@ -21,14 +24,27 @@ class DashboardPage extends StatelessWidget {
             child: Column(
               children: [
                 ConnectionForm(),
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      S.of(context).connectToServerHelpText,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                  ),
+                BlocConsumer<FhirRepositoriesCubit, FhirRepositoriesCubitState>(
+                  listener: (context, state) {
+                    state.when(
+                      disconnected: () {},
+                      connected: (graphQLClient) {},
+                    );
+                  },
+                  builder: (context, state) {
+                    return state.when(
+                      connected: (_) => DashboardEntityDataDisplay(),
+                      disconnected: () {
+                        return Center(
+                          child: Text(
+                            S.of(context).connectToServerHelpText,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                        );
+                      },
+                    );
+                  },
                 ),
               ],
             ),

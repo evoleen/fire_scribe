@@ -36,7 +36,7 @@ class AzureIdentityProviderCubit
     try {
       final token = await _credentialManager!.getAccessToken();
       if (token?.token != null) {
-        emit(AuthProviderState.authenticated());
+        emit(AuthProviderState.authenticated(data: params.serverUrl));
       }
       return token?.token != null;
     } catch (e) {
