@@ -27,6 +27,7 @@ dependencies:
     #   url: https://dart.cloudsmith.io/evoleen/evoleen_fhir
     #   name: evoleen_fhir
     # version: 0.0.30
+  fhir: 0.12.0
   flutter:
     sdk: flutter
   flutter_bloc: 8.1.6
@@ -63,10 +64,7 @@ dev_dependencies:
   # intl_generator: 0.4.1
   mocktail: 1.0.4
   remove_from_coverage: 2.0.0
-  
-dependency_overrides:
-  # analyzer: 6.2.0
-  # intl: 0.18.1
+
 
 flutter:
   uses-material-design: true
