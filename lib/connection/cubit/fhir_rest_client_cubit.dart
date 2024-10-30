@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:dio/dio.dart';
+import 'package:fhir/r4.dart';
 import 'package:fhir_rest_client/fhir_rest_client.dart';
 import 'package:firearrow_admin_app/app_logger.dart';
 import 'package:flutter/foundation.dart';
@@ -77,7 +78,11 @@ class FhirRestClientCubit extends Cubit<FhirRestClientCubitState> {
           entityName: 'Patient',
         ),
       );
-      print(data);
+      final bundle = Bundle.fromJson(data);
+      if (bundle.entry == null) {
+        print('No entries for Patient');
+      }
+      print(bundle);
     } catch (e) {
       AppLogger.instance.e(e);
     }
