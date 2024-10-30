@@ -3,10 +3,10 @@ import 'package:firearrow_admin_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DashboardEntityList extends StatelessWidget {
+class EntityTypeList extends StatelessWidget {
   final List<String> listOfEntities;
 
-  const DashboardEntityList({
+  const EntityTypeList({
     super.key,
     required this.listOfEntities,
   });
