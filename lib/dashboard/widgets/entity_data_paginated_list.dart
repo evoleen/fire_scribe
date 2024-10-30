@@ -76,10 +76,6 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
     pagingController.appendLastPage(entries);
   }
 
-  Future<void> refresh() async {
-    pagingController.refresh();
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<DashboardCubit, DashboardCubitState>(
@@ -90,7 +86,7 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
             setState(() {
               this.entitySelected = entitySelected;
             });
-            await refresh();
+            pagingController.refresh();
           },
         );
       },
