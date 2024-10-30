@@ -94,8 +94,11 @@ class AzureIdentityProviderCubit
           schema: await fhirRestClient.getSchema(),
         );
 
-        emit(AuthProviderState.authenticated(
-            data: azureHealthDataServiceConnection));
+        emit(
+          AuthProviderState.authenticated(
+            data: azureHealthDataServiceConnection,
+          ),
+        );
       }
       return token?.token != null;
     } catch (e) {
