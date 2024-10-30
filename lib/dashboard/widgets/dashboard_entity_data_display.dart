@@ -5,6 +5,16 @@ import 'package:fhir_rest_client/fhir_rest_client.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
+class EntityData {
+  final String? fhirId;
+  final FhirInstant? lastUpdate;
+
+  EntityData({
+    this.fhirId,
+    this.lastUpdate,
+  });
+}
+
 class DashboardEntityDataDisplay extends StatefulWidget {
   final String entityType;
   final FhirRestClient fhirRestClient;
@@ -21,9 +31,10 @@ class DashboardEntityDataDisplay extends StatefulWidget {
       _DashboardEntityDataDisplayState();
 }
 
-class _DashboardEntityDataDisplayState<T>
+class _DashboardEntityDataDisplayState
     extends State<DashboardEntityDataDisplay> {
-  PagingController<int, T> pagingController = PagingController(firstPageKey: 0);
+  PagingController<int, EntityData> pagingController =
+      PagingController(firstPageKey: 0);
   String? searchOffset;
   CancelableOperation<void>? _searchOperation;
   Set<String> alreadyInListPatientIds = {};
@@ -60,14 +71,17 @@ class _DashboardEntityDataDisplayState<T>
     final patients = (bundle.entry ?? <BundleEntry>[])
         .map((entry) {
           if (entry.resource?.resourceType?.name == entityName) {
-            return Patient.fromJson(entry.resource!.toJson());
+            final patient = Patient.fromJson(entry.resource!.toJson());
+            return EntityData(
+              fhirId: patient.fhirId!,
+              lastUpdate: patient.meta?.lastUpdated,
+            );
           } else {
             return null;
           }
         })
         .whereNotNull()
-        .toList()
-        .cast<T>();
+        .toList();
 
     pagingController.appendLastPage(patients);
 
@@ -130,12 +144,12 @@ class _DashboardEntityDataDisplayState<T>
 
   @override
   Widget build(BuildContext context) {
-    return PagedListView<int, T>.separated(
+    return PagedListView<int, EntityData>.separated(
       pagingController: pagingController,
       physics: const AlwaysScrollableScrollPhysics(),
       padding: const EdgeInsets.only(left: 32, right: 32, bottom: 20),
       itemExtent: 80,
-      builderDelegate: PagedChildBuilderDelegate<T>(
+      builderDelegate: PagedChildBuilderDelegate<EntityData>(
         newPageProgressIndicatorBuilder: (final BuildContext context) =>
             const Center(child: CircularProgressIndicator()),
         noItemsFoundIndicatorBuilder: (final BuildContext context) =>
@@ -147,7 +161,17 @@ class _DashboardEntityDataDisplayState<T>
         ),
         noMoreItemsIndicatorBuilder: (final BuildContext context) =>
             const SizedBox(),
-        itemBuilder: (final context, final item, final index) => Text('item'),
+        itemBuilder: (final context, final item, final index) {
+          return Row(
+            children: [
+              Text(item.fhirId ?? ''),
+              SizedBox(width: 8),
+              Text(
+                item.lastUpdate?.toIso8601String() ?? '',
+              ),
+            ],
+          );
+        },
       ),
       separatorBuilder: (final BuildContext context, final int index) =>
           const SizedBox(height: 16),
