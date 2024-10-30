@@ -35,37 +35,52 @@ class EntityCard extends StatelessWidget {
   const EntityCard({super.key, required this.entityTypetyType});
   @override
   Widget build(BuildContext context) {
-    return FilledButton(
-      style: ButtonStyle(
-        backgroundColor:
-            WidgetStatePropertyAll(Theme.of(context).colorScheme.surface),
-        overlayColor: WidgetStatePropertyAll(
-          Theme.of(context).colorScheme.surfaceContainerLow,
-        ),
-        padding: WidgetStatePropertyAll(EdgeInsets.zero),
-        shape: WidgetStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.zero,
+    return BlocBuilder<DashboardCubit, DashboardCubitState>(
+      builder: (context, state) {
+        final isSelected = state.when(
+          noselected: () => false,
+          selected: (itemSelected) => itemSelected == entityTypetyType,
+        );
+
+        return FilledButton(
+          style: ButtonStyle(
+            backgroundColor: WidgetStatePropertyAll(
+              isSelected
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.surface,
+            ),
+            padding: WidgetStatePropertyAll(EdgeInsets.zero),
+            shape: WidgetStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.zero,
+              ),
+            ),
           ),
-        ),
-      ),
-      onPressed: () => BlocProvider.of<DashboardCubit>(context).select(
-        entityType: entityTypetyType,
-      ),
-      child: Container(
-        width: double.infinity,
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: 24,
-            horizontal: 16,
+          onPressed: isSelected
+              ? null
+              : () => BlocProvider.of<DashboardCubit>(context).select(
+                    entityType: entityTypetyType,
+                  ),
+          child: Container(
+            width: double.infinity,
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: 24,
+                horizontal: 16,
+              ),
+              child: Text(
+                entityTypetyType.toString(),
+                textAlign: TextAlign.left,
+                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      color: isSelected
+                          ? Theme.of(context).colorScheme.onPrimary
+                          : null,
+                    ),
+              ),
+            ),
           ),
-          child: Text(
-            entityTypetyType.toString(),
-            textAlign: TextAlign.left,
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
