@@ -19,19 +19,23 @@ mixin _$FhirRestClientCubitState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() disconnected,
-    required TResult Function(FhirRestClient fhirRestClient) connected,
+    required TResult Function(
+            FhirRestClient fhirRestClient, List<String> schema)
+        connected,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? disconnected,
-    TResult? Function(FhirRestClient fhirRestClient)? connected,
+    TResult? Function(FhirRestClient fhirRestClient, List<String> schema)?
+        connected,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? disconnected,
-    TResult Function(FhirRestClient fhirRestClient)? connected,
+    TResult Function(FhirRestClient fhirRestClient, List<String> schema)?
+        connected,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -127,7 +131,9 @@ class _$DisconnectedImpl with DiagnosticableTreeMixin implements _Disconnected {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() disconnected,
-    required TResult Function(FhirRestClient fhirRestClient) connected,
+    required TResult Function(
+            FhirRestClient fhirRestClient, List<String> schema)
+        connected,
   }) {
     return disconnected();
   }
@@ -136,7 +142,8 @@ class _$DisconnectedImpl with DiagnosticableTreeMixin implements _Disconnected {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? disconnected,
-    TResult? Function(FhirRestClient fhirRestClient)? connected,
+    TResult? Function(FhirRestClient fhirRestClient, List<String> schema)?
+        connected,
   }) {
     return disconnected?.call();
   }
@@ -145,7 +152,8 @@ class _$DisconnectedImpl with DiagnosticableTreeMixin implements _Disconnected {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? disconnected,
-    TResult Function(FhirRestClient fhirRestClient)? connected,
+    TResult Function(FhirRestClient fhirRestClient, List<String> schema)?
+        connected,
     required TResult orElse(),
   }) {
     if (disconnected != null) {
@@ -196,7 +204,7 @@ abstract class _$$ConnectedImplCopyWith<$Res> {
           _$ConnectedImpl value, $Res Function(_$ConnectedImpl) then) =
       __$$ConnectedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({FhirRestClient fhirRestClient});
+  $Res call({FhirRestClient fhirRestClient, List<String> schema});
 }
 
 /// @nodoc
@@ -213,12 +221,17 @@ class __$$ConnectedImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? fhirRestClient = null,
+    Object? schema = null,
   }) {
     return _then(_$ConnectedImpl(
       fhirRestClient: null == fhirRestClient
           ? _value.fhirRestClient
           : fhirRestClient // ignore: cast_nullable_to_non_nullable
               as FhirRestClient,
+      schema: null == schema
+          ? _value._schema
+          : schema // ignore: cast_nullable_to_non_nullable
+              as List<String>,
     ));
   }
 }
@@ -226,14 +239,23 @@ class __$$ConnectedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$ConnectedImpl with DiagnosticableTreeMixin implements _Connected {
-  const _$ConnectedImpl({required this.fhirRestClient});
+  const _$ConnectedImpl(
+      {required this.fhirRestClient, required final List<String> schema})
+      : _schema = schema;
 
   @override
   final FhirRestClient fhirRestClient;
+  final List<String> _schema;
+  @override
+  List<String> get schema {
+    if (_schema is EqualUnmodifiableListView) return _schema;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_schema);
+  }
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'FhirRestClientCubitState.connected(fhirRestClient: $fhirRestClient)';
+    return 'FhirRestClientCubitState.connected(fhirRestClient: $fhirRestClient, schema: $schema)';
   }
 
   @override
@@ -241,7 +263,8 @@ class _$ConnectedImpl with DiagnosticableTreeMixin implements _Connected {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'FhirRestClientCubitState.connected'))
-      ..add(DiagnosticsProperty('fhirRestClient', fhirRestClient));
+      ..add(DiagnosticsProperty('fhirRestClient', fhirRestClient))
+      ..add(DiagnosticsProperty('schema', schema));
   }
 
   @override
@@ -250,11 +273,13 @@ class _$ConnectedImpl with DiagnosticableTreeMixin implements _Connected {
         (other.runtimeType == runtimeType &&
             other is _$ConnectedImpl &&
             (identical(other.fhirRestClient, fhirRestClient) ||
-                other.fhirRestClient == fhirRestClient));
+                other.fhirRestClient == fhirRestClient) &&
+            const DeepCollectionEquality().equals(other._schema, _schema));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, fhirRestClient);
+  int get hashCode => Object.hash(runtimeType, fhirRestClient,
+      const DeepCollectionEquality().hash(_schema));
 
   /// Create a copy of FhirRestClientCubitState
   /// with the given fields replaced by the non-null parameter values.
@@ -268,29 +293,33 @@ class _$ConnectedImpl with DiagnosticableTreeMixin implements _Connected {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() disconnected,
-    required TResult Function(FhirRestClient fhirRestClient) connected,
+    required TResult Function(
+            FhirRestClient fhirRestClient, List<String> schema)
+        connected,
   }) {
-    return connected(fhirRestClient);
+    return connected(fhirRestClient, schema);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? disconnected,
-    TResult? Function(FhirRestClient fhirRestClient)? connected,
+    TResult? Function(FhirRestClient fhirRestClient, List<String> schema)?
+        connected,
   }) {
-    return connected?.call(fhirRestClient);
+    return connected?.call(fhirRestClient, schema);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? disconnected,
-    TResult Function(FhirRestClient fhirRestClient)? connected,
+    TResult Function(FhirRestClient fhirRestClient, List<String> schema)?
+        connected,
     required TResult orElse(),
   }) {
     if (connected != null) {
-      return connected(fhirRestClient);
+      return connected(fhirRestClient, schema);
     }
     return orElse();
   }
@@ -328,10 +357,12 @@ class _$ConnectedImpl with DiagnosticableTreeMixin implements _Connected {
 }
 
 abstract class _Connected implements FhirRestClientCubitState {
-  const factory _Connected({required final FhirRestClient fhirRestClient}) =
-      _$ConnectedImpl;
+  const factory _Connected(
+      {required final FhirRestClient fhirRestClient,
+      required final List<String> schema}) = _$ConnectedImpl;
 
   FhirRestClient get fhirRestClient;
+  List<String> get schema;
 
   /// Create a copy of FhirRestClientCubitState
   /// with the given fields replaced by the non-null parameter values.

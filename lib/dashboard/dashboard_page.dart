@@ -24,16 +24,10 @@ class DashboardPage extends StatelessWidget {
             child: Column(
               children: [
                 ConnectionForm(),
-                BlocConsumer<FhirRestClientCubit, FhirRestClientCubitState>(
-                  listener: (context, state) {
-                    state.when(
-                      disconnected: () {},
-                      connected: (graphQLClient) {},
-                    );
-                  },
+                BlocBuilder<FhirRestClientCubit, FhirRestClientCubitState>(
                   builder: (context, state) {
                     return state.when(
-                      connected: (_) => DashboardEntityDataDisplay(),
+                      connected: (_, __) => DashboardEntityDataDisplay(),
                       disconnected: () {
                         return Center(
                           child: Text(

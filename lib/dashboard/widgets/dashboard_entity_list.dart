@@ -1,4 +1,3 @@
-import 'package:fhir/r4.dart';
 import 'package:firearrow_admin_app/connection/cubit/fhir_rest_client_cubit.dart';
 import 'package:firearrow_admin_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -41,11 +40,11 @@ class DashboardEntityList extends StatelessWidget {
             child: BlocBuilder<FhirRestClientCubit, FhirRestClientCubitState>(
               builder: (context, state) {
                 return state.when(
-                  connected: (_) {
+                  connected: (_, schema) {
                     return ListView.separated(
                       itemBuilder: (context, index) {
                         return EntityCard(
-                          type: Patient,
+                          type: schema[index],
                         );
                       },
                       separatorBuilder: (context, index) {
@@ -55,7 +54,7 @@ class DashboardEntityList extends StatelessWidget {
                           color: Theme.of(context).colorScheme.outlineVariant,
                         );
                       },
-                      itemCount: 1,
+                      itemCount: schema.length,
                     );
                   },
                   disconnected: () {
@@ -72,7 +71,7 @@ class DashboardEntityList extends StatelessWidget {
 }
 
 class EntityCard extends StatelessWidget {
-  final Type type;
+  final String type;
   const EntityCard({super.key, required this.type});
   @override
   Widget build(BuildContext context) {

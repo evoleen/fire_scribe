@@ -15,8 +15,10 @@ part 'fhir_rest_client_cubit.freezed.dart';
 @freezed
 class FhirRestClientCubitState with _$FhirRestClientCubitState {
   const factory FhirRestClientCubitState.disconnected() = _Disconnected;
-  const factory FhirRestClientCubitState.connected(
-      {required final FhirRestClient fhirRestClient}) = _Connected;
+  const factory FhirRestClientCubitState.connected({
+    required final FhirRestClient fhirRestClient,
+    required final List<String> schema,
+  }) = _Connected;
 }
 
 class FhirRestClientCubit extends Cubit<FhirRestClientCubitState> {
@@ -61,14 +63,18 @@ class FhirRestClientCubit extends Cubit<FhirRestClientCubitState> {
     );
 
     try {
-      // final data = await fhirRestClient.execute(
-      //   request: FhirRequest(
-      //     operation: FhirRequestOperation.search,
-      //     entityName: 'Patient',
-      //   ),
-      // );
-      // print(data);
-      emit(_Connected(fhirRestClient: fhirRestClient));
+      final schema = await fhirRestClient.getSchema();
+      emit(_Connected(
+        fhirRestClient: fhirRestClient,
+        schema: schema,
+      ));
+      final data = await fhirRestClient.execute(
+        request: FhirRequest(
+          operation: FhirRequestOperation.search,
+          entityName: 'Patient',
+        ),
+      );
+      print(data);
     } catch (e) {
       AppLogger.instance.e(e);
     }
