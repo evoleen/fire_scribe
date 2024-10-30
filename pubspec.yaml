@@ -56,9 +56,15 @@ dev_dependencies:
     sdk: flutter
   freezed: 2.5.7
   go_router_builder: 2.7.1
-  # intl_generator: 0.4.1
+  intl_generator: 0.4.1
   mocktail: 1.0.4
   remove_from_coverage: 2.0.0
+
+dependency_overrides:
+  # intl_generator >=0.4.0 depends on analyzer ^5.1.0 and freezed 2.5.7 depends on analyzer ^6.5.0
+  # Its has quite bug, since if we would want to run `fvm dart run build_runner build` command we need to
+  # comment `intl_generator: 0.4.1` and the `analyzer: 5.1.0` lines from this file.
+  analyzer: 5.1.0
 
 
 flutter:
