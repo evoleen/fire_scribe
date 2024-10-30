@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:fhir/r4.dart';
 import 'package:fhir_rest_client/fhir_rest_client.dart';
 import 'package:firearrow_admin_app/dashboard/cubit/dashboard_cubit.dart';
@@ -65,18 +64,13 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
     final bundle = Bundle.fromJson(rawBundle);
 
     final entries = (bundle.entry ?? <BundleEntry>[])
-        .map((entry) {
-          if (entry.resource?.resourceType?.name == entitySelected) {
-            return EntityData(
-              fhirId: entry.resource?.fhirId,
-              lastUpdate: entry.resource?.meta?.lastUpdated,
-              rawDataJson: entry.resource?.toJsonString() ?? '',
-            );
-          } else {
-            return null;
-          }
-        })
-        .whereNotNull()
+        .map(
+          (entry) => EntityData(
+            fhirId: entry.resource?.fhirId,
+            lastUpdate: entry.resource?.meta?.lastUpdated,
+            rawDataJson: entry.resource?.toJsonString() ?? '',
+          ),
+        )
         .toList();
 
     pagingController.appendLastPage(entries);
