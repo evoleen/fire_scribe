@@ -17,7 +17,7 @@ dependencies:
       url: https://dart.cloudsmith.io/evoleen/auth_cubit
       name: auth_cubit
     version: 0.0.3
-  azure_identity: 0.0.4
+  azure_identity: 0.0.5
   built_collection: 5.1.1
   collection: 1.18.0
   dio: 5.7.0

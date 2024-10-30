@@ -66,10 +66,10 @@ packages:
     dependency: "direct main"
     description:
       name: azure_identity
-      sha256: "6bd09a59122003d2aa65ddf32dcbefa752d64669fc7e7c5b3959db22aed545f1"
+      sha256: "033f8daec7c357223ff78ed903aa6d547bd904d756d67a9abf37e5bced04d205"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.4"
+    version: "0.0.5"
   bloc:
     dependency: transitive
     description:

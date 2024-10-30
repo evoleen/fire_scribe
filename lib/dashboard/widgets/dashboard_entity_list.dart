@@ -1,9 +1,14 @@
-import 'package:firearrow_admin_app/connection/cubit/fhir_rest_client_cubit.dart';
 import 'package:firearrow_admin_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DashboardEntityList extends StatelessWidget {
+  final List<String> listOfEntities;
+
+  const DashboardEntityList({
+    super.key,
+    required this.listOfEntities,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -37,31 +42,20 @@ class DashboardEntityList extends StatelessWidget {
                 color: Theme.of(context).colorScheme.outlineVariant,
               ),
             ),
-            child: BlocBuilder<FhirRestClientCubit, FhirRestClientCubitState>(
-              builder: (context, state) {
-                return state.when(
-                  connected: (_, schema) {
-                    return ListView.separated(
-                      itemBuilder: (context, index) {
-                        return EntityCard(
-                          type: schema[index],
-                        );
-                      },
-                      separatorBuilder: (context, index) {
-                        return Container(
-                          width: double.infinity,
-                          height: 1,
-                          color: Theme.of(context).colorScheme.outlineVariant,
-                        );
-                      },
-                      itemCount: schema.length,
-                    );
-                  },
-                  disconnected: () {
-                    return SizedBox();
-                  },
+            child: ListView.separated(
+              itemBuilder: (context, index) {
+                return EntityCard(
+                  type: listOfEntities[index],
                 );
               },
+              separatorBuilder: (context, index) {
+                return Container(
+                  width: double.infinity,
+                  height: 1,
+                  color: Theme.of(context).colorScheme.outlineVariant,
+                );
+              },
+              itemCount: listOfEntities.length,
             ),
           ),
         ),

@@ -16,7 +16,10 @@ part 'fhir_rest_client_cubit.freezed.dart';
 class FhirRestClientCubitState with _$FhirRestClientCubitState {
   const factory FhirRestClientCubitState.disconnected() = _Disconnected;
   const factory FhirRestClientCubitState.connected({
+    /// The rest client to operate into cloud API
     required final FhirRestClient fhirRestClient,
+
+    /// List of types that we could interact with
     required final List<String> schema,
   }) = _Connected;
 }
@@ -39,8 +42,8 @@ class FhirRestClientCubit extends Cubit<FhirRestClientCubitState> {
           connectTimeout: const Duration(milliseconds: 30000),
           receiveTimeout: const Duration(milliseconds: 30000),
           headers: {
-            'Accept': 'application/json',
-            'Content-type': 'application/json',
+            'Accept': 'application/fhir+json',
+            'Content-type': 'application/fhir+json',
             'Authorization': 'Bearer $token',
           },
         ),
@@ -68,13 +71,13 @@ class FhirRestClientCubit extends Cubit<FhirRestClientCubitState> {
         fhirRestClient: fhirRestClient,
         schema: schema,
       ));
-      final data = await fhirRestClient.execute(
-        request: FhirRequest(
-          operation: FhirRequestOperation.search,
-          entityName: 'Patient',
-        ),
-      );
-      print(data);
+      // final data = await fhirRestClient.execute(
+      //   request: FhirRequest(
+      //     operation: FhirRequestOperation.search,
+      //     entityName: 'Patient',
+      //   ),
+      // );
+      // print(data);
     } catch (e) {
       AppLogger.instance.e(e);
     }

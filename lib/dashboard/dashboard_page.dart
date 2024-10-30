@@ -11,40 +11,59 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Flexible(
-          flex: 1,
-          child: DashboardEntityList(),
-        ),
-        Expanded(
-          flex: 3,
-          child: ColoredBox(
-            color: Theme.of(context).colorScheme.surfaceContainerLow,
-            child: Column(
-              children: [
-                ConnectionForm(),
-                BlocBuilder<FhirRestClientCubit, FhirRestClientCubitState>(
-                  builder: (context, state) {
-                    return state.when(
-                      connected: (_, __) => DashboardEntityDataDisplay(),
-                      disconnected: () {
-                        return Center(
-                          child: Text(
-                            S.of(context).connectToServerHelpText,
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.bodyLarge,
-                          ),
-                        );
-                      },
-                    );
-                  },
+    return BlocBuilder<FhirRestClientCubit, FhirRestClientCubitState>(
+      builder: (context, state) {
+        return state.when(
+          connected: (restClient, schema) => Row(
+            children: [
+              Flexible(
+                flex: 1,
+                child: DashboardEntityList(
+                  listOfEntities: schema,
                 ),
-              ],
-            ),
+              ),
+              Flexible(
+                flex: 3,
+                child: ColoredBox(
+                  color: Theme.of(context).colorScheme.surfaceContainerLow,
+                  child: Column(
+                    children: [
+                      ConnectionForm(),
+                      DashboardEntityDataDisplay(),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-        ),
-      ],
+          disconnected: () => Row(
+            children: [
+              Flexible(
+                flex: 1,
+                child: DashboardEntityList(listOfEntities: const []),
+              ),
+              Flexible(
+                flex: 3,
+                child: ColoredBox(
+                  color: Theme.of(context).colorScheme.surfaceContainerLow,
+                  child: Column(
+                    children: [
+                      ConnectionForm(),
+                      Center(
+                        child: Text(
+                          S.of(context).connectToServerHelpText,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
