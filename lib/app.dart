@@ -30,14 +30,10 @@ class App extends StatelessWidget {
       },
     );
 
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (final context) => LocalizationCubit(
-            sharedPreferences: GetIt.instance(),
-          ),
-        ),
-      ],
+    return BlocProvider(
+      create: (final context) => LocalizationCubit(
+        sharedPreferences: GetIt.instance(),
+      ),
       child: BlocBuilder<LocalizationCubit, LocalizationCubitState>(
         buildWhen: (final _, final current) => current.when(
           initial: () => false,
