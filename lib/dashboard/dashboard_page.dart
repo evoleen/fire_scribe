@@ -2,6 +2,7 @@ import 'package:auth_cubit/auth_cubit.dart';
 import 'package:firearrow_admin_app/auth/azure_identity_provider_cubit.dart';
 import 'package:firearrow_admin_app/auth/connection_form.dart';
 import 'package:firearrow_admin_app/dashboard/cubit/dashboard_cubit.dart';
+import 'package:firearrow_admin_app/dashboard/widgets/dashboard_left_panel.dart';
 import 'package:firearrow_admin_app/dashboard/widgets/entity_data_paginated_list.dart';
 import 'package:firearrow_admin_app/dashboard/widgets/entity_type_list.dart';
 import 'package:firearrow_admin_app/l10n/app_localizations.dart';
@@ -27,8 +28,10 @@ class DashboardPage extends StatelessWidget {
                 children: [
                   Flexible(
                     flex: 1,
-                    child: EntityTypeList(
-                      listOfEntities: data.schema,
+                    child: DashboardLeftPanel(
+                      child: EntityTypeList(
+                        listOfEntities: data.schema,
+                      ),
                     ),
                   ),
                   Flexible(
@@ -55,7 +58,7 @@ class DashboardPage extends StatelessWidget {
             children: [
               Flexible(
                 flex: 1,
-                child: EntityTypeList(listOfEntities: const []),
+                child: DashboardLeftPanel(),
               ),
               Flexible(
                 flex: 3,
