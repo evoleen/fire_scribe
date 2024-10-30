@@ -71,13 +71,13 @@ class FhirRestClientCubit extends Cubit<FhirRestClientCubitState> {
         fhirRestClient: fhirRestClient,
         schema: schema,
       ));
-      // final data = await fhirRestClient.execute(
-      //   request: FhirRequest(
-      //     operation: FhirRequestOperation.search,
-      //     entityName: 'Patient',
-      //   ),
-      // );
-      // print(data);
+      final data = await fhirRestClient.execute(
+        request: FhirRequest(
+          operation: FhirRequestOperation.search,
+          entityName: 'Patient',
+        ),
+      );
+      print(data);
     } catch (e) {
       AppLogger.instance.e(e);
     }

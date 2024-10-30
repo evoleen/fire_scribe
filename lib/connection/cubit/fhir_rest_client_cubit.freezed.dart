@@ -243,9 +243,14 @@ class _$ConnectedImpl with DiagnosticableTreeMixin implements _Connected {
       {required this.fhirRestClient, required final List<String> schema})
       : _schema = schema;
 
+  /// The rest client to operate into cloud API
   @override
   final FhirRestClient fhirRestClient;
+
+  /// List of types that we could interact with
   final List<String> _schema;
+
+  /// List of types that we could interact with
   @override
   List<String> get schema {
     if (_schema is EqualUnmodifiableListView) return _schema;
@@ -361,7 +366,10 @@ abstract class _Connected implements FhirRestClientCubitState {
       {required final FhirRestClient fhirRestClient,
       required final List<String> schema}) = _$ConnectedImpl;
 
+  /// The rest client to operate into cloud API
   FhirRestClient get fhirRestClient;
+
+  /// List of types that we could interact with
   List<String> get schema;
 
   /// Create a copy of FhirRestClientCubitState

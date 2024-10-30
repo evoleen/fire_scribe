@@ -1,5 +1,7 @@
+import 'package:firearrow_admin_app/dashboard/cubit/dashboard_cubit.dart';
 import 'package:firearrow_admin_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class DashboardEntityList extends StatelessWidget {
   final List<String> listOfEntities;
@@ -45,7 +47,7 @@ class DashboardEntityList extends StatelessWidget {
             child: ListView.separated(
               itemBuilder: (context, index) {
                 return EntityCard(
-                  type: listOfEntities[index],
+                  entityTypetyType: listOfEntities[index],
                 );
               },
               separatorBuilder: (context, index) {
@@ -65,8 +67,8 @@ class DashboardEntityList extends StatelessWidget {
 }
 
 class EntityCard extends StatelessWidget {
-  final String type;
-  const EntityCard({super.key, required this.type});
+  final String entityTypetyType;
+  const EntityCard({super.key, required this.entityTypetyType});
   @override
   Widget build(BuildContext context) {
     return FilledButton(
@@ -83,7 +85,9 @@ class EntityCard extends StatelessWidget {
           ),
         ),
       ),
-      onPressed: null,
+      onPressed: () => BlocProvider.of<DashboardCubit>(context).select(
+        entityType: entityTypetyType,
+      ),
       child: Container(
         width: double.infinity,
         child: Padding(
@@ -92,7 +96,7 @@ class EntityCard extends StatelessWidget {
             horizontal: 16,
           ),
           child: Text(
-            type.toString(),
+            entityTypetyType.toString(),
             textAlign: TextAlign.left,
             style: Theme.of(context).textTheme.bodyLarge,
           ),

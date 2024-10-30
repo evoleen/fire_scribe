@@ -34,14 +34,5 @@ void main() {
         return 'Bearer $token';
       },
     );
-
-    connectionCubit.state.when(
-      connected: (client) async {
-        // final repo = PatientGqlRepository(graphQLClient: client);
-        // final patients = await repo.search();
-        // print(patients);
-      },
-      disconnected: () {},
-    );
   });
 }
