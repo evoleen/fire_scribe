@@ -34,9 +34,7 @@ class EntityDataPaginatedList extends StatefulWidget {
 }
 
 class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
-  PagingController<int, EntityData> pagingController =
-      PagingController(firstPageKey: 0);
-
+  final pagingController = PagingController<int, EntityData>(firstPageKey: 0);
   String? entitySelected;
 
   @override
