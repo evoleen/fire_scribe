@@ -124,26 +124,25 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     itemExtent: 80,
                     builderDelegate: PagedChildBuilderDelegate<EntityData>(
-                      newPageProgressIndicatorBuilder:
-                          (final BuildContext context) =>
-                              const Center(child: CircularProgressIndicator()),
-                      noItemsFoundIndicatorBuilder:
-                          (final BuildContext context) => Center(
+                      newPageProgressIndicatorBuilder: (context) =>
+                          const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      noItemsFoundIndicatorBuilder: (context) => Center(
                         child: Text(
                           S.of(context).noDataAssociatedToAnEntity,
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                       ),
-                      noMoreItemsIndicatorBuilder:
-                          (final BuildContext context) => const SizedBox(),
-                      itemBuilder: (final context, final item, final index) {
+                      noMoreItemsIndicatorBuilder: (context) =>
+                          const SizedBox(),
+                      itemBuilder: (context, item, index) {
                         return EntityDataPaginatedListCard(entityData: item);
                       },
                     ),
-                    separatorBuilder:
-                        (final BuildContext context, final int index) =>
-                            const SizedBox(height: 2),
+                    separatorBuilder: (context, index) =>
+                        const SizedBox(height: 2),
                   ),
                 ),
               ],
