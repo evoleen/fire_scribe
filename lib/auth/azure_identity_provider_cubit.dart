@@ -4,7 +4,6 @@ import 'package:dio/dio.dart';
 import 'package:fhir_rest_client/fhir_rest_client.dart';
 import 'package:firearrow_admin_app/app_logger.dart';
 import 'package:flutter/foundation.dart';
-import 'package:get_it/get_it.dart';
 import 'package:talker_dio_logger/talker_dio_logger_interceptor.dart';
 import 'package:talker_dio_logger/talker_dio_logger_settings.dart';
 import 'package:talker_flutter/talker_flutter.dart';
@@ -36,11 +35,14 @@ class AzureIdentityProviderCubitParams extends AuthProviderCubitParams {
 class AzureIdentityProviderCubit
     extends AuthProviderCubit<AzureIdentityProviderCubitParams> {
   final DefaultAzureCredential defaultAzureCredential;
+  final Talker talker;
 
   CredentialManager? _credentialManager;
 
-  AzureIdentityProviderCubit({required this.defaultAzureCredential})
-      : super(const AuthProviderState.unauthenticated());
+  AzureIdentityProviderCubit({
+    required this.defaultAzureCredential,
+    required this.talker,
+  }) : super(const AuthProviderState.unauthenticated());
 
   @override
   Future<bool> signIn([AzureIdentityProviderCubitParams? params]) async {
@@ -73,7 +75,7 @@ class AzureIdentityProviderCubit
             ),
           )..interceptors.add(
               TalkerDioLogger(
-                talker: GetIt.instance.get<Talker>(),
+                talker: talker,
                 settings: TalkerDioLoggerSettings(
                   printRequestData: kDebugMode,
                   printRequestHeaders: kDebugMode,
