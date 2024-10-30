@@ -30,6 +30,9 @@ class AzureIdentityProviderCubitParams extends AuthProviderCubitParams {
   });
 }
 
+/// This auth provider is designed to authenticate into Azure Health Data Service
+/// In is authenticated state, will offer a [AzureHealthDataServiceConnection] for
+/// having the connection configuration to interact with the data
 class AzureIdentityProviderCubit
     extends AuthProviderCubit<AzureIdentityProviderCubitParams> {
   final DefaultAzureCredential defaultAzureCredential;
