@@ -3,7 +3,7 @@ import 'package:firearrow_admin_app/app_logger.dart';
 import 'package:firearrow_admin_app/app_scaffold.dart';
 import 'package:firearrow_admin_app/app_theme.dart';
 import 'package:firearrow_admin_app/auth/azure_identity_provider_cubit.dart';
-import 'package:firearrow_admin_app/connection/cubit/fhir_repositories_cubit.dart';
+import 'package:firearrow_admin_app/connection/cubit/fhir_rest_client_cubit.dart';
 import 'package:firearrow_admin_app/dashboard/dashboard_route.dart';
 import 'package:firearrow_admin_app/l10n/app_localizations.dart';
 import 'package:firearrow_admin_app/l10n/cubit/localization_cubit.dart';
@@ -42,7 +42,7 @@ class App extends StatelessWidget {
           ),
         ),
         BlocProvider(
-          create: (context) => FhirRepositoriesCubit(),
+          create: (context) => FhirRestClientCubit(),
         ),
       ],
       child: BlocListener<AuthProviderCubit, AuthProviderState>(
@@ -51,7 +51,7 @@ class App extends StatelessWidget {
         listener: (context, state) {
           state.maybeWhen(
             authenticated: (url) =>
-                BlocProvider.of<FhirRepositoriesCubit>(context).connect(
+                BlocProvider.of<FhirRestClientCubit>(context).connect(
               uri: Uri.parse(url),
               getToken: () async {
                 final token = await BlocProvider.of<AuthCubit>(context)
@@ -68,7 +68,7 @@ class App extends StatelessWidget {
               },
             ),
             unauthenticated: () =>
-                BlocProvider.of<FhirRepositoriesCubit>(context).disconnect(),
+                BlocProvider.of<FhirRestClientCubit>(context).disconnect(),
             orElse: () {},
           );
         },

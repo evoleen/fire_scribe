@@ -8,7 +8,7 @@
 import 'package:azure_identity/azure_identity.dart';
 import 'package:firearrow_admin_app/app_logger.dart';
 import 'package:firearrow_admin_app/auth/azure_identity_provider_cubit.dart';
-import 'package:firearrow_admin_app/connection/cubit/fhir_repositories_cubit.dart';
+import 'package:firearrow_admin_app/connection/cubit/fhir_rest_client_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
@@ -22,7 +22,7 @@ void main() {
     );
     await authCubit.signIn(AzureIdentityProviderCubitParams(serverUrl: url));
 
-    final connectionCubit = FhirRepositoriesCubit();
+    final connectionCubit = FhirRestClientCubit();
     connectionCubit.connect(
       uri: Uri.parse(url),
       getToken: () async {

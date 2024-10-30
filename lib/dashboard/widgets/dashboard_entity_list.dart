@@ -1,5 +1,5 @@
-import 'package:evoleen_fhir/evoleen_fhir.dart';
-import 'package:firearrow_admin_app/connection/cubit/fhir_repositories_cubit.dart';
+import 'package:fhir/r4.dart';
+import 'package:firearrow_admin_app/connection/cubit/fhir_rest_client_cubit.dart';
 import 'package:firearrow_admin_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,16 +38,14 @@ class DashboardEntityList extends StatelessWidget {
                 color: Theme.of(context).colorScheme.outlineVariant,
               ),
             ),
-            child:
-                BlocBuilder<FhirRepositoriesCubit, FhirRepositoriesCubitState>(
+            child: BlocBuilder<FhirRestClientCubit, FhirRestClientCubitState>(
               builder: (context, state) {
                 return state.when(
                   connected: (_) {
                     return ListView.separated(
                       itemBuilder: (context, index) {
                         return EntityCard(
-                          type: EvoleenFhirSchema.entityToRepository.keys
-                              .elementAt(index),
+                          type: Patient,
                         );
                       },
                       separatorBuilder: (context, index) {
@@ -57,8 +55,7 @@ class DashboardEntityList extends StatelessWidget {
                           color: Theme.of(context).colorScheme.outlineVariant,
                         );
                       },
-                      itemCount:
-                          EvoleenFhirSchema.entityToRepository.keys.length,
+                      itemCount: 1,
                     );
                   },
                   disconnected: () {

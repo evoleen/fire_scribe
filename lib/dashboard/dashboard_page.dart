@@ -1,5 +1,5 @@
 import 'package:firearrow_admin_app/connection/connection_form.dart';
-import 'package:firearrow_admin_app/connection/cubit/fhir_repositories_cubit.dart';
+import 'package:firearrow_admin_app/connection/cubit/fhir_rest_client_cubit.dart';
 import 'package:firearrow_admin_app/dashboard/widgets/dashboard_entity_data_display.dart';
 import 'package:firearrow_admin_app/dashboard/widgets/dashboard_entity_list.dart';
 import 'package:firearrow_admin_app/l10n/app_localizations.dart';
@@ -24,7 +24,7 @@ class DashboardPage extends StatelessWidget {
             child: Column(
               children: [
                 ConnectionForm(),
-                BlocConsumer<FhirRepositoriesCubit, FhirRepositoriesCubitState>(
+                BlocConsumer<FhirRestClientCubit, FhirRestClientCubitState>(
                   listener: (context, state) {
                     state.when(
                       disconnected: () {},
