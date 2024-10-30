@@ -24,9 +24,10 @@ class _ConnectionFormState extends State<ConnectionForm> {
         .provider<AzureIdentityProviderCubit>()
         .state
         .maybeWhen(
-            authenticated: (data) => data.fhirRestClient.baseUrl.toString(),
-            unauthenticated: () => null,
-            orElse: () => null);
+          authenticated: (data) => data.fhirRestClient.baseUrl.toString(),
+          unauthenticated: () => null,
+          orElse: () => null,
+        );
     if (text != null) {
       textController.text = text;
     }
