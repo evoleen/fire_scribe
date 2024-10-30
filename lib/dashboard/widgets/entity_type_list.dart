@@ -14,8 +14,8 @@ class EntityTypeList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       itemBuilder: (context, index) {
-        return EntityCard(
-          entityTypetyType: listOfEntities[index],
+        return EntityTypeListCard(
+          entityType: listOfEntities[index],
         );
       },
       separatorBuilder: (context, index) {
@@ -30,16 +30,19 @@ class EntityTypeList extends StatelessWidget {
   }
 }
 
-class EntityCard extends StatelessWidget {
-  final String entityTypetyType;
-  const EntityCard({super.key, required this.entityTypetyType});
+class EntityTypeListCard extends StatelessWidget {
+  final String entityType;
+  const EntityTypeListCard({
+    super.key,
+    required this.entityType,
+  });
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DashboardCubit, DashboardCubitState>(
       builder: (context, state) {
         final isSelected = state.when(
           noselected: () => false,
-          selected: (itemSelected) => itemSelected == entityTypetyType,
+          selected: (itemSelected) => itemSelected == entityType,
         );
 
         return FilledButton(
@@ -59,7 +62,7 @@ class EntityCard extends StatelessWidget {
           onPressed: isSelected
               ? null
               : () => BlocProvider.of<DashboardCubit>(context).select(
-                    entityType: entityTypetyType,
+                    entityType: entityType,
                   ),
           child: Container(
             width: double.infinity,
@@ -69,7 +72,7 @@ class EntityCard extends StatelessWidget {
                 horizontal: 16,
               ),
               child: Text(
-                entityTypetyType.toString(),
+                entityType.toString(),
                 textAlign: TextAlign.left,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                       color: isSelected
