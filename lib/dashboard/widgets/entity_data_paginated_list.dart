@@ -150,15 +150,10 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<DashboardCubit, DashboardCubitState>(
+    return BlocConsumer<DashboardCubit, DashboardCubitState>(
       listener: (context, state) {
         state.when(
-          noselected: () async {
-            setState(() {
-              entitySelected = entitySelected;
-            });
-            await refresh();
-          },
+          noselected: () {},
           selected: (entitySelected) async {
             setState(() {
               this.entitySelected = entitySelected;
@@ -167,45 +162,57 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
           },
         );
       },
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 20,
-              horizontal: 48,
-            ),
-            child:
-                EntityDataPaginatedListHeader(entityType: entitySelected ?? ''),
+      builder: (context, state) {
+        return state.when(
+          noselected: () => Center(
+            child: CircularProgressIndicator(),
           ),
-          Expanded(
-            child: PagedListView<int, EntityData>.separated(
-              pagingController: pagingController,
-              physics: const AlwaysScrollableScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              itemExtent: 80,
-              builderDelegate: PagedChildBuilderDelegate<EntityData>(
-                newPageProgressIndicatorBuilder: (final BuildContext context) =>
-                    const Center(child: CircularProgressIndicator()),
-                noItemsFoundIndicatorBuilder: (final BuildContext context) =>
-                    Center(
-                  child: Text(
-                    'There\'s no data associated\nwith this entity',
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.bodyLarge,
+          selected: (entitySelected) {
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 20,
+                    horizontal: 48,
+                  ),
+                  child: EntityDataPaginatedListHeader(
+                    entityType: entitySelected,
                   ),
                 ),
-                noMoreItemsIndicatorBuilder: (final BuildContext context) =>
-                    const SizedBox(),
-                itemBuilder: (final context, final item, final index) {
-                  return EntityDataPaginatedListCard(entityData: item);
-                },
-              ),
-              separatorBuilder: (final BuildContext context, final int index) =>
-                  const SizedBox(height: 2),
-            ),
-          ),
-        ],
-      ),
+                Expanded(
+                  child: PagedListView<int, EntityData>.separated(
+                    pagingController: pagingController,
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    itemExtent: 80,
+                    builderDelegate: PagedChildBuilderDelegate<EntityData>(
+                      newPageProgressIndicatorBuilder:
+                          (final BuildContext context) =>
+                              const Center(child: CircularProgressIndicator()),
+                      noItemsFoundIndicatorBuilder:
+                          (final BuildContext context) => Center(
+                        child: Text(
+                          'There\'s no data associated\nwith this entity',
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                      ),
+                      noMoreItemsIndicatorBuilder:
+                          (final BuildContext context) => const SizedBox(),
+                      itemBuilder: (final context, final item, final index) {
+                        return EntityDataPaginatedListCard(entityData: item);
+                      },
+                    ),
+                    separatorBuilder:
+                        (final BuildContext context, final int index) =>
+                            const SizedBox(height: 2),
+                  ),
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 }
