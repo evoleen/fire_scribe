@@ -101,10 +101,13 @@ class AzureIdentityProviderCubit
             data: azureHealthDataServiceConnection,
           ),
         );
+      } else {
+        emit(AuthProviderState.unauthenticated());
       }
       return token?.token != null;
     } catch (e) {
       AppLogger.instance.e(e);
+      emit(AuthProviderState.unauthenticated());
       return false;
     }
   }

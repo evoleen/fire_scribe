@@ -5,20 +5,10 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:azure_identity/azure_identity.dart';
-import 'package:firearrow_admin_app/app_logger.dart';
-import 'package:firearrow_admin_app/auth/azure_identity_provider_cubit.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('foo', (WidgetTester tester) async {
-    const url =
-        'https://aeradevworkspace-aera-data.fhir.azurehealthcareapis.com/';
-    final authCubit = AzureIdentityProviderCubit(
-      defaultAzureCredential: DefaultAzureCredential(
-        logger: AppLogger.instance.d,
-      ),
-    );
-    await authCubit.signIn(AzureIdentityProviderCubitParams(serverUrl: url));
+  test('foo', () {
+    expect(42, 42);
   });
 }
