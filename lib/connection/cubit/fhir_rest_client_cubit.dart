@@ -30,19 +30,30 @@ class FhirRestClientCubit extends Cubit<FhirRestClientCubitState> {
     required final Uri uri,
     required FutureOr<String?> Function() getToken,
   }) async {
+    final token = await getToken();
     final fhirRestClient = FhirRestClient(
       dio: Dio(
         BaseOptions(
           connectTimeout: const Duration(milliseconds: 30000),
           receiveTimeout: const Duration(milliseconds: 30000),
-          headers: {'Authorization': 'Bearer ${await getToken()}'},
+          headers: {
+            'Accept': 'application/json',
+            'Content-type': 'application/json',
+            'Authorization': 'Bearer $token',
+          },
         ),
       )..interceptors.add(
           TalkerDioLogger(
             talker: GetIt.instance.get<Talker>(),
             settings: TalkerDioLoggerSettings(
-              printResponseData: kDebugMode,
               printRequestData: kDebugMode,
+              printRequestHeaders: kDebugMode,
+              printResponseData: kDebugMode,
+              printResponseHeaders: kDebugMode,
+              printErrorData: kDebugMode,
+              printErrorHeaders: kDebugMode,
+              printErrorMessage: kDebugMode,
+              printResponseMessage: kDebugMode,
             ),
           ),
         ),
@@ -50,13 +61,13 @@ class FhirRestClientCubit extends Cubit<FhirRestClientCubitState> {
     );
 
     try {
-      final data = await fhirRestClient.execute(
-        request: FhirRequest(
-          operation: FhirRequestOperation.search,
-          entityName: 'Patient',
-        ),
-      );
-      print(data);
+      // final data = await fhirRestClient.execute(
+      //   request: FhirRequest(
+      //     operation: FhirRequestOperation.search,
+      //     entityName: 'Patient',
+      //   ),
+      // );
+      // print(data);
       emit(_Connected(fhirRestClient: fhirRestClient));
     } catch (e) {
       AppLogger.instance.e(e);

@@ -1,5 +1,4 @@
 import 'package:auth_cubit/auth_cubit.dart';
-import 'package:firearrow_admin_app/app_logger.dart';
 import 'package:firearrow_admin_app/app_scaffold.dart';
 import 'package:firearrow_admin_app/app_theme.dart';
 import 'package:firearrow_admin_app/auth/azure_identity_provider_cubit.dart';
@@ -53,19 +52,9 @@ class App extends StatelessWidget {
             authenticated: (url) =>
                 BlocProvider.of<FhirRestClientCubit>(context).connect(
               uri: Uri.parse(url),
-              getToken: () async {
-                final token = await BlocProvider.of<AuthCubit>(context)
-                    .provider<AzureIdentityProviderCubit>()
-                    .accessToken();
-                if (token == null) {
-                  return null;
-                }
-                final authHeader = 'Bearer $token';
-                if (kDebugMode) {
-                  AppLogger.instance.d(authHeader);
-                }
-                return authHeader;
-              },
+              getToken: () async => BlocProvider.of<AuthCubit>(context)
+                  .provider<AzureIdentityProviderCubit>()
+                  .accessToken(),
             ),
             unauthenticated: () =>
                 BlocProvider.of<FhirRestClientCubit>(context).disconnect(),
