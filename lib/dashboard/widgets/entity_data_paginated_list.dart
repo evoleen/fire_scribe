@@ -1,4 +1,3 @@
-import 'package:async/async.dart';
 import 'package:collection/collection.dart';
 import 'package:fhir/r4.dart';
 import 'package:fhir_rest_client/fhir_rest_client.dart';
@@ -23,7 +22,6 @@ class EntityData {
 
 class EntityDataPaginatedList extends StatefulWidget {
   final FhirRestClient fhirRestClient;
-  static const int pageSize = 20;
 
   const EntityDataPaginatedList({
     super.key,
@@ -38,9 +36,7 @@ class EntityDataPaginatedList extends StatefulWidget {
 class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
   PagingController<int, EntityData> pagingController =
       PagingController(firstPageKey: 0);
-  String? searchOffset;
-  CancelableOperation<void>? _searchOperation;
-  Set<String> alreadyInListPatientIds = {};
+
   String? entitySelected;
 
   @override
@@ -51,10 +47,8 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
 
   @override
   void dispose() {
-    _searchOperation?.cancel();
     pagingController.removePageRequestListener(fetchPage);
     pagingController.dispose();
-    alreadyInListPatientIds = {};
     super.dispose();
   }
 
@@ -63,10 +57,6 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
       pagingController.appendLastPage([]);
       return;
     }
-    // var isCanceled = false;
-
-    // Future<void> searchPatients() async {
-    //   try {
 
     final rawBundle = await widget.fhirRestClient.execute(
       request: FhirRequest(
@@ -92,61 +82,9 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
         .toList();
 
     pagingController.appendLastPage(entries);
-
-    // if (isCanceled) {
-    //   AppLogger.instance.d('Aborting searchMethod()');
-    //   pagingController.appendLastPage([]);
-    //   return;
-    // }
-
-    // searchOffset = searchResult.next;
-
-    // if (searchResult.items.length == DashboardEntityDataDisplay.pageSize &&
-    //     searchOffset != null) {
-    //   pagingController.appendPage(
-    //     searchResult.items.map((final e) => e.item).where((final patient) {
-    //       final contains = alreadyInListPatientIds.contains(patient.fhirId);
-
-    //       if (!contains) {
-    //         alreadyInListPatientIds.add(patient.fhirId ?? '');
-    //       }
-
-    //       return !contains ? true : false;
-    //     }).toList(),
-    //     pageOffset + 1,
-    //   );
-    // } else {
-    //   pagingController.appendLastPage(
-    //     searchResult.items.map((final e) => e.item).where((final patient) {
-    //       final contains = alreadyInListPatientIds.contains(patient.fhirId);
-
-    //       if (!contains) {
-    //         alreadyInListPatientIds.add(patient.fhirId ?? '');
-    //       }
-
-    //       return !contains ? true : false;
-    //     }).toList(),
-    //   );
-    // }
-    // } catch (e) {
-    //   AppLogger.instance.e(e);
-    //   pagingController.appendLastPage([]);
-    // }
-    // }
-
-    // _searchOperation = CancelableOperation.fromFuture(
-    //   searchPatients(),
-    //   onCancel: () {
-    //     isCanceled = true;
-    //   },
-    // );
-
-    // return _searchOperation?.value;
   }
 
   Future<void> refresh() async {
-    await _searchOperation?.cancel();
-    searchOffset = null;
     pagingController.refresh();
   }
 
