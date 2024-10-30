@@ -3,9 +3,11 @@ import 'package:collection/collection.dart';
 import 'package:fhir/r4.dart';
 import 'package:fhir_rest_client/fhir_rest_client.dart';
 import 'package:firearrow_admin_app/dashboard/cubit/dashboard_cubit.dart';
+import 'package:firearrow_admin_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:intl/intl.dart';
 
 class EntityData {
   final String? fhirId;
@@ -192,7 +194,7 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
                       noItemsFoundIndicatorBuilder:
                           (final BuildContext context) => Center(
                         child: Text(
-                          'There\'s no data associated\nwith this entity',
+                          S.of(context).noDataAssociatedToAnEntity,
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
@@ -230,11 +232,11 @@ class EntityDataPaginatedListHeader extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          '$entityType ID',
+          S.of(context).entityTypeIdHeader(entityType),
           style: Theme.of(context).textTheme.labelLarge,
         ),
         Text(
-          'Last updated',
+          S.of(context).lastUpdate,
           style: Theme.of(context).textTheme.labelLarge,
         ),
       ],
@@ -252,6 +254,10 @@ class EntityDataPaginatedListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final iso8601String = entityData.lastUpdate?.toIso8601String();
+    final dateTime =
+        iso8601String != null ? DateTime.parse(iso8601String) : null;
+
     return Container(
       padding: EdgeInsets.symmetric(
         horizontal: 24,
@@ -269,7 +275,7 @@ class EntityDataPaginatedListCard extends StatelessWidget {
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           Text(
-            entityData.lastUpdate?.toIso8601String() ?? '',
+            dateTime != null ? DateFormat.yMd().format(dateTime) : '',
             style: Theme.of(context).textTheme.bodyLarge,
           ),
         ],

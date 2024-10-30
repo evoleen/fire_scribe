@@ -127,4 +127,21 @@ class S {
 Copy and paste the link to your server’s URL above.''',
         name: 'connectToServerHelpText',
       );
+
+  String get noDataAssociatedToAnEntity => Intl.message(
+        '''There's no data associated
+with this entity''',
+        name: 'noDataAssociatedToAnEntity',
+      );
+
+  String entityTypeIdHeader(final String entityType) => Intl.message(
+        '$entityType ID',
+        name: 'entityTypeIdHeader',
+        args: [entityType],
+      );
+
+  String get lastUpdate => Intl.message(
+        'Last update',
+        name: 'lastUpdate',
+      );
 }
