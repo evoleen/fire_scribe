@@ -1,7 +1,7 @@
 import 'package:async/async.dart';
+import 'package:collection/collection.dart';
 import 'package:fhir/r4.dart';
 import 'package:fhir_rest_client/fhir_rest_client.dart';
-import 'package:firearrow_admin_app/app_logger.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
@@ -44,74 +44,82 @@ class _DashboardEntityDataDisplayState<T>
   }
 
   Future<void> fetchPage(final int pageOffset) async {
-    var isCanceled = false;
+    // var isCanceled = false;
 
-    Future<void> searchPatients() async {
-      try {
-        final rawBundle = await widget.fhirRestClient.execute(
-          request: FhirRequest(
-            operation: FhirRequestOperation.search,
-            entityName: widget.entityType,
-          ),
-        );
-        final bundle = Bundle.fromJson(rawBundle);
-
-        const searchResult = null;
-        // final searchResult =
-        //     await GetIt.instance<PatientGqlRepository>().search(
-        //   cursor: searchOffset,
-        //   count: DashboardEntityDataDisplay.pageSize,
-        // );
-
-        if (isCanceled) {
-          AppLogger.instance.d('Aborting searchMethod()');
-          pagingController.appendLastPage([]);
-          return;
-        }
-
-        searchOffset = searchResult.next;
-
-        if (searchResult.items.length == DashboardEntityDataDisplay.pageSize &&
-            searchOffset != null) {
-          pagingController.appendPage(
-            searchResult.items.map((final e) => e.item).where((final patient) {
-              final contains = alreadyInListPatientIds.contains(patient.fhirId);
-
-              if (!contains) {
-                alreadyInListPatientIds.add(patient.fhirId ?? '');
-              }
-
-              return !contains ? true : false;
-            }).toList(),
-            pageOffset + 1,
-          );
-        } else {
-          pagingController.appendLastPage(
-            searchResult.items.map((final e) => e.item).where((final patient) {
-              final contains = alreadyInListPatientIds.contains(patient.fhirId);
-
-              if (!contains) {
-                alreadyInListPatientIds.add(patient.fhirId ?? '');
-              }
-
-              return !contains ? true : false;
-            }).toList(),
-          );
-        }
-      } catch (e) {
-        AppLogger.instance.e(e);
-        pagingController.appendLastPage([]);
-      }
-    }
-
-    _searchOperation = CancelableOperation.fromFuture(
-      searchPatients(),
-      onCancel: () {
-        isCanceled = true;
-      },
+    // Future<void> searchPatients() async {
+    //   try {
+    const entityName = 'Patient';
+    final rawBundle = await widget.fhirRestClient.execute(
+      request: FhirRequest(
+        operation: FhirRequestOperation.search,
+        entityName: entityName,
+      ),
     );
+    final bundle = Bundle.fromJson(rawBundle);
 
-    return _searchOperation?.value;
+    final patients = (bundle.entry ?? <BundleEntry>[])
+        .map((entry) {
+          if (entry.resource?.resourceType?.name == entityName) {
+            return Patient.fromJson(entry.resource!.toJson());
+          } else {
+            return null;
+          }
+        })
+        .whereNotNull()
+        .toList()
+        .cast<T>();
+
+    pagingController.appendLastPage(patients);
+
+    // if (isCanceled) {
+    //   AppLogger.instance.d('Aborting searchMethod()');
+    //   pagingController.appendLastPage([]);
+    //   return;
+    // }
+
+    // searchOffset = searchResult.next;
+
+    // if (searchResult.items.length == DashboardEntityDataDisplay.pageSize &&
+    //     searchOffset != null) {
+    //   pagingController.appendPage(
+    //     searchResult.items.map((final e) => e.item).where((final patient) {
+    //       final contains = alreadyInListPatientIds.contains(patient.fhirId);
+
+    //       if (!contains) {
+    //         alreadyInListPatientIds.add(patient.fhirId ?? '');
+    //       }
+
+    //       return !contains ? true : false;
+    //     }).toList(),
+    //     pageOffset + 1,
+    //   );
+    // } else {
+    //   pagingController.appendLastPage(
+    //     searchResult.items.map((final e) => e.item).where((final patient) {
+    //       final contains = alreadyInListPatientIds.contains(patient.fhirId);
+
+    //       if (!contains) {
+    //         alreadyInListPatientIds.add(patient.fhirId ?? '');
+    //       }
+
+    //       return !contains ? true : false;
+    //     }).toList(),
+    //   );
+    // }
+    // } catch (e) {
+    //   AppLogger.instance.e(e);
+    //   pagingController.appendLastPage([]);
+    // }
+    // }
+
+    // _searchOperation = CancelableOperation.fromFuture(
+    //   searchPatients(),
+    //   onCancel: () {
+    //     isCanceled = true;
+    //   },
+    // );
+
+    // return _searchOperation?.value;
   }
 
   Future<void> refresh() async {

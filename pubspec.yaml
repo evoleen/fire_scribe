@@ -12,7 +12,7 @@ environment:
 
 dependencies:
   args: 2.5.0
-  async: 2.12.0
+  async: 2.11.0
   auth_cubit:
     hosted:
       url: https://dart.cloudsmith.io/evoleen/auth_cubit

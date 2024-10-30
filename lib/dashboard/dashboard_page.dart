@@ -33,19 +33,22 @@ class DashboardPage extends StatelessWidget {
                     child: Column(
                       children: [
                         ConnectionForm(),
-                        BlocBuilder<DashboardCubit, DashboardCubitState>(
-                          builder: (context, state) {
-                            return state.when(
-                              noselected: () => Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                              selected: (selectedEntityType) =>
-                                  DashboardEntityDataDisplay(
-                                entityType: selectedEntityType,
-                                fhirRestClient: restClient,
-                              ),
-                            );
-                          },
+                        Expanded(
+                          child:
+                              BlocBuilder<DashboardCubit, DashboardCubitState>(
+                            builder: (context, state) {
+                              return state.when(
+                                noselected: () => Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                                selected: (selectedEntityType) =>
+                                    DashboardEntityDataDisplay(
+                                  entityType: selectedEntityType,
+                                  fhirRestClient: restClient,
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ],
                     ),
