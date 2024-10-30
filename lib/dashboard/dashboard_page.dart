@@ -1,5 +1,6 @@
-import 'package:firearrow_admin_app/connection/connection_form.dart';
-import 'package:firearrow_admin_app/connection/cubit/fhir_rest_client_cubit.dart';
+import 'package:auth_cubit/auth_cubit.dart';
+import 'package:firearrow_admin_app/auth/azure_identity_provider_cubit.dart';
+import 'package:firearrow_admin_app/auth/connection_form.dart';
 import 'package:firearrow_admin_app/dashboard/cubit/dashboard_cubit.dart';
 import 'package:firearrow_admin_app/dashboard/widgets/dashboard_entity_data_display.dart';
 import 'package:firearrow_admin_app/dashboard/widgets/dashboard_entity_list.dart';
@@ -12,52 +13,56 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<FhirRestClientCubit, FhirRestClientCubitState>(
+    return BlocBuilder<AuthProviderCubit, AuthProviderState>(
+      bloc: BlocProvider.of<AuthCubit>(context)
+          .provider<AzureIdentityProviderCubit>(),
       builder: (context, state) {
         return state.when(
-          connected: (restClient, schema) => BlocProvider(
-            create: (context) =>
-                DashboardCubit()..select(entityType: schema.first),
-            child: Row(
-              children: [
-                Flexible(
-                  flex: 1,
-                  child: DashboardEntityList(
-                    listOfEntities: schema,
-                  ),
-                ),
-                Flexible(
-                  flex: 3,
-                  child: ColoredBox(
-                    color: Theme.of(context).colorScheme.surfaceContainerLow,
-                    child: Column(
-                      children: [
-                        ConnectionForm(),
-                        Expanded(
-                          child:
-                              BlocBuilder<DashboardCubit, DashboardCubitState>(
-                            builder: (context, state) {
-                              return state.when(
-                                noselected: () => Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                                selected: (selectedEntityType) =>
-                                    DashboardEntityDataDisplay(
-                                  entityType: selectedEntityType,
-                                  fhirRestClient: restClient,
-                                ),
-                              );
-                            },
-                          ),
-                        ),
-                      ],
+          authenticated: (data) {
+            return BlocProvider(
+              create: (context) =>
+                  DashboardCubit()..select(entityType: data.schema.first),
+              child: Row(
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: DashboardEntityList(
+                      listOfEntities: data.schema,
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          disconnected: () => Row(
+                  Flexible(
+                    flex: 3,
+                    child: ColoredBox(
+                      color: Theme.of(context).colorScheme.surfaceContainerLow,
+                      child: Column(
+                        children: [
+                          ConnectionForm(),
+                          Expanded(
+                            child: BlocBuilder<DashboardCubit,
+                                DashboardCubitState>(
+                              builder: (context, state) {
+                                return state.when(
+                                  noselected: () => Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                  selected: (selectedEntityType) =>
+                                      DashboardEntityDataDisplay(
+                                    entityType: selectedEntityType,
+                                    fhirRestClient: data.fhirRestClient,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+          unauthenticated: () => Row(
             children: [
               Flexible(
                 flex: 1,
@@ -82,6 +87,9 @@ class DashboardPage extends StatelessWidget {
                 ),
               ),
             ],
+          ),
+          preAuthenticated: (_) => Center(
+            child: CircularProgressIndicator(),
           ),
         );
       },

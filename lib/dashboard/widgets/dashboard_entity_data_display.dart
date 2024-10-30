@@ -8,10 +8,12 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 class EntityData {
   final String? fhirId;
   final FhirInstant? lastUpdate;
+  final String rawDataJson;
 
   EntityData({
     this.fhirId,
     this.lastUpdate,
+    required this.rawDataJson,
   });
 }
 
@@ -59,22 +61,23 @@ class _DashboardEntityDataDisplayState
 
     // Future<void> searchPatients() async {
     //   try {
-    const entityName = 'Patient';
+
     final rawBundle = await widget.fhirRestClient.execute(
       request: FhirRequest(
         operation: FhirRequestOperation.search,
-        entityName: entityName,
+        entityName: widget.entityType,
       ),
     );
     final bundle = Bundle.fromJson(rawBundle);
 
     final patients = (bundle.entry ?? <BundleEntry>[])
         .map((entry) {
-          if (entry.resource?.resourceType?.name == entityName) {
+          if (entry.resource?.resourceType?.name == widget.entityType) {
             final patient = Patient.fromJson(entry.resource!.toJson());
             return EntityData(
               fhirId: patient.fhirId!,
               lastUpdate: patient.meta?.lastUpdated,
+              rawDataJson: entry.resource!.toJsonString(),
             );
           } else {
             return null;
