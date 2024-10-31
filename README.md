@@ -10,6 +10,10 @@ Using https://localise.biz/ as translator manager.
 - **bin/localization-upload.sh**: Uploads the current strings of app_localizations.dart to Loco
 - **bin/localization-download.sh**: Download Loco translations to our project
 
+## Generate third-party license
+
+fvm dart run flutter_oss_licenses:generate && dart format .
+
 ### App min assets
 #### App icon
 Using [flutter_launcher_icons](https://pub.dev/packages/flutter_launcher_icons) package
