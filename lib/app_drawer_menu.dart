@@ -21,7 +21,7 @@ class AppDrawerMenu extends StatelessWidget {
           physics: ClampingScrollPhysics(),
           children: [
             InkWell(
-              onTap: () => DashboardRoute().location,
+              onTap: () => DashboardRoute().go(context),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 8,
