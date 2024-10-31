@@ -47,22 +47,22 @@ dependencies:
 
 dev_dependencies:
   bloc_test: 9.1.7
-  build_runner: 2.4.12
+  build_runner: 2.4.13
   dartz: 0.10.1
   flutter_launcher_icons: 0.13.1
   flutter_lints: 3.0.2
   flutter_oss_licenses: 2.0.1
   flutter_test:
     sdk: flutter
-  freezed: 3.0.0-0.0.dev
+  freezed: 2.5.7
   go_router_builder: 2.7.1
-  intl_generator: 0.4.1
+  # intl_generator: 0.4.1
   mocktail: 1.0.4
   remove_from_coverage: 2.0.0
   
-dependency_overrides:
-  analyzer: 6.2.0
-  intl: 0.18.1
+# dependency_overrides:
+  # analyzer: 6.2.0
+#   intl: 0.18.1
 
 flutter:
   uses-material-design: true
