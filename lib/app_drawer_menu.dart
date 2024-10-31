@@ -20,14 +20,17 @@ class AppDrawerMenu extends StatelessWidget {
         child: ListView(
           physics: ClampingScrollPhysics(),
           children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 8,
-              ),
-              child: Image.asset(
-                'assets/images/logo.png',
-                width: 64,
-                height: 64,
+            InkWell(
+              onTap: () => DashboardRoute().location,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 8,
+                ),
+                child: Image.asset(
+                  'assets/images/logo.png',
+                  width: 64,
+                  height: 64,
+                ),
               ),
             ),
             SizedBox(height: 32),
@@ -78,6 +81,9 @@ class AppDrawerMenuItem extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    final location = GoRouterState.of(context).uri;
+    final isSelected = location.toString().startsWith(data.route);
+
     return InkWell(
       onTap: () => GoRouter.of(context).go(data.route),
       child: Container(
@@ -90,10 +96,22 @@ class AppDrawerMenuItem extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                 vertical: 4.0,
               ),
-              child: Icon(
-                data.icon,
-                fill: 1,
-                size: 24,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                decoration: isSelected
+                    ? BoxDecoration(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primaryContainer
+                            .withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(24),
+                      )
+                    : null,
+                child: Icon(
+                  data.icon,
+                  fill: 1,
+                  size: 24,
+                ),
               ),
             ),
             SizedBox(width: 4),
