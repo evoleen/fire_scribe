@@ -127,4 +127,9 @@ class S {
 Copy and paste the link to your server’s URL above.''',
         name: 'connectToServerHelpText',
       );
+
+  String get saveChanges => Intl.message(
+        'Save changes',
+        name: 'saveChanges',
+      );
 }

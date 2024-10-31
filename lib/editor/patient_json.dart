@@ -1,6 +1,7 @@
 final patientJson = {
   "resourceType": "Patient",
   "id": "123456",
+  "fhirId": "KDSIW32982JKDSDSD",
   "identifier": [
     {
       "use": "usual",

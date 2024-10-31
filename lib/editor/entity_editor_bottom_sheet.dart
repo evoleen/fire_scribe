@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:firearrow_admin_app/editor/entity_editor_cubit.dart';
 import 'package:firearrow_admin_app/editor/patient_json.dart';
+import 'package:firearrow_admin_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:json_editor_flutter/json_editor_flutter.dart';
@@ -86,6 +87,10 @@ class _EntityEditorBottonSheetState extends State<EntityEditorBottonSheet> {
               Expanded(
                 child: JsonEditor(
                   json: jsonEncode(patientJson),
+                  enableKeyEdit: false,
+                  enableMoreOptions: true,
+                  themeColor:
+                      Theme.of(context).colorScheme.primary.withOpacity(0.2),
                   onChanged: (data) =>
                       BlocProvider.of<EntityEditorCubit>(context).update(
                     entityDataJson: jsonEncode(data),
@@ -117,6 +122,11 @@ class EntityEditorDraggableHeader extends StatelessWidget {
           orElse: () => false,
         );
 
+        final entityFhirId = state.maybeWhen(
+          data: (data) => jsonDecode(data)['fhirId'],
+          orElse: () => '',
+        );
+
         return Container(
           width: double.infinity,
           decoration: BoxDecoration(
@@ -143,7 +153,7 @@ class EntityEditorDraggableHeader extends StatelessWidget {
                     ),
                     SizedBox(width: 4),
                     Text(
-                      'KDSIW32982JKDSDSD',
+                      entityFhirId,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ],
@@ -159,7 +169,7 @@ class EntityEditorDraggableHeader extends StatelessWidget {
                       vertical: 10,
                     ),
                     child: Text(
-                      'Save Changes',
+                      S.of(context).saveChanges,
                       style: Theme.of(context).textTheme.labelLarge?.copyWith(
                             color: Theme.of(context).colorScheme.surface,
                           ),
