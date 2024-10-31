@@ -12,6 +12,11 @@ class EntityEditorBottonSheet extends StatefulWidget {
       showModalBottomSheet(
         context: context,
         isScrollControlled: true,
+        enableDrag: false,
+        constraints: BoxConstraints(
+          maxWidth: MediaQuery.of(context).size.width,
+          maxHeight: MediaQuery.of(context).size.height * 0.8,
+        ),
         backgroundColor: Colors.transparent,
         builder: (context) => EntityEditorBottonSheet(),
       );
@@ -21,16 +26,15 @@ class EntityEditorBottonSheet extends StatefulWidget {
 }
 
 class _EntityEditorBottonSheetState extends State<EntityEditorBottonSheet> {
-  var currentChildSize = 0.8;
-  final minChildSize = 0.3;
-  final maxChildSize = 0.8;
+  var currentChildSize = 1.0;
+  final minChildSize = 0.5;
 
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
       initialChildSize: currentChildSize,
       minChildSize: minChildSize,
-      maxChildSize: maxChildSize,
+      maxChildSize: 1.0,
       builder: (context, scrollController) {
         return Container(
           decoration: BoxDecoration(
@@ -47,7 +51,7 @@ class _EntityEditorBottonSheetState extends State<EntityEditorBottonSheet> {
                     currentChildSize = (currentChildSize -
                             details.primaryDelta! /
                                 MediaQuery.of(context).size.height)
-                        .clamp(minChildSize, maxChildSize);
+                        .clamp(minChildSize, 1);
                   });
                 },
                 child: EntityEditorDraggableHeader(),
@@ -96,7 +100,7 @@ class EntityEditorDraggableHeader extends StatelessWidget {
               children: [
                 IconButton(
                   padding: EdgeInsets.zero,
-                  onPressed: () {},
+                  onPressed: () => Navigator.of(context).pop(),
                   icon: Icon(Icons.close),
                 ),
                 SizedBox(width: 4),
