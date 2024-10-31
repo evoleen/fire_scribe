@@ -8,6 +8,9 @@ class EntityEditorBottonSheet extends StatefulWidget {
     super.key,
   });
 
+  static const maxHeightRatio = 0.8;
+  static const minHeightRatio = 0.3;
+
   static Future<dynamic> show(final BuildContext context) =>
       showModalBottomSheet(
         context: context,
@@ -15,7 +18,9 @@ class EntityEditorBottonSheet extends StatefulWidget {
         enableDrag: false,
         constraints: BoxConstraints(
           maxWidth: MediaQuery.of(context).size.width,
-          maxHeight: MediaQuery.of(context).size.height * 0.8,
+          minWidth: MediaQuery.of(context).size.width,
+          maxHeight: MediaQuery.of(context).size.height * maxHeightRatio,
+          minHeight: MediaQuery.of(context).size.height * minHeightRatio,
         ),
         backgroundColor: Colors.transparent,
         builder: (context) => EntityEditorBottonSheet(),
@@ -27,13 +32,12 @@ class EntityEditorBottonSheet extends StatefulWidget {
 
 class _EntityEditorBottonSheetState extends State<EntityEditorBottonSheet> {
   var currentChildSize = 1.0;
-  final minChildSize = 0.5;
 
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
       initialChildSize: currentChildSize,
-      minChildSize: minChildSize,
+      minChildSize: EntityEditorBottonSheet.minHeightRatio,
       maxChildSize: 1.0,
       builder: (context, scrollController) {
         return Container(
@@ -51,7 +55,7 @@ class _EntityEditorBottonSheetState extends State<EntityEditorBottonSheet> {
                     currentChildSize = (currentChildSize -
                             details.primaryDelta! /
                                 MediaQuery.of(context).size.height)
-                        .clamp(minChildSize, 1);
+                        .clamp(EntityEditorBottonSheet.minHeightRatio, 1.0);
                   });
                 },
                 child: EntityEditorDraggableHeader(),
