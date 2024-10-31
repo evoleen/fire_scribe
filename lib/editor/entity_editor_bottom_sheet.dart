@@ -31,12 +31,12 @@ class EntityEditorBottonSheet extends StatefulWidget {
 }
 
 class _EntityEditorBottonSheetState extends State<EntityEditorBottonSheet> {
-  var currentChildSize = 1.0;
+  var sheetSize = 1.0;
 
   @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
-      initialChildSize: currentChildSize,
+      initialChildSize: sheetSize,
       minChildSize: EntityEditorBottonSheet.minHeightRatio,
       maxChildSize: 1.0,
       builder: (context, scrollController) {
@@ -51,11 +51,12 @@ class _EntityEditorBottonSheetState extends State<EntityEditorBottonSheet> {
             children: [
               GestureDetector(
                 onVerticalDragUpdate: (details) {
+                  final newSheetSize = (sheetSize -
+                          details.primaryDelta! /
+                              MediaQuery.of(context).size.height)
+                      .clamp(EntityEditorBottonSheet.minHeightRatio, 1.0);
                   setState(() {
-                    currentChildSize = (currentChildSize -
-                            details.primaryDelta! /
-                                MediaQuery.of(context).size.height)
-                        .clamp(EntityEditorBottonSheet.minHeightRatio, 1.0);
+                    sheetSize = newSheetSize;
                   });
                 },
                 child: EntityEditorDraggableHeader(),
