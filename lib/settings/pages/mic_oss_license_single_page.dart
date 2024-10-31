@@ -31,49 +31,59 @@ class MiscOssLicenseSinglePage extends StatelessWidget {
     final package =
         ossLicenses.firstWhere((final element) => element.name == packageName);
 
-    return Container(
-      color: Theme.of(context).canvasColor,
-      child: ListView(
-        children: <Widget>[
-          if (package.description.isNotEmpty)
-            Padding(
-              padding:
-                  const EdgeInsets.only(top: 12.0, left: 12.0, right: 12.0),
-              child: Text(
-                package.description,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyLarge
-                    ?.copyWith(fontWeight: FontWeight.w900),
-              ),
-            ),
-          if (package.homepage != null)
-            Padding(
-                padding:
-                    const EdgeInsets.only(top: 12.0, left: 12.0, right: 12.0),
-                child: InkWell(
-                  onTap: () {
-                    // TODO(malmi): Launch Webbrowser with URL
-                  },
-                  child: Text(
-                    package.homepage ?? '',
-                    style: const TextStyle(
-                      color: Colors.blue,
-                      decoration: TextDecoration.underline,
+    return Column(
+      children: [
+        AppBar(
+          title: Text(package.name),
+        ),
+        Expanded(
+          child: Container(
+            color: Theme.of(context).canvasColor,
+            child: ListView(
+              children: <Widget>[
+                if (package.description.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(
+                        top: 12.0, left: 12.0, right: 12.0),
+                    child: Text(
+                      package.description,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge
+                          ?.copyWith(fontWeight: FontWeight.w900),
                     ),
                   ),
-                )),
-          if (package.description.isNotEmpty || package.homepage != null)
-            const Divider(),
-          Padding(
-            padding: const EdgeInsets.only(top: 12.0, left: 12.0, right: 12.0),
-            child: Text(
-              _bodyText(package),
-              style: Theme.of(context).textTheme.bodyMedium,
+                if (package.homepage != null)
+                  Padding(
+                      padding: const EdgeInsets.only(
+                          top: 12.0, left: 12.0, right: 12.0),
+                      child: InkWell(
+                        onTap: () {
+                          // TODO(malmi): Launch Webbrowser with URL
+                        },
+                        child: Text(
+                          package.homepage ?? '',
+                          style: const TextStyle(
+                            color: Colors.blue,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      )),
+                if (package.description.isNotEmpty || package.homepage != null)
+                  const Divider(),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(top: 12.0, left: 12.0, right: 12.0),
+                  child: Text(
+                    _bodyText(package),
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+                ),
+              ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

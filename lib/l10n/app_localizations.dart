@@ -127,4 +127,29 @@ class S {
 Copy and paste the link to your server’s URL above.''',
         name: 'connectToServerHelpText',
       );
+
+  String get server => Intl.message(
+        'Server',
+        name: 'server',
+      );
+
+  String get settings => Intl.message(
+        'Settings',
+        name: 'settings',
+      );
+
+  String get privacyPolicy => Intl.message(
+        'Privacy Policy',
+        name: 'privacyPolicy',
+      );
+
+  String get termsOfUse => Intl.message(
+        'Terms Of Use',
+        name: 'termsOfUse',
+      );
+
+  String get thirdPartyLicenses => Intl.message(
+        'Third-Party Licenses',
+        name: 'thirdPartyLicenses',
+      );
 }

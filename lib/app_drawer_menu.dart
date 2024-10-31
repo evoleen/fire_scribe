@@ -1,4 +1,5 @@
 import 'package:firearrow_admin_app/dashboard/dashboard_route.dart';
+import 'package:firearrow_admin_app/l10n/app_localizations.dart';
 import 'package:firearrow_admin_app/routes.dart';
 import 'package:firearrow_admin_app/settings/settings_routes.dart';
 import 'package:flutter/material.dart';
@@ -33,27 +34,27 @@ class AppDrawerMenu extends StatelessWidget {
             ...[
               AppDrawerMenuItemData(
                 icon: Symbols.dns,
-                title: 'Server',
+                title: S.of(context).server,
                 route: DashboardRoute().location,
               ),
               AppDrawerMenuItemData(
                 icon: Symbols.settings,
-                title: 'Settings',
+                title: S.of(context).settings,
                 route: SettingsRoute().location,
               ),
               AppDrawerMenuItemData(
                 icon: Symbols.admin_panel_settings,
-                title: 'Privacy Policy',
+                title: S.of(context).privacyPolicy,
                 route: PrivacyPolicyRoute().location,
               ),
               AppDrawerMenuItemData(
                 icon: Symbols.description,
-                title: 'Terms Of Use',
+                title: S.of(context).termsOfUse,
                 route: TermsOfUseRoute().location,
               ),
               AppDrawerMenuItemData(
                 icon: Symbols.license,
-                title: 'Third-Party Licenses',
+                title: S.of(context).thirdPartyLicenses,
                 route: ThirdPartyLicensesRoute().location,
               ),
             ].map(
