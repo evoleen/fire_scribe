@@ -1,4 +1,8 @@
+import 'package:firearrow_admin_app/dashboard/dashboard_route.dart';
+import 'package:firearrow_admin_app/routes.dart';
+import 'package:firearrow_admin_app/settings/settings_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
 class AppDrawerMenu extends StatelessWidget {
@@ -28,27 +32,31 @@ class AppDrawerMenu extends StatelessWidget {
               AppDrawerMenuItemData(
                 icon: Symbols.dns,
                 title: 'Server',
+                route: DashboardRoute().location,
               ),
               AppDrawerMenuItemData(
                 icon: Symbols.settings,
                 title: 'Settings',
+                route: SettingsRoute().location,
               ),
               AppDrawerMenuItemData(
                 icon: Symbols.admin_panel_settings,
                 title: 'Privacy Policy',
+                route: PrivacyPolicyRoute().location,
               ),
               AppDrawerMenuItemData(
                 icon: Symbols.description,
                 title: 'Terms Of Use',
+                route: TermsOfUseRoute().location,
               ),
               AppDrawerMenuItemData(
                 icon: Symbols.license,
                 title: 'Third-Party Licenses',
+                route: ThirdPartyLicensesRoute().location,
               ),
             ].map(
               (item) => AppDrawerMenuItem(
                 data: item,
-                onTap: () {},
               ),
             ),
           ],
@@ -60,17 +68,15 @@ class AppDrawerMenu extends StatelessWidget {
 
 class AppDrawerMenuItem extends StatelessWidget {
   final AppDrawerMenuItemData data;
-  final Function() onTap;
 
   const AppDrawerMenuItem({
     super.key,
     required this.data,
-    required this.onTap,
   });
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => onTap(),
+      onTap: () => GoRouter.of(context).go(data.route),
       child: Container(
         width: double.infinity,
         color: Colors.transparent,
@@ -108,9 +114,11 @@ class AppDrawerMenuItem extends StatelessWidget {
 class AppDrawerMenuItemData {
   final IconData icon;
   final String title;
+  final String route;
 
   AppDrawerMenuItemData({
     required this.icon,
     required this.title,
+    required this.route,
   });
 }

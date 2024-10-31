@@ -45,33 +45,31 @@ class ThirdPartyLicensesPage extends StatelessWidget {
         if (!snapshot.hasData) {
           return const Center(child: CircularProgressIndicator());
         }
-        return Scrollbar(
-          child: ListView.separated(
-            itemCount: snapshot.data?.length ?? 0,
-            itemBuilder: (final context, final index) {
-              final package = snapshot.data![index];
+        return ListView.separated(
+          itemCount: snapshot.data?.length ?? 0,
+          itemBuilder: (final context, final index) {
+            final package = snapshot.data![index];
 
-              return ListTile(
-                title: Text(
-                  '${package.name} ${package.version}',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w900,
-                      ),
-                ),
-                subtitle: package.description.isNotEmpty
-                    ? Text(package.description,
-                        style: Theme.of(context).textTheme.bodyMedium)
-                    : null,
-                trailing: const Icon(Icons.chevron_right),
-                onTap: () async {
-                  ThirdPartyLicensesDetailRoute(
-                          thirdPartyLicensePackageName: package.name)
-                      .push(context);
-                },
-              );
-            },
-            separatorBuilder: (final context, final index) => const Divider(),
-          ),
+            return ListTile(
+              title: Text(
+                '${package.name} ${package.version}',
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w900,
+                    ),
+              ),
+              subtitle: package.description.isNotEmpty
+                  ? Text(package.description,
+                      style: Theme.of(context).textTheme.bodyMedium)
+                  : null,
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () async {
+                ThirdPartyLicensesDetailRoute(
+                        thirdPartyLicensePackageName: package.name)
+                    .push(context);
+              },
+            );
+          },
+          separatorBuilder: (final context, final index) => const Divider(),
         );
       },
     );

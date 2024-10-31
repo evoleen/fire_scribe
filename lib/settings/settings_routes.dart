@@ -10,9 +10,11 @@ import 'package:go_router/go_router.dart';
 @immutable
 class SettingsRoute extends GoRouteData {
   @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return AppScaffold(
-      childBuilder: (context) => SettingsPage(),
+  Page<void> buildPage(final BuildContext context, final GoRouterState state) {
+    return NoTransitionPage(
+      child: AppScaffold(
+        childBuilder: (context) => SettingsPage(),
+      ),
     );
   }
 }
@@ -20,9 +22,11 @@ class SettingsRoute extends GoRouteData {
 @immutable
 class PrivacyPolicyRoute extends GoRouteData {
   @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return AppScaffold(
-      childBuilder: (context) => PrivacyPolicyPage(),
+  Page<void> buildPage(final BuildContext context, final GoRouterState state) {
+    return NoTransitionPage(
+      child: AppScaffold(
+        childBuilder: (context) => PrivacyPolicyPage(),
+      ),
     );
   }
 }
@@ -30,9 +34,11 @@ class PrivacyPolicyRoute extends GoRouteData {
 @immutable
 class TermsOfUseRoute extends GoRouteData {
   @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return AppScaffold(
-      childBuilder: (context) => TermsOfUsePage(),
+  Page<void> buildPage(final BuildContext context, final GoRouterState state) {
+    return NoTransitionPage(
+      child: AppScaffold(
+        childBuilder: (context) => TermsOfUsePage(),
+      ),
     );
   }
 }
@@ -40,9 +46,11 @@ class TermsOfUseRoute extends GoRouteData {
 @immutable
 class ThirdPartyLicensesRoute extends GoRouteData {
   @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return AppScaffold(
-      childBuilder: (context) => ThirdPartyLicensesPage(),
+  Page<void> buildPage(final BuildContext context, final GoRouterState state) {
+    return NoTransitionPage(
+      child: AppScaffold(
+        childBuilder: (context) => ThirdPartyLicensesPage(),
+      ),
     );
   }
 }
