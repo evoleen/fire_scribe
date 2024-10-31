@@ -128,6 +128,11 @@ Copy and paste the link to your server’s URL above.''',
         name: 'connectToServerHelpText',
       );
 
+  String get pageComingSoon => Intl.message(
+        'Page coming soon',
+        name: 'pageComingSoon',
+      );
+
   String get server => Intl.message(
         'Server',
         name: 'server',
