@@ -88,7 +88,6 @@ class _EntityEditorBottonSheetState extends State<EntityEditorBottonSheet> {
                 child: JsonEditor(
                   json: jsonEncode(patientJson),
                   enableKeyEdit: false,
-                  enableMoreOptions: true,
                   themeColor:
                       Theme.of(context).colorScheme.primary.withOpacity(0.2),
                   onChanged: (data) =>
