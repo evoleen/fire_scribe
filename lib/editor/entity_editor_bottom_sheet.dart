@@ -1,7 +1,5 @@
-import 'dart:convert';
-
+import 'package:fhir/r4.dart';
 import 'package:firearrow_admin_app/editor/entity_editor_cubit.dart';
-import 'package:firearrow_admin_app/editor/patient_json.dart';
 import 'package:firearrow_admin_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,16 +8,16 @@ import 'package:json_editor_flutter/json_editor_flutter.dart';
 class EntityEditorBottonSheet extends StatefulWidget {
   const EntityEditorBottonSheet({
     super.key,
-    required this.entityDataJson,
+    required this.resource,
   });
 
   static const maxHeightRatio = 0.8;
   static const minHeightRatio = 0.5;
-  final String entityDataJson;
+  final Resource resource;
 
   static Future<dynamic> show(
     final BuildContext context, {
-    required final String entityDataJson,
+    required final Resource resource,
   }) =>
       showModalBottomSheet(
         context: context,
@@ -35,10 +33,10 @@ class EntityEditorBottonSheet extends StatefulWidget {
         backgroundColor: Colors.transparent,
         builder: (context) => BlocProvider(
           create: (context) => EntityEditorCubit(
-            sourceDataJson: entityDataJson,
+            resource: resource,
           ),
           child: EntityEditorBottonSheet(
-            entityDataJson: entityDataJson,
+            resource: resource,
           ),
         ),
       );
@@ -81,18 +79,18 @@ class _EntityEditorBottonSheetState extends State<EntityEditorBottonSheet> {
                   });
                 },
                 child: EntityEditorDraggableHeader(
-                  sourceDataJson: widget.entityDataJson,
+                  resource: widget.resource,
                 ),
               ),
               Expanded(
                 child: JsonEditor(
-                  json: jsonEncode(patientJson),
+                  json: widget.resource.toJsonString(),
                   enableKeyEdit: false,
                   themeColor:
                       Theme.of(context).colorScheme.primary.withOpacity(0.2),
                   onChanged: (data) =>
                       BlocProvider.of<EntityEditorCubit>(context).update(
-                    entityDataJson: jsonEncode(data),
+                    resource: Resource.fromJson(data),
                   ),
                 ),
               ),
@@ -107,23 +105,18 @@ class _EntityEditorBottonSheetState extends State<EntityEditorBottonSheet> {
 class EntityEditorDraggableHeader extends StatelessWidget {
   const EntityEditorDraggableHeader({
     super.key,
-    required this.sourceDataJson,
+    required this.resource,
   });
 
-  final String sourceDataJson;
+  final Resource resource;
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EntityEditorCubit, EntityEditorCubitState>(
       builder: (context, state) {
         final wasModified = state.maybeWhen(
-          data: (data) => data != sourceDataJson,
+          data: (data) => data.toJsonString() != resource.toJsonString(),
           orElse: () => false,
-        );
-
-        final entityFhirId = state.maybeWhen(
-          data: (data) => jsonDecode(data)['fhirId'],
-          orElse: () => '',
         );
 
         return Container(
@@ -152,7 +145,7 @@ class EntityEditorDraggableHeader extends StatelessWidget {
                     ),
                     SizedBox(width: 4),
                     Text(
-                      entityFhirId,
+                      resource.fhirId ?? '',
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ],

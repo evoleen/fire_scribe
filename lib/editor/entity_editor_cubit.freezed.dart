@@ -19,21 +19,21 @@ mixin _$EntityEditorCubitState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() busy,
-    required TResult Function(String dataJson) data,
+    required TResult Function(Resource resource) data,
     required TResult Function() error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? busy,
-    TResult? Function(String dataJson)? data,
+    TResult? Function(Resource resource)? data,
     TResult? Function()? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? busy,
-    TResult Function(String dataJson)? data,
+    TResult Function(Resource resource)? data,
     TResult Function()? error,
     required TResult orElse(),
   }) =>
@@ -125,7 +125,7 @@ class _$BusyImpl implements _Busy {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() busy,
-    required TResult Function(String dataJson) data,
+    required TResult Function(Resource resource) data,
     required TResult Function() error,
   }) {
     return busy();
@@ -135,7 +135,7 @@ class _$BusyImpl implements _Busy {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? busy,
-    TResult? Function(String dataJson)? data,
+    TResult? Function(Resource resource)? data,
     TResult? Function()? error,
   }) {
     return busy?.call();
@@ -145,7 +145,7 @@ class _$BusyImpl implements _Busy {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? busy,
-    TResult Function(String dataJson)? data,
+    TResult Function(Resource resource)? data,
     TResult Function()? error,
     required TResult orElse(),
   }) {
@@ -200,7 +200,7 @@ abstract class _$$DataImplCopyWith<$Res> {
           _$DataImpl value, $Res Function(_$DataImpl) then) =
       __$$DataImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String dataJson});
+  $Res call({Resource resource});
 }
 
 /// @nodoc
@@ -215,13 +215,13 @@ class __$$DataImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? dataJson = null,
+    Object? resource = null,
   }) {
     return _then(_$DataImpl(
-      dataJson: null == dataJson
-          ? _value.dataJson
-          : dataJson // ignore: cast_nullable_to_non_nullable
-              as String,
+      resource: null == resource
+          ? _value.resource
+          : resource // ignore: cast_nullable_to_non_nullable
+              as Resource,
     ));
   }
 }
@@ -229,14 +229,14 @@ class __$$DataImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$DataImpl implements _Data {
-  const _$DataImpl({required this.dataJson});
+  const _$DataImpl({required this.resource});
 
   @override
-  final String dataJson;
+  final Resource resource;
 
   @override
   String toString() {
-    return 'EntityEditorCubitState.data(dataJson: $dataJson)';
+    return 'EntityEditorCubitState.data(resource: $resource)';
   }
 
   @override
@@ -244,12 +244,12 @@ class _$DataImpl implements _Data {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DataImpl &&
-            (identical(other.dataJson, dataJson) ||
-                other.dataJson == dataJson));
+            (identical(other.resource, resource) ||
+                other.resource == resource));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, dataJson);
+  int get hashCode => Object.hash(runtimeType, resource);
 
   /// Create a copy of EntityEditorCubitState
   /// with the given fields replaced by the non-null parameter values.
@@ -263,32 +263,32 @@ class _$DataImpl implements _Data {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() busy,
-    required TResult Function(String dataJson) data,
+    required TResult Function(Resource resource) data,
     required TResult Function() error,
   }) {
-    return data(dataJson);
+    return data(resource);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? busy,
-    TResult? Function(String dataJson)? data,
+    TResult? Function(Resource resource)? data,
     TResult? Function()? error,
   }) {
-    return data?.call(dataJson);
+    return data?.call(resource);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? busy,
-    TResult Function(String dataJson)? data,
+    TResult Function(Resource resource)? data,
     TResult Function()? error,
     required TResult orElse(),
   }) {
     if (data != null) {
-      return data(dataJson);
+      return data(resource);
     }
     return orElse();
   }
@@ -329,9 +329,9 @@ class _$DataImpl implements _Data {
 }
 
 abstract class _Data implements EntityEditorCubitState {
-  const factory _Data({required final String dataJson}) = _$DataImpl;
+  const factory _Data({required final Resource resource}) = _$DataImpl;
 
-  String get dataJson;
+  Resource get resource;
 
   /// Create a copy of EntityEditorCubitState
   /// with the given fields replaced by the non-null parameter values.
@@ -382,7 +382,7 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() busy,
-    required TResult Function(String dataJson) data,
+    required TResult Function(Resource resource) data,
     required TResult Function() error,
   }) {
     return error();
@@ -392,7 +392,7 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? busy,
-    TResult? Function(String dataJson)? data,
+    TResult? Function(Resource resource)? data,
     TResult? Function()? error,
   }) {
     return error?.call();
@@ -402,7 +402,7 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? busy,
-    TResult Function(String dataJson)? data,
+    TResult Function(Resource resource)? data,
     TResult Function()? error,
     required TResult orElse(),
   }) {

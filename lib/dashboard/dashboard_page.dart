@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:fhir/r4.dart';
 import 'package:firearrow_admin_app/dashboard/widgets/dashboard_entity_list.dart';
 import 'package:firearrow_admin_app/dashboard/widgets/server_url_form.dart';
 import 'package:firearrow_admin_app/editor/entity_editor_bottom_sheet.dart';
@@ -35,7 +34,7 @@ class DashboardPage extends StatelessWidget {
                     child: FilledButton(
                       onPressed: () => EntityEditorBottonSheet.show(
                         context,
-                        entityDataJson: jsonEncode(patientJson),
+                        resource: Resource.fromJson(patientJson),
                       ),
                       child: Text('Open Editor'),
                     ),
