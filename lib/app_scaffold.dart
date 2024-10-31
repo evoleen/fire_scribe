@@ -1,3 +1,4 @@
+import 'package:firearrow_admin_app/app_drawer_menu.dart';
 import 'package:flutter/material.dart';
 
 class AppScaffold extends StatelessWidget {
@@ -18,7 +19,14 @@ class AppScaffold extends StatelessWidget {
             child: SizedBox(
               width: double.infinity,
               height: double.infinity,
-              child: childBuilder(context),
+              child: Row(
+                children: [
+                  AppDrawerMenu(),
+                  Expanded(
+                    child: childBuilder(context),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
