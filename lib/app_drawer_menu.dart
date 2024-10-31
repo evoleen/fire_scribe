@@ -10,6 +10,8 @@ class AppDrawerMenu extends StatelessWidget {
   Widget build(BuildContext context) {
     return Drawer(
       width: 80,
+      elevation: 2,
+      shadowColor: Theme.of(context).colorScheme.shadow,
       child: Padding(
         padding: const EdgeInsets.symmetric(
           vertical: 16,
