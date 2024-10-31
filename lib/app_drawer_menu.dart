@@ -15,7 +15,7 @@ class AppDrawerMenu extends StatelessWidget {
       shadowColor: Theme.of(context).colorScheme.shadow,
       child: Padding(
         padding: const EdgeInsets.symmetric(
-          vertical: 16,
+          vertical: 22,
         ),
         child: ListView(
           physics: ClampingScrollPhysics(),
@@ -28,8 +28,8 @@ class AppDrawerMenu extends StatelessWidget {
                 ),
                 child: Image.asset(
                   'assets/images/logo.png',
-                  width: 64,
-                  height: 64,
+                  width: 52,
+                  height: 52,
                 ),
               ),
             ),
