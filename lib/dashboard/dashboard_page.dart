@@ -1,6 +1,6 @@
-import 'package:fire_scribe/dashboard/widgets/dashboard_entity_list.dart';
-import 'package:fire_scribe/dashboard/widgets/server_url_form.dart';
-import 'package:fire_scribe/l10n/app_localizations.dart';
+import 'package:firearrow_admin_app/dashboard/widgets/dashboard_entity_list.dart';
+import 'package:firearrow_admin_app/dashboard/widgets/server_url_form.dart';
+import 'package:firearrow_admin_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class DashboardPage extends StatelessWidget {

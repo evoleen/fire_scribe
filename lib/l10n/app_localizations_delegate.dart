@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:fire_scribe/l10n/supported_locales.dart';
+import 'package:firearrow_admin_app/l10n/supported_locales.dart';
 import 'package:flutter/material.dart';
 
 import 'app_localizations.dart';

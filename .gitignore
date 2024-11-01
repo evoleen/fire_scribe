@@ -32,4 +32,3 @@ build/
 .flutter-plugins
 .flutter-plugins-dependencies
 *.DS_Store
-.env

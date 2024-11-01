@@ -1,4 +1,4 @@
-import 'package:fire_scribe/dashboard/dashboard_route.dart';
+import 'package:firearrow_admin_app/dashboard/dashboard_route.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
