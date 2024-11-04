@@ -67,8 +67,6 @@ class AzureIdentityProviderCubit
               connectTimeout: const Duration(milliseconds: 30000),
               receiveTimeout: const Duration(milliseconds: 30000),
               headers: {
-                'Accept': 'application/fhir+json',
-                'Content-type': 'application/fhir+json',
                 'Authorization': await () async {
                   final token = await accessToken();
                   final authorizationHeader = 'Bearer $token';
