@@ -49,20 +49,16 @@ class MiscOssLicenseSinglePage extends StatelessWidget {
             ),
           if (package.homepage != null)
             Padding(
-                padding:
-                    const EdgeInsets.only(top: 12.0, left: 12.0, right: 12.0),
-                child: InkWell(
-                  onTap: () {
-                    // TODO(malmi): Launch Webbrowser with URL
-                  },
-                  child: Text(
-                    package.homepage ?? '',
-                    style: const TextStyle(
-                      color: Colors.blue,
-                      decoration: TextDecoration.underline,
-                    ),
-                  ),
-                )),
+              padding:
+                  const EdgeInsets.only(top: 12.0, left: 12.0, right: 12.0),
+              child: Text(
+                package.homepage ?? '',
+                style: const TextStyle(
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ),
           if (package.description.isNotEmpty || package.homepage != null)
             const Divider(),
           Padding(
