@@ -1,4 +1,4 @@
-package tech.evoleen.firearrow.firearrow_admin_app
+package tech.evoleen.firescribe
 
 import io.flutter.embedding.android.FlutterActivity
 

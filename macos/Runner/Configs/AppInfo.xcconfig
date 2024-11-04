@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = firearrow_admin_app
+PRODUCT_NAME = Fire Scribe
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = tech.evoleen.firearrow.firearrowAdminApp
+PRODUCT_BUNDLE_IDENTIFIER = tech.evoleen.firescribe
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2024 tech.evoleen.firearrow. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2024 tech.evoleen.firescribe. All rights reserved.

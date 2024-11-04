@@ -1,5 +1,5 @@
-# Firearrow Admin app
-Admin app to manage Firearrow
+# Fire Scribe
+Database viewer/editor for Azure Health Data Services
 
 ## Localizations
 
@@ -35,5 +35,5 @@ dart run flutter_native_splash:create --path=flutter_native_splash.yaml
 
 ## Release
 ```bash
-dart run firearrow_admin_app:release
+dart run fire_scribe:release
 ```

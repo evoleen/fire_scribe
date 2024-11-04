@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="firearrow_admin_app"
+        android:label="fire_scribe"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
