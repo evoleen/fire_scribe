@@ -61,7 +61,6 @@ class AzureIdentityProviderCubit
     try {
       final token = await _credentialManager!.getAccessToken();
       if (token?.token != null) {
-        final token = await accessToken();
         final fhirRestClient = FhirRestClient(
           dio: Dio(
             BaseOptions(
@@ -70,22 +69,20 @@ class AzureIdentityProviderCubit
               headers: {
                 'Accept': 'application/fhir+json',
                 'Content-type': 'application/fhir+json',
-                'Authorization': 'Bearer $token',
+                'Authorization': await () async {
+                  final token = await accessToken();
+                  final authorizationHeader = 'Bearer $token';
+                  if (kDebugMode) {
+                    AppLogger.instance.d(authorizationHeader);
+                  }
+                  return authorizationHeader;
+                }(),
               },
             ),
           )..interceptors.add(
               TalkerDioLogger(
                 talker: talker,
-                settings: TalkerDioLoggerSettings(
-                  printRequestData: kDebugMode,
-                  printRequestHeaders: kDebugMode,
-                  printResponseData: kDebugMode,
-                  printResponseHeaders: kDebugMode,
-                  printErrorData: kDebugMode,
-                  printErrorHeaders: kDebugMode,
-                  printErrorMessage: kDebugMode,
-                  printResponseMessage: kDebugMode,
-                ),
+                settings: TalkerDioLoggerSettings(),
               ),
             ),
           baseUrl: Uri.parse(params.serverUrl),
