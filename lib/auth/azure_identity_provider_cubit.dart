@@ -59,47 +59,41 @@ class AzureIdentityProviderCubit
     );
 
     try {
-      final token = await _credentialManager!.getAccessToken();
-      if (token?.token != null) {
-        final fhirRestClient = FhirRestClient(
-          dio: Dio(
-            BaseOptions(
-              connectTimeout: const Duration(milliseconds: 30000),
-              receiveTimeout: const Duration(milliseconds: 30000),
-              headers: {
-                'Authorization': await () async {
-                  final token = await accessToken();
-                  final authorizationHeader = 'Bearer $token';
-                  if (kDebugMode) {
-                    AppLogger.instance.d(authorizationHeader);
-                  }
-                  return authorizationHeader;
-                }(),
-              },
-            ),
-          )..interceptors.add(
-              TalkerDioLogger(
-                talker: talker,
-                settings: TalkerDioLoggerSettings(),
-              ),
-            ),
-          baseUrl: Uri.parse(params.serverUrl),
-        );
-        final azureHealthDataServiceConnection =
-            AzureHealthDataServiceConnection(
-          fhirRestClient: fhirRestClient,
-          schema: await fhirRestClient.getSchema(),
-        );
-
-        emit(
-          AuthProviderState.authenticated(
-            data: azureHealthDataServiceConnection,
+      final fhirRestClient = FhirRestClient(
+        dio: Dio(
+          BaseOptions(
+            connectTimeout: const Duration(milliseconds: 30000),
+            receiveTimeout: const Duration(milliseconds: 30000),
+            headers: {
+              'Authorization': await () async {
+                final token = await accessToken();
+                final authorizationHeader = 'Bearer $token';
+                if (kDebugMode) {
+                  AppLogger.instance.d(authorizationHeader);
+                }
+                return authorizationHeader;
+              }(),
+            },
           ),
-        );
-      } else {
-        emit(AuthProviderState.unauthenticated());
-      }
-      return token?.token != null;
+        )..interceptors.add(
+            TalkerDioLogger(
+              talker: talker,
+              settings: TalkerDioLoggerSettings(),
+            ),
+          ),
+        baseUrl: Uri.parse(params.serverUrl),
+      );
+      final azureHealthDataServiceConnection = AzureHealthDataServiceConnection(
+        fhirRestClient: fhirRestClient,
+        schema: await fhirRestClient.getSchema(),
+      );
+
+      emit(
+        AuthProviderState.authenticated(
+          data: azureHealthDataServiceConnection,
+        ),
+      );
+      return true;
     } catch (e) {
       AppLogger.instance.e(e);
       emit(AuthProviderState.unauthenticated());
