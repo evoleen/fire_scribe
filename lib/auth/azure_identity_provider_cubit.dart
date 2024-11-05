@@ -61,6 +61,7 @@ class AzureIdentityProviderCubit
     try {
       final isSigned = await accessToken() != null;
       if (!isSigned) {
+        emit(AuthProviderState.unauthenticated());
         return false;
       }
       final fhirRestClient = FhirRestClient(
