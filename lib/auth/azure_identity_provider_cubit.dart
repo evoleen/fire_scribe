@@ -59,6 +59,10 @@ class AzureIdentityProviderCubit
     );
 
     try {
+      final isSigned = await accessToken() != null;
+      if (!isSigned) {
+        return false;
+      }
       final fhirRestClient = FhirRestClient(
         dio: Dio(
           BaseOptions(
