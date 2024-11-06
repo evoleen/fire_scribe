@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:firearrow_admin_app/dashboard/cubit/dashboard_cubit.dart';
 import 'package:firearrow_admin_app/fhir_server/fhir_server_repository.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,9 @@ class EntityTypeList extends StatelessWidget {
             child: CircularProgressIndicator(),
           );
         }
-        final schema = snapshot.data ?? [];
+        final schema = (snapshot.data ?? []).sorted(
+          (a, b) => a.compareTo(b),
+        );
         return ListView.separated(
           itemBuilder: (context, index) {
             return EntityTypeListCard(

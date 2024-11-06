@@ -47,14 +47,7 @@ class FhirServerRepository {
     try {
       final capabilities = await _client.getCapabilityStatement();
       final resources = capabilities['rest'][0]['resource'] as List<dynamic>;
-      return resources
-          .where((item) =>
-              item is Map<String, dynamic> &&
-              item.containsKey('interaction') &&
-              (item['interaction'] as List).isNotEmpty)
-          .map((item) => item['type'])
-          .cast<String>()
-          .toList();
+      return resources.map((item) => item['type']).cast<String>().toList();
     } catch (e) {
       AppLogger.instance.e(e);
       return [];
