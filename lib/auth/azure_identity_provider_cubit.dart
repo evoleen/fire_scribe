@@ -66,9 +66,7 @@ class AzureIdentityProviderCubit
   @override
   Future<String?> accessToken() async {
     final token = await _credentialManager?.getAccessToken();
-    if (token?.token == null) {
-      emit(AuthProviderState.unauthenticated());
-    }
+
     return token?.token;
   }
 }
