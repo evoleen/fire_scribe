@@ -1,6 +1,7 @@
 import 'package:fhir/r4.dart';
 import 'package:fhir_rest_client/fhir_rest_client.dart';
 import 'package:firearrow_admin_app/dashboard/cubit/dashboard_cubit.dart';
+import 'package:firearrow_admin_app/fhir_server/fhir_server_repository.dart';
 import 'package:firearrow_admin_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,11 +21,8 @@ class EntityData {
 }
 
 class EntityDataPaginatedList extends StatefulWidget {
-  final FhirRestClient fhirRestClient;
-
   const EntityDataPaginatedList({
     super.key,
-    required this.fhirRestClient,
   });
 
   @override
@@ -55,12 +53,16 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
       return;
     }
 
-    final rawBundle = await widget.fhirRestClient.execute(
+    final rawBundle =
+        await RepositoryProvider.of<FhirServerRepository>(context).request(
       request: FhirRequest(
         operation: FhirRequestOperation.search,
         entityName: entitySelected!,
       ),
     );
+    if (rawBundle == null) {
+      return;
+    }
     final bundle = Bundle.fromJson(rawBundle);
 
     final entries = (bundle.entry ?? <BundleEntry>[])

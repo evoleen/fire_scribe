@@ -5,9 +5,12 @@ import 'package:firearrow_admin_app/dashboard/cubit/dashboard_cubit.dart';
 import 'package:firearrow_admin_app/dashboard/widgets/dashboard_left_panel.dart';
 import 'package:firearrow_admin_app/dashboard/widgets/entity_data_paginated_list.dart';
 import 'package:firearrow_admin_app/dashboard/widgets/entity_type_list.dart';
+import 'package:firearrow_admin_app/fhir_server/fhir_server_repository.dart';
 import 'package:firearrow_admin_app/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:talker_flutter/talker_flutter.dart';
 
 class DashboardPage extends StatelessWidget {
   const DashboardPage();
@@ -20,37 +23,59 @@ class DashboardPage extends StatelessWidget {
       builder: (context, state) {
         return state.when(
           authenticated: (data) {
-            assert(data is AzureHealthDataServiceConnection);
-            return BlocProvider(
-              create: (context) =>
-                  DashboardCubit()..select(entityType: data.schema.first),
-              child: Row(
-                children: [
-                  Flexible(
-                    flex: 1,
-                    child: DashboardLeftPanel(
-                      child: EntityTypeList(
-                        listOfEntities: data.schema,
-                      ),
-                    ),
-                  ),
-                  Flexible(
-                    flex: 3,
-                    child: ColoredBox(
-                      color: Theme.of(context).colorScheme.surfaceContainerLow,
-                      child: Column(
-                        children: [
-                          ConnectionForm(),
-                          Expanded(
-                            child: EntityDataPaginatedList(
-                              fhirRestClient: data.fhirRestClient,
+            return RepositoryProvider(
+              create: (context) => FhirServerRepository(
+                serverUrl: data.serverUrl,
+                talker: GetIt.instance<Talker>(),
+                accessToken: () => BlocProvider.of<AuthCubit>(context)
+                    .provider<AzureIdentityProviderCubit>()
+                    .accessToken(),
+              ),
+              child: Builder(
+                builder: (context) {
+                  return FutureBuilder<List<String>>(
+                    future: RepositoryProvider.of<FhirServerRepository>(context)
+                        .getListOfSchemaEntities(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState != ConnectionState.done) {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                      final schema = snapshot.data ?? [];
+                      return BlocProvider(
+                        create: (context) =>
+                            DashboardCubit()..select(entityType: schema.first),
+                        child: Row(
+                          children: [
+                            Flexible(
+                              flex: 1,
+                              child: DashboardLeftPanel(
+                                child: EntityTypeList(
+                                  listOfEntities: schema,
+                                ),
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
+                            Flexible(
+                              flex: 3,
+                              child: ColoredBox(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .surfaceContainerLow,
+                                child: Column(
+                                  children: const [
+                                    ConnectionForm(),
+                                    Expanded(
+                                      child: EntityDataPaginatedList(),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
             );
           },

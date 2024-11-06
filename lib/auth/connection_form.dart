@@ -19,18 +19,14 @@ class _ConnectionFormState extends State<ConnectionForm> {
   @override
   void initState() {
     super.initState();
-
-    final text = BlocProvider.of<AuthCubit>(context)
+    textController.text = BlocProvider.of<AuthCubit>(context)
         .provider<AzureIdentityProviderCubit>()
         .state
         .maybeWhen(
           authenticated: (data) => data.fhirRestClient.baseUrl.toString(),
-          unauthenticated: () => null,
-          orElse: () => null,
+          unauthenticated: () => '',
+          orElse: () => '',
         );
-    if (text != null) {
-      textController.text = text;
-    }
   }
 
   @override
