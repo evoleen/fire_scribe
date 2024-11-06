@@ -6,25 +6,18 @@ import 'package:talker_dio_logger/talker_dio_logger_settings.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 class FhirServerRepository {
-  final String serverUrl;
-  final Future<String?> Function() accessToken;
-  final Talker talker;
-
   late FhirRestClient _client;
 
   FhirServerRepository({
-    required this.serverUrl,
-    required this.talker,
-    required this.accessToken,
+    required final String serverUrl,
+    required final Talker talker,
+    required final Future<String?> Function() accessToken,
   }) {
     _client = FhirRestClient(
       dio: Dio(
         BaseOptions(
           connectTimeout: const Duration(milliseconds: 30000),
           receiveTimeout: const Duration(milliseconds: 30000),
-          headers: {
-            'Authorization': 'Bearer $accessToken',
-          },
         ),
       )..interceptors.addAll(
           [
