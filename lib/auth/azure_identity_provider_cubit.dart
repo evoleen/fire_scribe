@@ -88,9 +88,21 @@ class AzureIdentityProviderCubit
           ),
         baseUrl: Uri.parse(params.serverUrl),
       );
+
+      final capabilities = await fhirRestClient.getCapabilityStatement();
+      final resources = capabilities['rest'][0]['resource'] as List<dynamic>;
+      final listOfAvailableEntities = resources
+          .where((item) =>
+              item is Map<String, dynamic> &&
+              item.containsKey('interaction') &&
+              (item['interaction'] as List).isNotEmpty)
+          .map((item) => item['type'])
+          .cast<String>()
+          .toList();
+
       final azureHealthDataServiceConnection = AzureHealthDataServiceConnection(
         fhirRestClient: fhirRestClient,
-        schema: await fhirRestClient.getSchema(),
+        schema: listOfAvailableEntities,
       );
 
       emit(
