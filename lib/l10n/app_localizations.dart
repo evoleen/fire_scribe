@@ -144,4 +144,9 @@ with this entity''',
         'Last update',
         name: 'lastUpdate',
       );
+
+  String get selectAnEntityFromList => Intl.message(
+        'Select an entity to see entries of that type',
+        name: 'selectAnEntityFromList',
+      );
 }

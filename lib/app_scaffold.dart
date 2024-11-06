@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class AppScaffold extends StatelessWidget {
-  final Widget Function(BuildContext) childBuilder;
+  final Widget child;
 
   const AppScaffold({
     super.key,
-    required this.childBuilder,
+    required this.child,
   });
 
   @override
@@ -18,7 +18,7 @@ class AppScaffold extends StatelessWidget {
             child: SizedBox(
               width: double.infinity,
               height: double.infinity,
-              child: childBuilder(context),
+              child: child,
             ),
           ),
         ),

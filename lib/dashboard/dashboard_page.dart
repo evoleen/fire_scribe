@@ -12,7 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
-class DashboardPage extends StatelessWidget {
+class DashboardPage extends StatelessWidget with WidgetsBindingObserver {
   const DashboardPage();
 
   @override
@@ -25,57 +25,39 @@ class DashboardPage extends StatelessWidget {
           authenticated: (data) {
             return RepositoryProvider(
               create: (context) => FhirServerRepository(
-                serverUrl: data.serverUrl,
+                serverUrl: data,
                 talker: GetIt.instance<Talker>(),
                 accessToken: () => BlocProvider.of<AuthCubit>(context)
                     .provider<AzureIdentityProviderCubit>()
                     .accessToken(),
               ),
-              child: Builder(
-                builder: (context) {
-                  return FutureBuilder<List<String>>(
-                    future: RepositoryProvider.of<FhirServerRepository>(context)
-                        .getListOfSchemaEntities(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState != ConnectionState.done) {
-                        return Center(child: CircularProgressIndicator());
-                      }
-                      final schema = snapshot.data ?? [];
-                      return BlocProvider(
-                        create: (context) =>
-                            DashboardCubit()..select(entityType: schema.first),
-                        child: Row(
-                          children: [
-                            Flexible(
-                              flex: 1,
-                              child: DashboardLeftPanel(
-                                child: EntityTypeList(
-                                  listOfEntities: schema,
-                                ),
-                              ),
-                            ),
-                            Flexible(
-                              flex: 3,
-                              child: ColoredBox(
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .surfaceContainerLow,
-                                child: Column(
-                                  children: const [
-                                    ConnectionForm(),
-                                    Expanded(
-                                      child: EntityDataPaginatedList(),
-                                    ),
-                                  ],
-                                ),
-                              ),
+              child: BlocProvider(
+                create: (context) => DashboardCubit(),
+                child: Row(
+                  children: [
+                    Flexible(
+                      flex: 1,
+                      child: DashboardLeftPanel(
+                        child: EntityTypeList(),
+                      ),
+                    ),
+                    Flexible(
+                      flex: 3,
+                      child: ColoredBox(
+                        color:
+                            Theme.of(context).colorScheme.surfaceContainerLow,
+                        child: Column(
+                          children: const [
+                            ConnectionForm(),
+                            Expanded(
+                              child: EntityDataPaginatedList(),
                             ),
                           ],
                         ),
-                      );
-                    },
-                  );
-                },
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           },

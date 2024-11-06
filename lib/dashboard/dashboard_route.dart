@@ -6,9 +6,11 @@ import 'package:go_router/go_router.dart';
 @immutable
 class DashboardRoute extends GoRouteData {
   @override
-  Widget build(BuildContext context, GoRouterState state) {
-    return AppScaffold(
-      childBuilder: (context) => DashboardPage(),
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return NoTransitionPage(
+      child: AppScaffold(
+        child: DashboardPage(),
+      ),
     );
   }
 }

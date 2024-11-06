@@ -61,6 +61,7 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
       ),
     );
     if (rawBundle == null) {
+      pagingController.appendLastPage([]);
       return;
     }
     final bundle = Bundle.fromJson(rawBundle);
@@ -95,7 +96,10 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
       builder: (context, state) {
         return state.when(
           noselected: () => Center(
-            child: CircularProgressIndicator(),
+            child: Text(
+              S.of(context).selectAnEntityFromList,
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
           ),
           selected: (entitySelected) {
             return Column(

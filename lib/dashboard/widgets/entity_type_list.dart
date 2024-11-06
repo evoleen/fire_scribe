@@ -1,31 +1,41 @@
 import 'package:firearrow_admin_app/dashboard/cubit/dashboard_cubit.dart';
+import 'package:firearrow_admin_app/fhir_server/fhir_server_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class EntityTypeList extends StatelessWidget {
-  final List<String> listOfEntities;
-
   const EntityTypeList({
     super.key,
-    required this.listOfEntities,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-      itemBuilder: (context, index) {
-        return EntityTypeListCard(
-          entityType: listOfEntities[index],
+    return FutureBuilder<List<String>>(
+      future: RepositoryProvider.of<FhirServerRepository>(context)
+          .getListOfSchemaEntities(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        final schema = snapshot.data ?? [];
+        return ListView.separated(
+          itemBuilder: (context, index) {
+            return EntityTypeListCard(
+              entityType: schema[index],
+            );
+          },
+          separatorBuilder: (context, index) {
+            return Container(
+              width: double.infinity,
+              height: 1,
+              color: Theme.of(context).colorScheme.outlineVariant,
+            );
+          },
+          itemCount: schema.length,
         );
       },
-      separatorBuilder: (context, index) {
-        return Container(
-          width: double.infinity,
-          height: 1,
-          color: Theme.of(context).colorScheme.outlineVariant,
-        );
-      },
-      itemCount: listOfEntities.length,
     );
   }
 }
