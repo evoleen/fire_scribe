@@ -1,7 +1,6 @@
 import 'package:auth_cubit/auth_cubit.dart';
 import 'package:azure_identity/azure_identity.dart';
 import 'package:firearrow_admin_app/app_logger.dart';
-import 'package:talker_flutter/talker_flutter.dart';
 
 class AzureIdentityProviderCubitParams extends AuthProviderCubitParams {
   final String serverUrl;
@@ -16,13 +15,11 @@ class AzureIdentityProviderCubitParams extends AuthProviderCubitParams {
 class AzureIdentityProviderCubit
     extends AuthProviderCubit<AzureIdentityProviderCubitParams> {
   final DefaultAzureCredential azureCredential;
-  final Talker talker;
 
   CredentialManager? _credentialManager;
 
   AzureIdentityProviderCubit({
     required this.azureCredential,
-    required this.talker,
   }) : super(const AuthProviderState.unauthenticated());
 
   @override

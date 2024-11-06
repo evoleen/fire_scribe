@@ -7,9 +7,7 @@ import 'package:firearrow_admin_app/bootstrap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:get_it/get_it.dart';
 import 'package:stack_trace/stack_trace.dart';
-import 'package:talker_flutter/talker_flutter.dart';
 
 Future<void> main() async {
   Chain.capture(
@@ -36,7 +34,6 @@ class _Main extends StatelessWidget {
             azureCredential: DefaultAzureCredential(
               logger: AppLogger.instance.d,
             ),
-            talker: GetIt.instance.get<Talker>(),
           ),
         },
       ),
