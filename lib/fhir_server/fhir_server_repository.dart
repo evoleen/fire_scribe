@@ -10,18 +10,14 @@ class FhirServerRepository {
   final Future<String?> Function() accessToken;
   final Talker talker;
 
+  late FhirRestClient _client;
+
   FhirServerRepository({
     required this.serverUrl,
     required this.talker,
     required this.accessToken,
-  });
-
-  /// This functions creates a new Client each time is called,
-  /// In that way it could ensure we always have the more fresh token
-  /// available
-  Future<FhirRestClient> _client() async {
-    final accessToken = await this.accessToken();
-    return FhirRestClient(
+  }) {
+    _client = FhirRestClient(
       dio: Dio(
         BaseOptions(
           connectTimeout: const Duration(milliseconds: 30000),
@@ -30,11 +26,25 @@ class FhirServerRepository {
             'Authorization': 'Bearer $accessToken',
           },
         ),
-      )..interceptors.add(
-          TalkerDioLogger(
-            talker: talker,
-            settings: TalkerDioLoggerSettings(),
-          ),
+      )..interceptors.addAll(
+          [
+            TalkerDioLogger(
+              talker: talker,
+              settings: TalkerDioLoggerSettings(),
+            ),
+            InterceptorsWrapper(
+              onRequest: (options, handler) async {
+                final token = await accessToken();
+                if (token == null) {
+                  talker.warning(
+                      'Unable to retrieve authentication token, request will most likely fail.');
+                } else {
+                  options.headers['Authorization'] = 'Bearer $token';
+                }
+                return handler.next(options);
+              },
+            ),
+          ],
         ),
       baseUrl: Uri.parse(serverUrl),
     );
@@ -42,7 +52,7 @@ class FhirServerRepository {
 
   Future<List<String>> getListOfSchemaEntities() async {
     try {
-      final capabilities = await (await _client()).getCapabilityStatement();
+      final capabilities = await _client.getCapabilityStatement();
       final resources = capabilities['rest'][0]['resource'] as List<dynamic>;
       return resources
           .where((item) =>
@@ -60,7 +70,7 @@ class FhirServerRepository {
 
   Future<Map<String, dynamic>?> request({required FhirRequest request}) async {
     try {
-      return await (await _client()).execute(request: request);
+      return await _client.execute(request: request);
     } catch (e) {
       AppLogger.instance.e(e);
       return null;

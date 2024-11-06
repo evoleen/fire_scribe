@@ -15,13 +15,13 @@ class AzureIdentityProviderCubitParams extends AuthProviderCubitParams {
 /// In is authenticated state, will offer the URL of the server in form of a [String]
 class AzureIdentityProviderCubit
     extends AuthProviderCubit<AzureIdentityProviderCubitParams> {
-  final DefaultAzureCredential defaultAzureCredential;
+  final DefaultAzureCredential azureCredential;
   final Talker talker;
 
   CredentialManager? _credentialManager;
 
   AzureIdentityProviderCubit({
-    required this.defaultAzureCredential,
+    required this.azureCredential,
     required this.talker,
   }) : super(const AuthProviderState.unauthenticated());
 
@@ -31,7 +31,7 @@ class AzureIdentityProviderCubit
       return false;
     }
     _credentialManager = CredentialManager(
-      credential: defaultAzureCredential,
+      credential: azureCredential,
       options: GetTokenOptions(
         scopes: [
           params.serverUrl,

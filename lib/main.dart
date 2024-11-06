@@ -33,7 +33,7 @@ class _Main extends StatelessWidget {
       create: (_) => AuthCubit(
         providers: {
           AzureIdentityProviderCubit(
-            defaultAzureCredential: DefaultAzureCredential(
+            azureCredential: DefaultAzureCredential(
               logger: AppLogger.instance.d,
             ),
             talker: GetIt.instance.get<Talker>(),
