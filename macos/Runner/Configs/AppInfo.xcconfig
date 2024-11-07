@@ -8,7 +8,7 @@
 PRODUCT_NAME = Fire Scribe
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = tech.evoleen.firescribe
+PRODUCT_BUNDLE_IDENTIFIER = com.evoleen.firescribe
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2024 tech.evoleen.firescribe. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2024 com.evoleen.firescribe. All rights reserved.

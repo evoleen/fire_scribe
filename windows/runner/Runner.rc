@@ -89,11 +89,11 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "tech.evoleen.firescribe" "\0"
+            VALUE "CompanyName", "com.evoleen.firescribe" "\0"
             VALUE "FileDescription", "fire_scribe" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
             VALUE "InternalName", "fire_scribe" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2024 tech.evoleen.firescribe. All rights reserved." "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2024 com.evoleen.firescribe. All rights reserved." "\0"
             VALUE "OriginalFilename", "fire_scribe.exe" "\0"
             VALUE "ProductName", "fire_scribe" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
