@@ -82,8 +82,11 @@ class S {
     return '';
   }
 
-  String get appTitle => Intl.message('Firearrow Admin App',
-      name: 'appTitle', desc: 'The title of the app');
+  String get appTitle => Intl.message(
+        'Firearrow Admin App',
+        name: 'appTitle',
+        desc: 'The title of the app',
+      );
 
   String get appErrorPageMessage => Intl.message('Error found, please refresh',
       name: 'appErrorPageMessage',
