@@ -316,9 +316,11 @@ packages:
   fhir_rest_client:
     dependency: "direct main"
     description:
-      path: "../fhir_rest_client"
-      relative: true
-    source: path
+      path: "."
+      ref: add_docs
+      resolved-ref: "563f058ae1925d5a7fc97908b06f726baf665f63"
+      url: "https://github.com/evoleen/fhir_rest_client.git"
+    source: git
     version: "0.0.1"
   file:
     dependency: transitive
