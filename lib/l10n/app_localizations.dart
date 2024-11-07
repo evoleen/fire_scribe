@@ -82,71 +82,80 @@ class S {
     return '';
   }
 
-  String get appTitle => Intl.message(
-        'Firearrow Admin App',
-        name: 'appTitle',
-      );
+  String get appTitle => Intl.message('Firearrow Admin App',
+      name: 'appTitle', desc: 'The title of the app');
 
-  String get appErrorPageMessage => Intl.message(
-        'Error found, please refresh',
-        name: 'appErrorPageMessage',
-      );
+  String get appErrorPageMessage => Intl.message('Error found, please refresh',
+      name: 'appErrorPageMessage',
+      desc: 'The message showed when user access to a wrong route');
 
-  String get refresh => Intl.message(
-        'Refresh',
-        name: 'refresh',
-      );
+  String get refresh =>
+      Intl.message('Refresh', name: 'refresh', desc: 'Refresh word');
 
   String get allResources => Intl.message(
         'All resources',
         name: 'allResources',
+        desc: 'The title of the entity list section',
       );
 
   String get serverUrl => Intl.message(
         'Server URL',
         name: 'serverUrl',
+        desc: 'The label of the server connection text field',
       );
 
   String get introduceServerUrl => Intl.message(
         'Enter Server URL',
         name: 'introduceServerUrl',
+        desc: 'The hint text of the server connection text field',
       );
 
   String get serverConnectedWarning => Intl.message(
         'Connected to server',
         name: 'serverConnectedWarning',
+        desc: 'Message for showing in a snackbar after a successful connection',
       );
 
   String get serverNotConnectedWarning => Intl.message(
         'Cannot connect to specified url',
         name: 'serverNotConnectedWarning',
+        desc:
+            'Message for showing in a snackbar after an unsuccessful connection',
       );
 
   String get connectToServerHelpText => Intl.message(
         '''To view all resources please connect to server.
 Copy and paste the link to your server’s URL above.''',
         name: 'connectToServerHelpText',
+        desc:
+            'Message showed when the user does not have a valid connection to a server',
       );
 
   String get noDataAssociatedToAnEntity => Intl.message(
         '''There's no data associated
 with this entity''',
         name: 'noDataAssociatedToAnEntity',
+        desc:
+            'Message showed when no data retrieved from backend for a certcain entity',
       );
 
   String entityTypeIdHeader(final String entityType) => Intl.message(
         '$entityType ID',
         name: 'entityTypeIdHeader',
         args: [entityType],
+        desc: 'ID column for the data viewer',
       );
 
   String get lastUpdate => Intl.message(
         'Last update',
         name: 'lastUpdate',
+        desc: 'Last update column for the data viewer',
       );
 
   String get selectAnEntityFromList => Intl.message(
         'Select an entity to see entries of that type',
         name: 'selectAnEntityFromList',
+        desc:
+            'Message showed when user is connected but not selected any entity to display data yet',
       );
 }
