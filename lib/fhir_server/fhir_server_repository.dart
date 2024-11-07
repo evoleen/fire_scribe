@@ -6,42 +6,40 @@ import 'package:talker_dio_logger/talker_dio_logger_settings.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 class FhirServerRepository {
-  late FhirRestClient _client;
+  final FhirRestClient _client;
 
   FhirServerRepository({
     required final String serverUrl,
     required final Talker talker,
     required final Future<String?> Function() accessToken,
-  }) {
-    _client = FhirRestClient(
-      dio: Dio(
-        BaseOptions(
-          connectTimeout: const Duration(milliseconds: 30000),
-          receiveTimeout: const Duration(milliseconds: 30000),
-        ),
-      )..interceptors.addAll(
-          [
-            TalkerDioLogger(
-              talker: talker,
-              settings: TalkerDioLoggerSettings(),
+  }) : _client = FhirRestClient(
+          dio: Dio(
+            BaseOptions(
+              connectTimeout: const Duration(milliseconds: 30000),
+              receiveTimeout: const Duration(milliseconds: 30000),
             ),
-            InterceptorsWrapper(
-              onRequest: (options, handler) async {
-                final token = await accessToken();
-                if (token == null) {
-                  talker.warning(
-                      'Unable to retrieve authentication token, request will most likely fail.');
-                } else {
-                  options.headers['Authorization'] = 'Bearer $token';
-                }
-                return handler.next(options);
-              },
+          )..interceptors.addAll(
+              [
+                TalkerDioLogger(
+                  talker: talker,
+                  settings: TalkerDioLoggerSettings(),
+                ),
+                InterceptorsWrapper(
+                  onRequest: (options, handler) async {
+                    final token = await accessToken();
+                    if (token == null) {
+                      talker.warning(
+                          'Unable to retrieve authentication token, request will most likely fail.');
+                    } else {
+                      options.headers['Authorization'] = 'Bearer $token';
+                    }
+                    return handler.next(options);
+                  },
+                ),
+              ],
             ),
-          ],
-        ),
-      baseUrl: Uri.parse(serverUrl),
-    );
-  }
+          baseUrl: Uri.parse(serverUrl),
+        );
 
   Future<List<String>> getListOfSchemaEntities() async {
     try {
