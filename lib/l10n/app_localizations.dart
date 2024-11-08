@@ -3,9 +3,9 @@
 import 'dart:async';
 
 import 'package:built_collection/built_collection.dart';
-import 'package:firearrow_admin_app/l10n/app_localizations_delegate.dart';
-import 'package:firearrow_admin_app/l10n/l10n/messages_all.dart';
-import 'package:firearrow_admin_app/l10n/supported_locales.dart';
+import 'package:fire_scribe/l10n/app_localizations_delegate.dart';
+import 'package:fire_scribe/l10n/l10n/messages_all.dart';
+import 'package:fire_scribe/l10n/supported_locales.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -83,7 +83,7 @@ class S {
   }
 
   String get appTitle => Intl.message(
-        'Firearrow Admin App',
+        'Fire Scribe',
         name: 'appTitle',
         desc: 'The title of the app',
       );

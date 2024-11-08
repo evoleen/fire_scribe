@@ -1,6 +1,6 @@
 {
-    "name": "firearrow_admin_app",
-    "short_name": "firearrow_admin_app",
+    "name": "fire_scribe",
+    "short_name": "fire_scribe",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
