@@ -1,10 +1,10 @@
-import 'package:firearrow_admin_app/app_scaffold.dart';
-import 'package:firearrow_admin_app/app_theme.dart';
-import 'package:firearrow_admin_app/dashboard/dashboard_route.dart';
-import 'package:firearrow_admin_app/l10n/app_localizations.dart';
-import 'package:firearrow_admin_app/l10n/cubit/localization_cubit.dart';
-import 'package:firearrow_admin_app/l10n/supported_locales.dart';
-import 'package:firearrow_admin_app/routes.dart';
+import 'package:fire_scribe/app_scaffold.dart';
+import 'package:fire_scribe/app_theme.dart';
+import 'package:fire_scribe/dashboard/dashboard_route.dart';
+import 'package:fire_scribe/l10n/app_localizations.dart';
+import 'package:fire_scribe/l10n/cubit/localization_cubit.dart';
+import 'package:fire_scribe/l10n/supported_locales.dart';
+import 'package:fire_scribe/routes.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

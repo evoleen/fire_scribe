@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:fhir_rest_client/fhir_rest_client.dart';
-import 'package:firearrow_admin_app/app_logger.dart';
+import 'package:fire_scribe/app_logger.dart';
 import 'package:talker_dio_logger/talker_dio_logger_interceptor.dart';
 import 'package:talker_dio_logger/talker_dio_logger_settings.dart';
 import 'package:talker_flutter/talker_flutter.dart';

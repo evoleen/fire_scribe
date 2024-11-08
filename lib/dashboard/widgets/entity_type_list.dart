@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
-import 'package:firearrow_admin_app/dashboard/cubit/dashboard_cubit.dart';
-import 'package:firearrow_admin_app/fhir_server/fhir_server_repository.dart';
+import 'package:fire_scribe/dashboard/cubit/dashboard_cubit.dart';
+import 'package:fire_scribe/fhir_server/fhir_server_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

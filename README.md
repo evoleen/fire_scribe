@@ -1,5 +1,5 @@
-# Firearrow Admin app
-Admin app to manage Firearrow
+# Fire Scribe
+Database viewer/editor for Azure Health Data Services
 
 ## Localizations
 
@@ -9,6 +9,10 @@ Using https://localise.biz/ as translator manager.
 - **bin/localization-generate.sh**: Generate string files for the different locales.
 - **bin/localization-upload.sh**: Uploads the current strings of app_localizations.dart to Loco
 - **bin/localization-download.sh**: Download Loco translations to our project
+
+## Generate third-party license
+
+fvm dart run flutter_oss_licenses:generate && dart format .
 
 ### App min assets
 #### App icon
@@ -35,5 +39,5 @@ dart run flutter_native_splash:create --path=flutter_native_splash.yaml
 
 ## Release
 ```bash
-dart run firearrow_admin_app:release
+dart run fire_scribe:release
 ```

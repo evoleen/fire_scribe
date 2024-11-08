@@ -1,6 +1,6 @@
 import 'package:auth_cubit/auth_cubit.dart';
 import 'package:azure_identity/azure_identity.dart';
-import 'package:firearrow_admin_app/app_logger.dart';
+import 'package:fire_scribe/app_logger.dart';
 
 class AzureIdentityProviderCubitParams extends AuthProviderCubitParams {
   final String serverUrl;

@@ -1,9 +1,9 @@
 import 'package:auth_cubit/auth_cubit.dart';
 import 'package:azure_identity/azure_identity.dart';
-import 'package:firearrow_admin_app/app.dart';
-import 'package:firearrow_admin_app/app_logger.dart';
-import 'package:firearrow_admin_app/auth/azure_identity_provider_cubit.dart';
-import 'package:firearrow_admin_app/bootstrap.dart';
+import 'package:fire_scribe/app.dart';
+import 'package:fire_scribe/app_logger.dart';
+import 'package:fire_scribe/auth/azure_identity_provider_cubit.dart';
+import 'package:fire_scribe/bootstrap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';

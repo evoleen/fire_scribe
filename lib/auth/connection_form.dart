@@ -1,7 +1,7 @@
 import 'package:auth_cubit/auth_cubit.dart';
-import 'package:firearrow_admin_app/auth/azure_identity_provider_cubit.dart';
-import 'package:firearrow_admin_app/extensions/build_context.dart';
-import 'package:firearrow_admin_app/l10n/app_localizations.dart';
+import 'package:fire_scribe/auth/azure_identity_provider_cubit.dart';
+import 'package:fire_scribe/extensions/build_context.dart';
+import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

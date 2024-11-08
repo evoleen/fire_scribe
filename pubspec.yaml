@@ -1,10 +1,10 @@
 version: 0.0.1
-name: firearrow_admin_app
-description: "firearrow_admin_app"
+name: fire_scribe
+description: "fire_scribe"
 publish_to: none
-homepage: https://github.com/evoleen/firearrow_admin_app
-repository: https://github.com/evoleen/firearrow_admin_app
-issue_tracker: https://github.com/evoleen/firearrow_admin_app
+homepage: https://github.com/evoleen/fire_scribe
+repository: https://github.com/evoleen/fire_scribe
+issue_tracker: https://github.com/evoleen/fire_scribe
 
 environment:
   sdk: '>=3.5.0 <4.0.0'
@@ -38,6 +38,7 @@ dependencies:
   go_router: 14.2.8
   infinite_scroll_pagination: 4.0.0
   intl: 0.19.0
+  material_symbols_icons: 4.2789.0
   path: 1.9.0
   pub_semver: 2.1.4
   shared_preferences: 2.3.2
@@ -74,3 +75,4 @@ flutter:
 
   assets:
     - assets/google_fonts/
+    - assets/images/
