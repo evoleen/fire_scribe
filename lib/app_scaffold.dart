@@ -1,4 +1,4 @@
-import 'package:firearrow_admin_app/app_drawer_menu.dart';
+import 'package:fire_scribe/app_drawer_menu.dart';
 import 'package:flutter/material.dart';
 
 class AppScaffold extends StatelessWidget {

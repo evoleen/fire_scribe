@@ -1,9 +1,9 @@
-import 'package:firearrow_admin_app/app_scaffold.dart';
-import 'package:firearrow_admin_app/settings/pages/mic_oss_license_single_page.dart';
-import 'package:firearrow_admin_app/settings/pages/privacy_policy_page.dart';
-import 'package:firearrow_admin_app/settings/pages/settings_page.dart';
-import 'package:firearrow_admin_app/settings/pages/terms_of_use_page.dart';
-import 'package:firearrow_admin_app/settings/pages/third_party_licenses_page.dart';
+import 'package:fire_scribe/app_scaffold.dart';
+import 'package:fire_scribe/settings/pages/mic_oss_license_single_page.dart';
+import 'package:fire_scribe/settings/pages/privacy_policy_page.dart';
+import 'package:fire_scribe/settings/pages/settings_page.dart';
+import 'package:fire_scribe/settings/pages/terms_of_use_page.dart';
+import 'package:fire_scribe/settings/pages/third_party_licenses_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

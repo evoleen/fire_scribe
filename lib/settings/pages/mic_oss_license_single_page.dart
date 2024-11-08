@@ -1,4 +1,4 @@
-import 'package:firearrow_admin_app/oss_licenses.dart';
+import 'package:fire_scribe/oss_licenses.dart';
 import 'package:flutter/material.dart';
 
 class MiscOssLicenseSingleRouteArguments {

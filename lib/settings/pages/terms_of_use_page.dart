@@ -1,4 +1,4 @@
-import 'package:firearrow_admin_app/l10n/app_localizations.dart';
+import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class TermsOfUsePage extends StatelessWidget {

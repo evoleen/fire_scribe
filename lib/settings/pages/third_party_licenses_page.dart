@@ -1,6 +1,6 @@
-import 'package:firearrow_admin_app/oss_licenses.dart';
-import 'package:firearrow_admin_app/routes.dart';
-import 'package:firearrow_admin_app/settings/settings_routes.dart';
+import 'package:fire_scribe/oss_licenses.dart';
+import 'package:fire_scribe/routes.dart';
+import 'package:fire_scribe/settings/settings_routes.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
