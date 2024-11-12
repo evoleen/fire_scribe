@@ -1,3 +1,4 @@
+import 'package:auth_cubit/auth_cubit.dart';
 import 'package:fire_scribe/auth/azure_identity_provider_cubit.dart';
 import 'package:fire_scribe/extensions/build_context.dart';
 import 'package:fire_scribe/l10n/app_localizations.dart';
@@ -18,12 +19,14 @@ class _ConnectionFormState extends State<ConnectionForm> {
   @override
   void initState() {
     super.initState();
-    textController.text =
-        BlocProvider.of<AzureIdentityProviderCubit>(context).state.maybeWhen(
-              authenticated: (data) => data,
-              unauthenticated: () => '',
-              orElse: () => '',
-            );
+    textController.text = BlocProvider.of<AuthCubit>(context)
+        .provider<AzureIdentityProviderCubit>()
+        .state
+        .maybeWhen(
+          authenticated: (data) => data,
+          unauthenticated: () => '',
+          orElse: () => '',
+        );
   }
 
   @override
@@ -36,10 +39,13 @@ class _ConnectionFormState extends State<ConnectionForm> {
     setState(() {
       isConnecting = true;
     });
-    final isConnected =
-        await BlocProvider.of<AzureIdentityProviderCubit>(context).signIn(
-      serverUrl: textController.text,
-    );
+    final isConnected = await BlocProvider.of<AuthCubit>(context)
+        .provider<AzureIdentityProviderCubit>()
+        .signIn(
+          AzureIdentityProviderCubitParams(
+            serverUrl: textController.text,
+          ),
+        );
 
     if (!mounted) {
       return;
@@ -56,8 +62,9 @@ class _ConnectionFormState extends State<ConnectionForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AzureIdentityProviderCubit,
-        AzureIdentityProviderCubitState>(
+    return BlocBuilder<AzureIdentityProviderCubit, AuthProviderState>(
+      bloc: BlocProvider.of<AuthCubit>(context)
+          .provider<AzureIdentityProviderCubit>(),
       builder: (context, state) {
         return Container(
           padding: EdgeInsets.symmetric(

@@ -1,3 +1,4 @@
+import 'package:auth_cubit/auth_cubit.dart';
 import 'package:azure_identity/azure_identity.dart';
 import 'package:fire_scribe/app.dart';
 import 'package:fire_scribe/app_logger.dart';
@@ -28,11 +29,15 @@ Future<void> main() async {
 class _Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AzureIdentityProviderCubit>(
-      create: (_) => AzureIdentityProviderCubit(
-        azureCredential: DefaultAzureCredential(
-          logger: GetIt.instance<Talker>().debug,
-        ),
+    return BlocProvider<AuthCubit>(
+      create: (_) => AuthCubit(
+        providers: {
+          AzureIdentityProviderCubit(
+            azureCredential: DefaultAzureCredential(
+              logger: GetIt.instance<Talker>().debug,
+            ),
+          ),
+        },
       ),
       child: const App(),
     );

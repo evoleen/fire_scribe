@@ -49,6 +49,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
+  auth_cubit:
+    dependency: "direct main"
+    description:
+      name: auth_cubit
+      sha256: "5f5dcbc65df00a760e1fe0ae8457a82088f5f9600ed02619e315b0fd1eb2b4b8"
+      url: "https://dart.cloudsmith.io/evoleen/auth_cubit/"
+    source: hosted
+    version: "0.0.3"
   azure_identity:
     dependency: "direct main"
     description:

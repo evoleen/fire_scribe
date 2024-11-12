@@ -7,6 +7,15 @@
             "type": "dart",
             "flutterMode": "debug",
             "program": "lib/main.dart",
-        },       
+        },
+         {
+            "name": "Run Debug Web",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "debug",
+            "program": "lib/main.dart",
+            "args": ["-d", "Chrome","--web-port", "5000"],
+        },
+       
     ]
 }

@@ -12,6 +12,11 @@ environment:
 
 dependencies:
   args: 2.5.0
+  auth_cubit:
+    hosted:
+      url: https://dart.cloudsmith.io/evoleen/auth_cubit
+      name: auth_cubit
+    version: 0.0.3
   azure_identity: 0.0.5
   built_collection: 5.1.1
   collection: 1.18.0
