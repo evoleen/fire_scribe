@@ -3,4 +3,4 @@
 dart run intl_translation:generate_from_arb lib/l10n/app_localizations.dart \
     --output-dir=lib/l10n/l10n \
     --codegen_mode debug \
-    lib/l10n/l10n/intl_messages_*.arb
+    lib/l10n/l10n/intl_messages*.arb

@@ -22,7 +22,7 @@ unzip -qq -o -j -d "$OUTPUT_PATH" "localise-translated.zip"
 dart run intl_translation:generate_from_arb "$APP_LOCALIZATIONS_PATH" \
     --output-dir="$OUTPUT_PATH" \
     --codegen_mode debug \
-    $OUTPUT_PATH/intl_messages_*.arb
+    $OUTPUT_PATH/intl_messages*.arb
 
 # Cleanup
 rm "$OUTPUT_PATH/README.txt"
