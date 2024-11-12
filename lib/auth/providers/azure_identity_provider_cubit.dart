@@ -52,11 +52,6 @@ class AzureIdentityProviderCubit
   }
 
   @override
-  Future<bool> signIn2FA([AuthProviderCubitParams? params]) async {
-    return false;
-  }
-
-  @override
   Future<bool> signOut() async {
     _credentialManager = null;
     emit(AuthProviderState.unauthenticated());
