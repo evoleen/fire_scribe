@@ -1,8 +1,8 @@
-import 'package:auth_cubit/auth_cubit.dart';
 import 'package:azure_identity/azure_identity.dart';
 import 'package:fire_scribe/app.dart';
 import 'package:fire_scribe/app_logger.dart';
-import 'package:fire_scribe/auth/azure_identity_provider_cubit.dart';
+import 'package:fire_scribe/auth/cubit/auth_cubit.dart';
+import 'package:fire_scribe/auth/providers/azure_identity_provider_cubit.dart';
 import 'package:fire_scribe/bootstrap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -1,6 +1,7 @@
-import 'package:auth_cubit/auth_cubit.dart';
-import 'package:fire_scribe/auth/azure_identity_provider_cubit.dart';
 import 'package:fire_scribe/auth/connection_form.dart';
+import 'package:fire_scribe/auth/cubit/auth_cubit.dart';
+import 'package:fire_scribe/auth/cubit/auth_provider_cubit.dart';
+import 'package:fire_scribe/auth/providers/azure_identity_provider_cubit.dart';
 import 'package:fire_scribe/dashboard/cubit/dashboard_cubit.dart';
 import 'package:fire_scribe/dashboard/widgets/dashboard_left_panel.dart';
 import 'package:fire_scribe/dashboard/widgets/entity_data_paginated_list.dart';
