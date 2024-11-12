@@ -1,4 +1,3 @@
-import 'package:auth_cubit/auth_cubit.dart';
 import 'package:fire_scribe/auth/azure_identity_provider_cubit.dart';
 import 'package:fire_scribe/auth/connection_form.dart';
 import 'package:fire_scribe/dashboard/cubit/dashboard_cubit.dart';
@@ -12,14 +11,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
-class DashboardPage extends StatelessWidget with WidgetsBindingObserver {
+class DashboardPage extends StatelessWidget {
   const DashboardPage();
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthProviderCubit, AuthProviderState>(
-      bloc: BlocProvider.of<AuthCubit>(context)
-          .provider<AzureIdentityProviderCubit>(),
+    return BlocBuilder<AzureIdentityProviderCubit,
+        AzureIdentityProviderCubitState>(
       builder: (context, state) {
         return state.when(
           authenticated: (data) {
@@ -27,9 +25,9 @@ class DashboardPage extends StatelessWidget with WidgetsBindingObserver {
               create: (context) => FhirServerRepository(
                 serverUrl: data,
                 talker: GetIt.instance<Talker>(),
-                accessToken: () => BlocProvider.of<AuthCubit>(context)
-                    .provider<AzureIdentityProviderCubit>()
-                    .accessToken(),
+                accessToken: () =>
+                    BlocProvider.of<AzureIdentityProviderCubit>(context)
+                        .accessToken(),
               ),
               child: BlocProvider(
                 create: (context) => DashboardCubit(),
@@ -86,9 +84,6 @@ class DashboardPage extends StatelessWidget with WidgetsBindingObserver {
                 ),
               ),
             ],
-          ),
-          preAuthenticated: (_) => Center(
-            child: CircularProgressIndicator(),
           ),
         );
       },
