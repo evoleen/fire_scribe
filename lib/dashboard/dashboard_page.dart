@@ -1,7 +1,6 @@
+import 'package:auth_cubit/auth_cubit.dart';
+import 'package:azure_identity_provider/azure_identity_provider.dart';
 import 'package:fire_scribe/auth/connection_form.dart';
-import 'package:fire_scribe/auth/cubit/auth_cubit.dart';
-import 'package:fire_scribe/auth/cubit/auth_provider_cubit.dart';
-import 'package:fire_scribe/auth/providers/azure_identity_provider_cubit.dart';
 import 'package:fire_scribe/dashboard/cubit/dashboard_cubit.dart';
 import 'package:fire_scribe/dashboard/widgets/dashboard_left_panel.dart';
 import 'package:fire_scribe/dashboard/widgets/entity_data_paginated_list.dart';
@@ -18,50 +17,45 @@ class DashboardPage extends StatelessWidget with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthProviderCubit, AuthProviderState>(
-      bloc: BlocProvider.of<AuthCubit>(context)
-          .provider<AzureIdentityProviderCubit>(),
+    return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state) {
         return state.when(
-          authenticated: (data) {
-            return RepositoryProvider(
-              create: (context) => FhirServerRepository(
-                serverUrl: data,
-                talker: GetIt.instance<Talker>(),
-                accessToken: () => BlocProvider.of<AuthCubit>(context)
-                    .provider<AzureIdentityProviderCubit>()
-                    .accessToken(),
-              ),
-              child: BlocProvider(
-                create: (context) => DashboardCubit(),
-                child: Row(
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      child: DashboardLeftPanel(
-                        child: EntityTypeList(),
+          authenticated: (data) => RepositoryProvider(
+            create: (context) => FhirServerRepository(
+              serverUrl: '', //data,
+              talker: GetIt.instance<Talker>(),
+              accessToken: () => BlocProvider.of<AuthCubit>(context)
+                  .provider<AzureIdentityProviderCubit>()
+                  .accessToken(),
+            ),
+            child: BlocProvider(
+              create: (context) => DashboardCubit(),
+              child: Row(
+                children: [
+                  Flexible(
+                    flex: 1,
+                    child: DashboardLeftPanel(
+                      child: EntityTypeList(),
+                    ),
+                  ),
+                  Flexible(
+                    flex: 3,
+                    child: ColoredBox(
+                      color: Theme.of(context).colorScheme.surfaceContainerLow,
+                      child: Column(
+                        children: const [
+                          ConnectionForm(),
+                          Expanded(
+                            child: EntityDataPaginatedList(),
+                          ),
+                        ],
                       ),
                     ),
-                    Flexible(
-                      flex: 3,
-                      child: ColoredBox(
-                        color:
-                            Theme.of(context).colorScheme.surfaceContainerLow,
-                        child: Column(
-                          children: const [
-                            ConnectionForm(),
-                            Expanded(
-                              child: EntityDataPaginatedList(),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            );
-          },
+            ),
+          ),
           unauthenticated: () => Row(
             children: [
               Flexible(
@@ -74,7 +68,8 @@ class DashboardPage extends StatelessWidget with WidgetsBindingObserver {
                   color: Theme.of(context).colorScheme.surfaceContainerLow,
                   child: Column(
                     children: [
-                      ConnectionForm(),
+                      Text('hola'),
+                      // ConnectionForm(),
                       Center(
                         child: Text(
                           S.of(context).connectToServerHelpText,
@@ -87,9 +82,6 @@ class DashboardPage extends StatelessWidget with WidgetsBindingObserver {
                 ),
               ),
             ],
-          ),
-          preAuthenticated: (_) => Center(
-            child: CircularProgressIndicator(),
           ),
         );
       },

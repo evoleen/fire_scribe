@@ -12,7 +12,10 @@ environment:
 
 dependencies:
   args: 2.5.0
-  azure_identity: 0.0.5
+  auth_cubit:
+    path: ./pkgs/auth_cubit
+  azure_identity_provider:
+    path: ./pkgs/azure_identity_provider
   built_collection: 5.1.1
   collection: 1.18.0
   dio: 5.7.0
