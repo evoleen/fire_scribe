@@ -66,4 +66,9 @@ class AzureIdentityProviderCubitDesktop extends AzureIdentityProviderCubit {
 
     return token?.token;
   }
+
+  /// We need to identify as base class in order to make the interface
+  /// usable on web and desktop
+  @override
+  Type get runtimeType => AzureIdentityProviderCubit;
 }

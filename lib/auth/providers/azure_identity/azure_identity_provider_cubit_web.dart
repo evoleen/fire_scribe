@@ -4,4 +4,9 @@ AzureIdentityProviderCubit createAzureIdentityProviderCubit() {
   return AzureIdentityProviderCubitWeb();
 }
 
-class AzureIdentityProviderCubitWeb extends AzureIdentityProviderCubit {}
+class AzureIdentityProviderCubitWeb extends AzureIdentityProviderCubit {
+  /// We need to identify as base class in order to make the interface
+  /// usable on web and desktop
+  @override
+  Type get runtimeType => AzureIdentityProviderCubit;
+}
