@@ -8,5 +8,7 @@
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  testWidgets('foo', (WidgetTester tester) async {});
+  test('foo', () {
+    expect(42, 42);
+  });
 }
