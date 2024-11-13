@@ -1,5 +1,5 @@
 import 'package:fire_scribe/auth/cubit/fhir_server_connection_cubit.dart';
-import 'package:fire_scribe/auth/widgets/connection_form.dart';
+import 'package:fire_scribe/auth/widgets/token_provider_form.dart';
 import 'package:fire_scribe/dashboard/cubit/dashboard_cubit.dart';
 import 'package:fire_scribe/dashboard/widgets/dashboard_left_panel.dart';
 import 'package:fire_scribe/dashboard/widgets/entity_data_paginated_list.dart';
@@ -35,7 +35,7 @@ class DashboardPage extends StatelessWidget with WidgetsBindingObserver {
                       color: Theme.of(context).colorScheme.surfaceContainerLow,
                       child: Column(
                         children: const [
-                          ConnectionForm(
+                          TokenProviderForm(
                             key: connectionFormKey,
                           ),
                           Expanded(
@@ -61,7 +61,7 @@ class DashboardPage extends StatelessWidget with WidgetsBindingObserver {
                   color: Theme.of(context).colorScheme.surfaceContainerLow,
                   child: Column(
                     children: [
-                      ConnectionForm(
+                      TokenProviderForm(
                         key: connectionFormKey,
                       ),
                       Expanded(

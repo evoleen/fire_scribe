@@ -7,16 +7,16 @@ import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AzureIdentityConnectionForm extends StatefulWidget {
-  const AzureIdentityConnectionForm({super.key});
+class AzureIdentityTokenProviderForm extends StatefulWidget {
+  const AzureIdentityTokenProviderForm({super.key});
 
   @override
-  State<AzureIdentityConnectionForm> createState() =>
-      _AzureIdentityConnectionFormState();
+  State<AzureIdentityTokenProviderForm> createState() =>
+      _AzureIdentityTokenProviderFormState();
 }
 
-class _AzureIdentityConnectionFormState
-    extends State<AzureIdentityConnectionForm> {
+class _AzureIdentityTokenProviderFormState
+    extends State<AzureIdentityTokenProviderForm> {
   final textController = TextEditingController();
   var isConnecting = false;
 

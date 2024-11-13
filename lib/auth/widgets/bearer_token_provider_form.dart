@@ -5,14 +5,15 @@ import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class UrlTokenConnectionForm extends StatefulWidget {
-  const UrlTokenConnectionForm({super.key});
+class BearerTokenProviderForm extends StatefulWidget {
+  const BearerTokenProviderForm({super.key});
 
   @override
-  State<UrlTokenConnectionForm> createState() => _UrlTokenConnectionFormState();
+  State<BearerTokenProviderForm> createState() =>
+      _BearerTokenProviderFormState();
 }
 
-class _UrlTokenConnectionFormState extends State<UrlTokenConnectionForm> {
+class _BearerTokenProviderFormState extends State<BearerTokenProviderForm> {
   final textController = TextEditingController();
   final tokenTextController = TextEditingController();
   var isConnecting = false;
