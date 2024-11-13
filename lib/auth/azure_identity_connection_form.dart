@@ -40,7 +40,7 @@ class _AzureIdentityConnectionFormState
     });
     final isConnected = await BlocProvider.of<AuthCubit>(context).connect(
       url: textController.text,
-      authProvider: createAzureIdentityProvider(),
+      authProvider: createAzureIdentityProvider(url: textController.text),
     );
     if (!mounted) {
       return;

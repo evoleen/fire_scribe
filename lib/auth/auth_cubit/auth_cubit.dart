@@ -1,4 +1,7 @@
 import 'package:collection/collection.dart';
+import 'package:dio/dio.dart';
+import 'package:fhir_rest_client/fhir_rest_client.dart';
+import 'package:fire_scribe/app_logger.dart';
 import 'package:fire_scribe/auth/providers/auth_provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -42,15 +45,42 @@ class AuthCubit extends Cubit<AuthState> {
     required final String url,
     required final AuthProvider authProvider,
   }) async {
-    emit(
-      _Authenticated(
-        url: url,
-        providers: [
-          authProvider,
-        ],
+    final client = FhirRestClient(
+      dio: Dio(
+        BaseOptions(
+          connectTimeout: const Duration(milliseconds: 30000),
+          receiveTimeout: const Duration(milliseconds: 30000),
+          headers: {
+            'Authorization': 'Bearer ${await authProvider.accessToken()}',
+          },
+        ),
       ),
+      baseUrl: Uri.parse(url),
     );
-    return true;
+
+    try {
+      await client.execute(
+        request: FhirRequest(
+          operation: FhirRequestOperation.search,
+          entityName: 'Patient',
+          parameters: {
+            'count': 1,
+          },
+        ),
+      );
+      emit(
+        _Authenticated(
+          url: url,
+          providers: [
+            authProvider,
+          ],
+        ),
+      );
+      return true;
+    } catch (e) {
+      AppLogger.instance.e(e);
+      return false;
+    }
   }
 
   /// Retrieves the authentication provider of the specified type.

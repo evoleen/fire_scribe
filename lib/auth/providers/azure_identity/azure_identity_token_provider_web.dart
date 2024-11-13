@@ -1,6 +1,8 @@
 import 'package:fire_scribe/auth/providers/azure_identity/azure_identity_token_provider_base.dart';
 
-AzureIdentityTokenProvider createAzureIdentityProvider() {
+AzureIdentityTokenProvider createAzureIdentityProvider({
+  required final String url,
+}) {
   return AzureIdentityTokenProviderWeb();
 }
 
