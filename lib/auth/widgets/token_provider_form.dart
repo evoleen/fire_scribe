@@ -1,5 +1,6 @@
 import 'package:fire_scribe/auth/widgets/azure_identity_token_provider_desktop_form.dart';
 import 'package:fire_scribe/auth/widgets/bearer_token_provider_form.dart';
+import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -32,8 +33,8 @@ class _TokenProviderFormState extends State<TokenProviderForm> {
               },
               child: Text(
                 useUrlTokenForm
-                    ? 'Login with Azure Identity'
-                    : 'Login with Bearer token',
+                    ? S.of(context).loginWithAzureIdentity
+                    : S.of(context).loginWithBearerToken,
               ),
             ),
           SizedBox(height: 16),

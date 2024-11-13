@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2024-11-13T20:25:04.948815",
+  "@@last_modified": "2024-11-13T20:39:03.673799",
   "appTitle": "Fire Scribe",
   "@appTitle": {
     "description": "The title of the app",
@@ -57,6 +57,18 @@
   "bearerTokenFormEmpty": "Please, enter a Bearer token to connect",
   "@bearerTokenFormEmpty": {
     "description": "The error message when user connect with an empty bearer token",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loginWithAzureIdentity": "Login with Azure Identity",
+  "@loginWithAzureIdentity": {
+    "description": "The title of the button to change to azure identity login form",
+    "type": "text",
+    "placeholders": {}
+  },
+  "loginWithBearerToken": "Login with Bearer token",
+  "@loginWithBearerToken": {
+    "description": "The title of the button to change to bearer token login form",
     "type": "text",
     "placeholders": {}
   },

@@ -37,6 +37,8 @@ class MessageLookup extends MessageLookupByLibrary {
     'introduceBearerToken': MessageLookupByLibrary.simpleMessage('Enter Bearer Token'),
     'introduceServerUrl': MessageLookupByLibrary.simpleMessage('Enter Server URL'),
     'lastUpdate': MessageLookupByLibrary.simpleMessage('Last update'),
+    'loginWithAzureIdentity': MessageLookupByLibrary.simpleMessage('Login with Azure Identity'),
+    'loginWithBearerToken': MessageLookupByLibrary.simpleMessage('Login with Bearer token'),
     'noDataAssociatedToAnEntity': MessageLookupByLibrary.simpleMessage('There\'s no data associated\nwith this entity'),
     'pageComingSoon': MessageLookupByLibrary.simpleMessage('Page coming soon'),
     'privacyPolicy': MessageLookupByLibrary.simpleMessage('Privacy Policy'),

@@ -137,6 +137,18 @@ class S {
         desc: 'The error message when user connect with an empty bearer token',
       );
 
+  String get loginWithAzureIdentity => Intl.message(
+        'Login with Azure Identity',
+        name: 'loginWithAzureIdentity',
+        desc: 'The title of the button to change to azure identity login form',
+      );
+
+  String get loginWithBearerToken => Intl.message(
+        'Login with Bearer token',
+        name: 'loginWithBearerToken',
+        desc: 'The title of the button to change to bearer token login form',
+      );
+
   String get serverConnectedWarning => Intl.message(
         'Connected to server',
         name: 'serverConnectedWarning',
