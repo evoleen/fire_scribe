@@ -53,10 +53,7 @@ class FhirServerConnectionCubit extends Cubit<FhirServerConnectionCubitState> {
           [
             TalkerDioLogger(
               talker: talker,
-              settings: TalkerDioLoggerSettings(
-                printRequestHeaders: true,
-                printResponseHeaders: true,
-              ),
+              settings: TalkerDioLoggerSettings(),
             ),
             InterceptorsWrapper(
               onRequest: (options, handler) async {
@@ -87,6 +84,15 @@ class FhirServerConnectionCubit extends Cubit<FhirServerConnectionCubitState> {
           },
         ),
       );
+
+      // Force closing all pending connections before change the client
+      state.maybeWhen(
+        authenticated: (provider, client) => client.dio.close(force: true),
+        orElse: () => null,
+      );
+
+      // After checking we could make success request and all connections
+      // are closed, we could deliver the new client
       emit(_Authenticated(
         provider: authProvider,
         fhirRestClient: client,
