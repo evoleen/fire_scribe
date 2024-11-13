@@ -44,13 +44,14 @@ class AuthCubit extends Cubit<AuthState> {
     required final String url,
     required final AuthProvider authProvider,
   }) async {
+    final token = await authProvider.accessToken();
     final client = FhirRestClient(
       dio: Dio(
         BaseOptions(
           connectTimeout: const Duration(milliseconds: 30000),
           receiveTimeout: const Duration(milliseconds: 30000),
           headers: {
-            'Authorization': 'Bearer ${await authProvider.accessToken()}',
+            'Authorization': 'Bearer $token',
           },
         ),
       ),
@@ -63,7 +64,7 @@ class AuthCubit extends Cubit<AuthState> {
           operation: FhirRequestOperation.search,
           entityName: 'Patient',
           parameters: {
-            'count': 1,
+            'count': '1',
           },
         ),
       );
