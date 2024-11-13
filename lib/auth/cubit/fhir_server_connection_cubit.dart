@@ -29,7 +29,6 @@ class FhirServerConnectionCubitState with _$FhirServerConnectionCubitState {
 
 // A Cubit responsible for orchestrating authentication operations across
 // multiple authentication providers.
-///
 class FhirServerConnectionCubit extends Cubit<FhirServerConnectionCubitState> {
   final Talker talker;
 
@@ -37,6 +36,9 @@ class FhirServerConnectionCubit extends Cubit<FhirServerConnectionCubitState> {
     required this.talker,
   }) : super(_Unauthenticated());
 
+  /// This function allow users to authenticate with a FHIR Backend through custom providers
+  /// If the provider is not able to stablish a successful connection, the cubit will move to
+  /// [_Unauthenticated] state
   Future<bool> authenticate({
     required final String url,
     required final AuthProvider authProvider,
@@ -71,6 +73,8 @@ class FhirServerConnectionCubit extends Cubit<FhirServerConnectionCubitState> {
     );
 
     try {
+      /// In order to check if connection is valid, we should make a query call
+      /// expecting to not receive any error
       await client.execute(
         request: FhirRequest(
           operation: FhirRequestOperation.search,
