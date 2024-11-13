@@ -1,4 +1,4 @@
-import 'package:fire_scribe/auth/cubit/auth_cubit.dart';
+import 'package:fire_scribe/auth/cubit/fhir_server_connection_cubit.dart';
 import 'package:fire_scribe/extensions/build_context.dart';
 import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -22,10 +22,11 @@ class _AzureIdentityConnectionFormState
   @override
   void initState() {
     super.initState();
-    textController.text = BlocProvider.of<AuthCubit>(context).state.maybeWhen(
-          authenticated: (provider, client) => client.baseUrl.toString(),
-          orElse: () => '',
-        );
+    textController.text =
+        BlocProvider.of<FhirServerConnectionCubit>(context).state.maybeWhen(
+              authenticated: (provider, client) => client.baseUrl.toString(),
+              orElse: () => '',
+            );
   }
 
   @override
@@ -38,7 +39,8 @@ class _AzureIdentityConnectionFormState
     setState(() {
       isConnecting = true;
     });
-    final isConnected = await BlocProvider.of<AuthCubit>(context).authenticate(
+    final isConnected =
+        await BlocProvider.of<FhirServerConnectionCubit>(context).authenticate(
       url: textController.text,
       authProvider: createAzureIdentityProvider(url: textController.text),
     );

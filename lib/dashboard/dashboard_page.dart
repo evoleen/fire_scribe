@@ -1,5 +1,5 @@
 import 'package:fire_scribe/auth/connection_form.dart';
-import 'package:fire_scribe/auth/cubit/auth_cubit.dart';
+import 'package:fire_scribe/auth/cubit/fhir_server_connection_cubit.dart';
 import 'package:fire_scribe/dashboard/cubit/dashboard_cubit.dart';
 import 'package:fire_scribe/dashboard/widgets/dashboard_left_panel.dart';
 import 'package:fire_scribe/dashboard/widgets/entity_data_paginated_list.dart';
@@ -13,7 +13,8 @@ class DashboardPage extends StatelessWidget with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthCubit, AuthState>(
+    return BlocBuilder<FhirServerConnectionCubit,
+        FhirServerConnectionCubitState>(
       builder: (context, state) {
         return state.when(
           authenticated: (url, provider) {

@@ -1,4 +1,4 @@
-import 'package:fire_scribe/auth/cubit/auth_cubit.dart';
+import 'package:fire_scribe/auth/cubit/fhir_server_connection_cubit.dart';
 import 'package:fire_scribe/auth/providers/bearer_token_provider.dart';
 import 'package:fire_scribe/extensions/build_context.dart';
 import 'package:fire_scribe/l10n/app_localizations.dart';
@@ -20,12 +20,15 @@ class _UrlTokenConnectionFormState extends State<UrlTokenConnectionForm> {
   @override
   void initState() {
     super.initState();
-    textController.text = BlocProvider.of<AuthCubit>(context).state.maybeWhen(
-          authenticated: (_, client) => client.baseUrl.toString(),
-          orElse: () => '',
-        );
+    textController.text =
+        BlocProvider.of<FhirServerConnectionCubit>(context).state.maybeWhen(
+              authenticated: (_, client) => client.baseUrl.toString(),
+              orElse: () => '',
+            );
 
-    BlocProvider.of<AuthCubit>(context).accessToken().then((value) {
+    BlocProvider.of<FhirServerConnectionCubit>(context)
+        .accessToken()
+        .then((value) {
       tokenTextController.text = value ?? '';
     });
   }
@@ -51,7 +54,8 @@ class _UrlTokenConnectionFormState extends State<UrlTokenConnectionForm> {
       isConnecting = true;
     });
 
-    final isConnected = await BlocProvider.of<AuthCubit>(context).authenticate(
+    final isConnected =
+        await BlocProvider.of<FhirServerConnectionCubit>(context).authenticate(
       url: textController.text,
       authProvider: BearerTokenAuthProvider(
         bearerToken: tokenTextController.text,

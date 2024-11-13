@@ -1,6 +1,6 @@
 import 'package:fire_scribe/app.dart';
 import 'package:fire_scribe/app_logger.dart';
-import 'package:fire_scribe/auth/cubit/auth_cubit.dart';
+import 'package:fire_scribe/auth/cubit/fhir_server_connection_cubit.dart';
 import 'package:fire_scribe/bootstrap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,8 +27,8 @@ Future<void> main() async {
 class _Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AuthCubit>(
-      create: (_) => AuthCubit(
+    return BlocProvider<FhirServerConnectionCubit>(
+      create: (_) => FhirServerConnectionCubit(
         talker: GetIt.instance<Talker>(),
       ),
       child: const App(),

@@ -8,20 +8,20 @@ import 'package:talker_dio_logger/talker_dio_logger_interceptor.dart';
 import 'package:talker_dio_logger/talker_dio_logger_settings.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
-part 'auth_cubit.freezed.dart';
+part 'fhir_server_connection_cubit.freezed.dart';
 
 @freezed
-class AuthState with _$AuthState {
+class FhirServerConnectionCubitState with _$FhirServerConnectionCubitState {
   /// Represents the unauthenticated state, indicating that the user
   /// is not currently authenticated.
-  const factory AuthState.unauthenticated() = _Unauthenticated;
+  const factory FhirServerConnectionCubitState.unauthenticated() =
+      _Unauthenticated;
 
   /// Represents the authenticated state, indicating that the user is authenticated
   /// with one or more providers.
   ///
-  /// [providers]: A set containing the types of providers the user is
-  /// authenticated with.
-  const factory AuthState.authenticated({
+  /// [provider]: The current provider which is using for authenticate connection
+  const factory FhirServerConnectionCubitState.authenticated({
     required AuthProvider provider,
     required FhirRestClient fhirRestClient,
   }) = _Authenticated;
@@ -30,20 +30,10 @@ class AuthState with _$AuthState {
 // A Cubit responsible for orchestrating authentication operations across
 // multiple authentication providers.
 ///
-/// This Cubit manages the authentication flow by coordinating actions across a list
-/// of authentication providers.
-
-///
-/// Example usage:
-/// ```dart
-/// final authCubit = AuthCubit();
-/// await authCubit.connect(url, providerA);
-/// await authCubit.connect(url, providerB);
-/// ```
-class AuthCubit extends Cubit<AuthState> {
+class FhirServerConnectionCubit extends Cubit<FhirServerConnectionCubitState> {
   final Talker talker;
 
-  AuthCubit({
+  FhirServerConnectionCubit({
     required this.talker,
   }) : super(_Unauthenticated());
 
@@ -100,6 +90,20 @@ class AuthCubit extends Cubit<AuthState> {
       AppLogger.instance.e(e);
       return false;
     }
+  }
+
+  Future<String?> accessToken() async {
+    return await state.maybeWhen(
+      authenticated: (provider, _) async {
+        try {
+          return await provider.accessToken();
+        } catch (e) {
+          AppLogger.instance.e(e);
+          return null;
+        }
+      },
+      orElse: () => null,
+    );
   }
 
   Future<Map<String, dynamic>?> request({required FhirRequest request}) async {
