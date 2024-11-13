@@ -28,8 +28,8 @@ class MiscOssLicenseSinglePage extends StatelessWidget {
 
   @override
   Widget build(final BuildContext context) {
-    final package =
-        ossLicenses.firstWhere((final element) => element.name == packageName);
+    final package = allDependencies
+        .firstWhere((final element) => element.name == packageName);
 
     return Container(
       color: Theme.of(context).canvasColor,
