@@ -1,10 +1,11 @@
+import 'package:azure_identity/azure_identity.dart';
+import 'package:fire_scribe/app_logger.dart';
 import 'package:fire_scribe/auth/cubit/fhir_server_connection_cubit.dart';
+import 'package:fire_scribe/auth/providers/azure_identity_token_provider_desktop.dart';
 import 'package:fire_scribe/extensions/build_context.dart';
 import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'providers/azure_identity/azure_identity_token_provider.dart';
 
 class AzureIdentityConnectionForm extends StatefulWidget {
   const AzureIdentityConnectionForm({super.key});
@@ -42,7 +43,12 @@ class _AzureIdentityConnectionFormState
     final isConnected =
         await BlocProvider.of<FhirServerConnectionCubit>(context).authenticate(
       url: textController.text,
-      authProvider: createAzureIdentityProvider(url: textController.text),
+      authProvider: AzureIdentityTokenProviderDesktop(
+        url: textController.text,
+        azureCredential: DefaultAzureCredential(
+          logger: AppLogger.instance.d,
+        ),
+      ),
     );
     if (!mounted) {
       return;

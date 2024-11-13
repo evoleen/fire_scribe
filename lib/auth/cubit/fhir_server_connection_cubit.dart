@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:fhir_rest_client/fhir_rest_client.dart';
 import 'package:fire_scribe/app_logger.dart';
-import 'package:fire_scribe/auth/providers/auth_provider.dart';
+import 'package:fire_scribe/auth/providers/token_provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:talker_dio_logger/talker_dio_logger_interceptor.dart';
@@ -22,7 +22,7 @@ class FhirServerConnectionCubitState with _$FhirServerConnectionCubitState {
   ///
   /// [provider]: The current provider which is using for authenticate connection
   const factory FhirServerConnectionCubitState.authenticated({
-    required AuthProvider provider,
+    required TokenProvider provider,
     required FhirRestClient fhirRestClient,
   }) = _Authenticated;
 }
@@ -41,7 +41,7 @@ class FhirServerConnectionCubit extends Cubit<FhirServerConnectionCubitState> {
   /// [_Unauthenticated] state
   Future<bool> authenticate({
     required final String url,
-    required final AuthProvider authProvider,
+    required final TokenProvider authProvider,
   }) async {
     final client = FhirRestClient(
       dio: Dio(

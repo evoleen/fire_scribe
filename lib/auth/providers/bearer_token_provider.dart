@@ -1,6 +1,6 @@
-import 'package:fire_scribe/auth/providers/auth_provider.dart';
+import 'package:fire_scribe/auth/providers/token_provider.dart';
 
-class BearerTokenAuthProvider extends AuthProvider {
+class BearerTokenAuthProvider extends TokenProvider {
   final String bearerToken;
 
   BearerTokenAuthProvider({

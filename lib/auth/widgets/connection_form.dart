@@ -1,5 +1,5 @@
-import 'package:fire_scribe/auth/azure_identity_connection_form.dart';
-import 'package:fire_scribe/auth/url_token_connection_form.dart';
+import 'package:fire_scribe/auth/widgets/azure_identity_connection_form.dart';
+import 'package:fire_scribe/auth/widgets/url_token_connection_form.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 

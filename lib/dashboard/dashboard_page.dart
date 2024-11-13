@@ -1,5 +1,5 @@
-import 'package:fire_scribe/auth/connection_form.dart';
 import 'package:fire_scribe/auth/cubit/fhir_server_connection_cubit.dart';
+import 'package:fire_scribe/auth/widgets/connection_form.dart';
 import 'package:fire_scribe/dashboard/cubit/dashboard_cubit.dart';
 import 'package:fire_scribe/dashboard/widgets/dashboard_left_panel.dart';
 import 'package:fire_scribe/dashboard/widgets/entity_data_paginated_list.dart';
@@ -13,6 +13,7 @@ class DashboardPage extends StatelessWidget with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    const connectionFormKey = Key('ConnectionForm');
     return BlocBuilder<FhirServerConnectionCubit,
         FhirServerConnectionCubitState>(
       builder: (context, state) {
@@ -34,7 +35,9 @@ class DashboardPage extends StatelessWidget with WidgetsBindingObserver {
                       color: Theme.of(context).colorScheme.surfaceContainerLow,
                       child: Column(
                         children: const [
-                          ConnectionForm(),
+                          ConnectionForm(
+                            key: connectionFormKey,
+                          ),
                           Expanded(
                             child: EntityDataPaginatedList(),
                           ),
@@ -58,7 +61,9 @@ class DashboardPage extends StatelessWidget with WidgetsBindingObserver {
                   color: Theme.of(context).colorScheme.surfaceContainerLow,
                   child: Column(
                     children: [
-                      ConnectionForm(),
+                      ConnectionForm(
+                        key: connectionFormKey,
+                      ),
                       Expanded(
                         child: Center(
                           child: Text(
