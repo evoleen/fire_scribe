@@ -19,19 +19,23 @@ mixin _$AuthState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unauthenticated,
-    required TResult Function(String url, AuthProvider provider) authenticated,
+    required TResult Function(
+            AuthProvider provider, FhirRestClient fhirRestClient)
+        authenticated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unauthenticated,
-    TResult? Function(String url, AuthProvider provider)? authenticated,
+    TResult? Function(AuthProvider provider, FhirRestClient fhirRestClient)?
+        authenticated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unauthenticated,
-    TResult Function(String url, AuthProvider provider)? authenticated,
+    TResult Function(AuthProvider provider, FhirRestClient fhirRestClient)?
+        authenticated,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -118,7 +122,9 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unauthenticated,
-    required TResult Function(String url, AuthProvider provider) authenticated,
+    required TResult Function(
+            AuthProvider provider, FhirRestClient fhirRestClient)
+        authenticated,
   }) {
     return unauthenticated();
   }
@@ -127,7 +133,8 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unauthenticated,
-    TResult? Function(String url, AuthProvider provider)? authenticated,
+    TResult? Function(AuthProvider provider, FhirRestClient fhirRestClient)?
+        authenticated,
   }) {
     return unauthenticated?.call();
   }
@@ -136,7 +143,8 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unauthenticated,
-    TResult Function(String url, AuthProvider provider)? authenticated,
+    TResult Function(AuthProvider provider, FhirRestClient fhirRestClient)?
+        authenticated,
     required TResult orElse(),
   }) {
     if (unauthenticated != null) {
@@ -187,7 +195,7 @@ abstract class _$$AuthenticatedImplCopyWith<$Res> {
           _$AuthenticatedImpl value, $Res Function(_$AuthenticatedImpl) then) =
       __$$AuthenticatedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String url, AuthProvider provider});
+  $Res call({AuthProvider provider, FhirRestClient fhirRestClient});
 }
 
 /// @nodoc
@@ -203,18 +211,18 @@ class __$$AuthenticatedImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? url = null,
     Object? provider = null,
+    Object? fhirRestClient = null,
   }) {
     return _then(_$AuthenticatedImpl(
-      url: null == url
-          ? _value.url
-          : url // ignore: cast_nullable_to_non_nullable
-              as String,
       provider: null == provider
           ? _value.provider
           : provider // ignore: cast_nullable_to_non_nullable
               as AuthProvider,
+      fhirRestClient: null == fhirRestClient
+          ? _value.fhirRestClient
+          : fhirRestClient // ignore: cast_nullable_to_non_nullable
+              as FhirRestClient,
     ));
   }
 }
@@ -222,16 +230,17 @@ class __$$AuthenticatedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$AuthenticatedImpl implements _Authenticated {
-  const _$AuthenticatedImpl({required this.url, required this.provider});
+  const _$AuthenticatedImpl(
+      {required this.provider, required this.fhirRestClient});
 
   @override
-  final String url;
-  @override
   final AuthProvider provider;
+  @override
+  final FhirRestClient fhirRestClient;
 
   @override
   String toString() {
-    return 'AuthState.authenticated(url: $url, provider: $provider)';
+    return 'AuthState.authenticated(provider: $provider, fhirRestClient: $fhirRestClient)';
   }
 
   @override
@@ -239,13 +248,14 @@ class _$AuthenticatedImpl implements _Authenticated {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AuthenticatedImpl &&
-            (identical(other.url, url) || other.url == url) &&
             (identical(other.provider, provider) ||
-                other.provider == provider));
+                other.provider == provider) &&
+            (identical(other.fhirRestClient, fhirRestClient) ||
+                other.fhirRestClient == fhirRestClient));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, url, provider);
+  int get hashCode => Object.hash(runtimeType, provider, fhirRestClient);
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
@@ -259,29 +269,33 @@ class _$AuthenticatedImpl implements _Authenticated {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unauthenticated,
-    required TResult Function(String url, AuthProvider provider) authenticated,
+    required TResult Function(
+            AuthProvider provider, FhirRestClient fhirRestClient)
+        authenticated,
   }) {
-    return authenticated(url, provider);
+    return authenticated(provider, fhirRestClient);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unauthenticated,
-    TResult? Function(String url, AuthProvider provider)? authenticated,
+    TResult? Function(AuthProvider provider, FhirRestClient fhirRestClient)?
+        authenticated,
   }) {
-    return authenticated?.call(url, provider);
+    return authenticated?.call(provider, fhirRestClient);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unauthenticated,
-    TResult Function(String url, AuthProvider provider)? authenticated,
+    TResult Function(AuthProvider provider, FhirRestClient fhirRestClient)?
+        authenticated,
     required TResult orElse(),
   }) {
     if (authenticated != null) {
-      return authenticated(url, provider);
+      return authenticated(provider, fhirRestClient);
     }
     return orElse();
   }
@@ -320,11 +334,11 @@ class _$AuthenticatedImpl implements _Authenticated {
 
 abstract class _Authenticated implements AuthState {
   const factory _Authenticated(
-      {required final String url,
-      required final AuthProvider provider}) = _$AuthenticatedImpl;
+      {required final AuthProvider provider,
+      required final FhirRestClient fhirRestClient}) = _$AuthenticatedImpl;
 
-  String get url;
   AuthProvider get provider;
+  FhirRestClient get fhirRestClient;
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.

@@ -1,4 +1,4 @@
-import 'package:fire_scribe/auth/auth_cubit/auth_cubit.dart';
+import 'package:fire_scribe/auth/cubit/auth_cubit.dart';
 import 'package:fire_scribe/extensions/build_context.dart';
 import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +23,7 @@ class _AzureIdentityConnectionFormState
   void initState() {
     super.initState();
     textController.text = BlocProvider.of<AuthCubit>(context).state.maybeWhen(
-          authenticated: (url, _) => url,
+          authenticated: (provider, client) => client.baseUrl.toString(),
           orElse: () => '',
         );
   }
