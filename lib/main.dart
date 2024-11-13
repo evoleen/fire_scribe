@@ -31,7 +31,7 @@ class _Main extends StatelessWidget {
       create: (_) => AuthCubit(
         providers: {
           UrlTokenAuthProviderCubit(),
-          getAzureIdentityProviderCubit(),
+          createAzureIdentityProviderCubit(),
         },
       ),
       child: const App(),

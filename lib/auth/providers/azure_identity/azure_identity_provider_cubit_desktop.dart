@@ -5,7 +5,7 @@ import 'package:fire_scribe/app_logger.dart';
 import 'package:fire_scribe/auth/auth_cubit/auth_provider_cubit.dart';
 import 'package:fire_scribe/auth/providers/azure_identity/azure_identity_provider_cubit_base.dart';
 
-AzureIdentityProviderCubit getAzureIdentityProviderCubit() {
+AzureIdentityProviderCubit createAzureIdentityProviderCubit() {
   return AzureIdentityProviderCubitDesktop(
     azureCredential: DefaultAzureCredential(
       logger: AppLogger.instance.d,
