@@ -9,7 +9,7 @@ import 'package:stack_trace/stack_trace.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 Future<void> main() async {
-  await Chain.capture(
+  Chain.capture(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
       await bootstrap();
