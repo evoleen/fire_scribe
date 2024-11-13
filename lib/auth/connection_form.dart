@@ -23,18 +23,19 @@ class _ConnectionFormState extends State<ConnectionForm> {
       color: Theme.of(context).colorScheme.surfaceContainer,
       child: Column(
         children: [
-          TextButton(
-            onPressed: () {
-              setState(() {
-                useUrlTokenForm = !useUrlTokenForm;
-              });
-            },
-            child: Text(
-              useUrlTokenForm
-                  ? 'Login with Azure Identity'
-                  : 'Login with Bearer token',
+          if (!kIsWeb)
+            TextButton(
+              onPressed: () {
+                setState(() {
+                  useUrlTokenForm = !useUrlTokenForm;
+                });
+              },
+              child: Text(
+                useUrlTokenForm
+                    ? 'Login with Azure Identity'
+                    : 'Login with Bearer token',
+              ),
             ),
-          ),
           SizedBox(height: 16),
           useUrlTokenForm
               ? UrlTokenConnectionForm()
