@@ -19,19 +19,20 @@ mixin _$AuthState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unauthenticated,
-    required TResult Function(Set<Type> providers) authenticated,
+    required TResult Function(String url, List<AuthProvider> providers)
+        authenticated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unauthenticated,
-    TResult? Function(Set<Type> providers)? authenticated,
+    TResult? Function(String url, List<AuthProvider> providers)? authenticated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unauthenticated,
-    TResult Function(Set<Type> providers)? authenticated,
+    TResult Function(String url, List<AuthProvider> providers)? authenticated,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -71,6 +72,9 @@ class _$AuthStateCopyWithImpl<$Res, $Val extends AuthState>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -87,6 +91,9 @@ class __$$UnauthenticatedImplCopyWithImpl<$Res>
   __$$UnauthenticatedImplCopyWithImpl(
       _$UnauthenticatedImpl _value, $Res Function(_$UnauthenticatedImpl) _then)
       : super(_value, _then);
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -112,7 +119,8 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unauthenticated,
-    required TResult Function(Set<Type> providers) authenticated,
+    required TResult Function(String url, List<AuthProvider> providers)
+        authenticated,
   }) {
     return unauthenticated();
   }
@@ -121,7 +129,7 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unauthenticated,
-    TResult? Function(Set<Type> providers)? authenticated,
+    TResult? Function(String url, List<AuthProvider> providers)? authenticated,
   }) {
     return unauthenticated?.call();
   }
@@ -130,7 +138,7 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unauthenticated,
-    TResult Function(Set<Type> providers)? authenticated,
+    TResult Function(String url, List<AuthProvider> providers)? authenticated,
     required TResult orElse(),
   }) {
     if (unauthenticated != null) {
@@ -181,7 +189,7 @@ abstract class _$$AuthenticatedImplCopyWith<$Res> {
           _$AuthenticatedImpl value, $Res Function(_$AuthenticatedImpl) then) =
       __$$AuthenticatedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({Set<Type> providers});
+  $Res call({String url, List<AuthProvider> providers});
 }
 
 /// @nodoc
@@ -192,16 +200,23 @@ class __$$AuthenticatedImplCopyWithImpl<$Res>
       _$AuthenticatedImpl _value, $Res Function(_$AuthenticatedImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? url = null,
     Object? providers = null,
   }) {
     return _then(_$AuthenticatedImpl(
+      url: null == url
+          ? _value.url
+          : url // ignore: cast_nullable_to_non_nullable
+              as String,
       providers: null == providers
           ? _value._providers
           : providers // ignore: cast_nullable_to_non_nullable
-              as Set<Type>,
+              as List<AuthProvider>,
     ));
   }
 }
@@ -209,20 +224,23 @@ class __$$AuthenticatedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$AuthenticatedImpl implements _Authenticated {
-  const _$AuthenticatedImpl({required final Set<Type> providers})
+  const _$AuthenticatedImpl(
+      {required this.url, required final List<AuthProvider> providers})
       : _providers = providers;
 
-  final Set<Type> _providers;
   @override
-  Set<Type> get providers {
-    if (_providers is EqualUnmodifiableSetView) return _providers;
+  final String url;
+  final List<AuthProvider> _providers;
+  @override
+  List<AuthProvider> get providers {
+    if (_providers is EqualUnmodifiableListView) return _providers;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableSetView(_providers);
+    return EqualUnmodifiableListView(_providers);
   }
 
   @override
   String toString() {
-    return 'AuthState.authenticated(providers: $providers)';
+    return 'AuthState.authenticated(url: $url, providers: $providers)';
   }
 
   @override
@@ -230,15 +248,18 @@ class _$AuthenticatedImpl implements _Authenticated {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AuthenticatedImpl &&
+            (identical(other.url, url) || other.url == url) &&
             const DeepCollectionEquality()
                 .equals(other._providers, _providers));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_providers));
+  int get hashCode => Object.hash(
+      runtimeType, url, const DeepCollectionEquality().hash(_providers));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AuthenticatedImplCopyWith<_$AuthenticatedImpl> get copyWith =>
@@ -248,29 +269,30 @@ class _$AuthenticatedImpl implements _Authenticated {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unauthenticated,
-    required TResult Function(Set<Type> providers) authenticated,
+    required TResult Function(String url, List<AuthProvider> providers)
+        authenticated,
   }) {
-    return authenticated(providers);
+    return authenticated(url, providers);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unauthenticated,
-    TResult? Function(Set<Type> providers)? authenticated,
+    TResult? Function(String url, List<AuthProvider> providers)? authenticated,
   }) {
-    return authenticated?.call(providers);
+    return authenticated?.call(url, providers);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unauthenticated,
-    TResult Function(Set<Type> providers)? authenticated,
+    TResult Function(String url, List<AuthProvider> providers)? authenticated,
     required TResult orElse(),
   }) {
     if (authenticated != null) {
-      return authenticated(providers);
+      return authenticated(url, providers);
     }
     return orElse();
   }
@@ -308,11 +330,16 @@ class _$AuthenticatedImpl implements _Authenticated {
 }
 
 abstract class _Authenticated implements AuthState {
-  const factory _Authenticated({required final Set<Type> providers}) =
-      _$AuthenticatedImpl;
+  const factory _Authenticated(
+      {required final String url,
+      required final List<AuthProvider> providers}) = _$AuthenticatedImpl;
 
-  Set<Type> get providers;
-  @JsonKey(ignore: true)
+  String get url;
+  List<AuthProvider> get providers;
+
+  /// Create a copy of AuthState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AuthenticatedImplCopyWith<_$AuthenticatedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

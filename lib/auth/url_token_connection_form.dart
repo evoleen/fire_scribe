@@ -1,6 +1,5 @@
 import 'package:fire_scribe/auth/auth_cubit/auth_cubit.dart';
-import 'package:fire_scribe/auth/auth_cubit/auth_provider_cubit.dart';
-import 'package:fire_scribe/auth/providers/url_token_auth_provider_cubit.dart';
+import 'package:fire_scribe/auth/providers/bearer_token_provider.dart';
 import 'package:fire_scribe/extensions/build_context.dart';
 import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +20,17 @@ class _UrlTokenConnectionFormState extends State<UrlTokenConnectionForm> {
   @override
   void initState() {
     super.initState();
+    textController.text = BlocProvider.of<AuthCubit>(context).state.maybeWhen(
+          authenticated: (url, _) => url,
+          orElse: () => '',
+        );
+
+    BlocProvider.of<AuthCubit>(context)
+        .provider<BearerTokenAuthProvider>()
+        ?.accessToken()
+        .then((value) {
+      tokenTextController.text = value ?? '';
+    });
   }
 
   @override
@@ -43,14 +53,14 @@ class _UrlTokenConnectionFormState extends State<UrlTokenConnectionForm> {
     setState(() {
       isConnecting = true;
     });
-    final isConnected = await BlocProvider.of<AuthCubit>(context)
-        .provider<UrlTokenAuthProviderCubit>()
-        .signIn(
-          UrlTokenAuthProviderCubitParams(
-            serverUrl: textController.text,
-            token: tokenTextController.text,
-          ),
-        );
+
+    final isConnected = await BlocProvider.of<AuthCubit>(context).connect(
+      url: textController.text,
+      authProvider: BearerTokenAuthProvider(
+        bearerToken: tokenTextController.text,
+      ),
+    );
+
     if (!mounted) {
       return;
     }
@@ -66,53 +76,47 @@ class _UrlTokenConnectionFormState extends State<UrlTokenConnectionForm> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UrlTokenAuthProviderCubit, AuthProviderState>(
-      bloc: BlocProvider.of<AuthCubit>(context)
-          .provider<UrlTokenAuthProviderCubit>(),
-      builder: (context, state) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
           children: [
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: textController,
-                    onSubmitted: (_) => connect(),
-                    decoration: InputDecoration(
-                      hintText: S.of(context).introduceServerUrl,
-                      labelText: S.of(context).serverUrl,
-                      hintStyle: Theme.of(context).textTheme.bodyLarge,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(4),
-                        borderSide: BorderSide(
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                      ),
+            Expanded(
+              child: TextField(
+                controller: textController,
+                onSubmitted: (_) => connect(),
+                decoration: InputDecoration(
+                  hintText: S.of(context).introduceServerUrl,
+                  labelText: S.of(context).serverUrl,
+                  hintStyle: Theme.of(context).textTheme.bodyLarge,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(4),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
                     ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 16),
-            TextField(
-              controller: tokenTextController,
-              onSubmitted: (_) => connect(),
-              decoration: InputDecoration(
-                hintText: 'Introduce Bearer token',
-                labelText: 'Bearer token',
-                hintStyle: Theme.of(context).textTheme.bodyLarge,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(4),
-                  borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
               ),
             ),
           ],
-        );
-      },
+        ),
+        SizedBox(height: 16),
+        TextField(
+          controller: tokenTextController,
+          onSubmitted: (_) => connect(),
+          decoration: InputDecoration(
+            hintText: 'Introduce Bearer token',
+            labelText: 'Bearer token',
+            hintStyle: Theme.of(context).textTheme.bodyLarge,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.primary,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

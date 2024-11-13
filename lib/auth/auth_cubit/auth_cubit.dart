@@ -1,6 +1,5 @@
-import 'dart:async';
-
-import 'package:fire_scribe/auth/auth_cubit/auth_provider_cubit.dart';
+import 'package:collection/collection.dart';
+import 'package:fire_scribe/auth/providers/auth_provider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -17,68 +16,41 @@ class AuthState with _$AuthState {
   ///
   /// [providers]: A set containing the types of providers the user is
   /// authenticated with.
-  const factory AuthState.authenticated({required Set<Type> providers}) =
-      _Authenticated;
+  const factory AuthState.authenticated({
+    required String url,
+    required List<AuthProvider> providers,
+  }) = _Authenticated;
 }
 
 // A Cubit responsible for orchestrating authentication operations across
-//multiple authentication providers.
+// multiple authentication providers.
 ///
 /// This Cubit manages the authentication flow by coordinating actions across a list
 /// of authentication providers.
-/// It handles operations such as signing in, signing out,
-/// and retrieving access tokens from multiple providers.
+
 ///
 /// Example usage:
 /// ```dart
-/// final authCubit = AuthCubit(providers: {authProvider1, authProvider2});
+/// final authCubit = AuthCubit();
+/// await authCubit.connect(url, providerA);
+/// await authCubit.connect(url, providerB);
 /// ```
 class AuthCubit extends Cubit<AuthState> {
-  final Set<AuthProviderCubit> _providers;
+  AuthCubit() : super(_Unauthenticated());
 
-  late List<StreamSubscription<AuthProviderState<dynamic>>> _subscribers;
-
-  /// Creates an instance of [AuthCubit] with the specified authentication providers.
-  ///
-  /// [providers]: A set containing the authentication providers to be managed by this [AuthCubit].
-  ///
-  /// Example usage:
-  /// ```dart
-  /// final emailAuthProvider = EmailAuthProviderCubit(authService);
-  /// final phoneAuthProvider = PhoneAuthProviderCubit(authService);
-  /// final authCubit = AuthCubit(providers: {emailAuthProvider, phoneAuthProvider});
-  /// ```
-  AuthCubit(
-      {required final Set<AuthProviderCubit<AuthProviderCubitParams>>
-          providers})
-      : _providers = providers,
-        super(_Unauthenticated()) {
-    _subscribers = _providers
-        .map((provider) => provider.stream.listen(_onProviderStateChanged))
-        .toList();
-  }
-
-  void _onProviderStateChanged(AuthProviderState<dynamic> state) {
-    final newProviders = _providers
-        .where((provider) =>
-            provider.state.runtimeType ==
-            AuthProviderState.authenticated().runtimeType)
-        .map((provider) => provider.runtimeType)
-        .toSet();
-
-    if (newProviders.isEmpty) {
-      emit(AuthState.unauthenticated());
-    } else {
-      emit(AuthState.authenticated(providers: newProviders));
-    }
-  }
-
-  @override
-  Future<void> close() {
-    for (final subscriber in _subscribers) {
-      subscriber.cancel();
-    }
-    return super.close();
+  Future<bool> connect({
+    required final String url,
+    required final AuthProvider authProvider,
+  }) async {
+    emit(
+      _Authenticated(
+        url: url,
+        providers: [
+          authProvider,
+        ],
+      ),
+    );
+    return true;
   }
 
   /// Retrieves the authentication provider of the specified type.
@@ -94,7 +66,11 @@ class AuthCubit extends Cubit<AuthState> {
   /// ```dart
   /// final authProvider = authCubit.provider<EmailAuthProviderCubit>();
   /// ```
-  T provider<T extends AuthProviderCubit>() {
-    return _providers.firstWhere((element) => element is T) as T;
+  T? provider<T extends AuthProvider>() {
+    return state.maybeWhen(
+      authenticated: (_, providers) =>
+          providers.firstWhereOrNull((element) => element is T) as T?,
+      orElse: () => null,
+    );
   }
 }

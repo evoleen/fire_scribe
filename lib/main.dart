@@ -1,8 +1,6 @@
 import 'package:fire_scribe/app.dart';
 import 'package:fire_scribe/app_logger.dart';
 import 'package:fire_scribe/auth/auth_cubit/auth_cubit.dart';
-import 'package:fire_scribe/auth/providers/azure_identity/azure_identity_provider_cubit.dart';
-import 'package:fire_scribe/auth/providers/url_token_auth_provider_cubit.dart';
 import 'package:fire_scribe/bootstrap.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,12 +26,7 @@ class _Main extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<AuthCubit>(
-      create: (_) => AuthCubit(
-        providers: {
-          UrlTokenAuthProviderCubit(),
-          createAzureIdentityProviderCubit(),
-        },
-      ),
+      create: (_) => AuthCubit(),
       child: const App(),
     );
   }
