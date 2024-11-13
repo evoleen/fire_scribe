@@ -1,20 +1,34 @@
-import 'package:auth_cubit/auth_cubit.dart';
-import 'package:fire_scribe/auth/azure_identity_provider_cubit.dart';
+import 'package:fire_scribe/auth/cubit/auth_cubit.dart';
+import 'package:fire_scribe/auth/cubit/auth_provider_cubit.dart';
+import 'package:fire_scribe/auth/providers/azure_identity_provider_cubit.dart';
 import 'package:fire_scribe/extensions/build_context.dart';
 import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ServerUrlForm extends StatefulWidget {
-  const ServerUrlForm({super.key});
+class ConnectionForm extends StatefulWidget {
+  const ConnectionForm({super.key});
 
   @override
-  State<ServerUrlForm> createState() => _ServerUrlFormState();
+  State<ConnectionForm> createState() => _ConnectionFormState();
 }
 
-class _ServerUrlFormState extends State<ServerUrlForm> {
+class _ConnectionFormState extends State<ConnectionForm> {
   final textController = TextEditingController();
   var isConnecting = false;
+
+  @override
+  void initState() {
+    super.initState();
+    textController.text = BlocProvider.of<AuthCubit>(context)
+        .provider<AzureIdentityProviderCubit>()
+        .state
+        .maybeWhen(
+          authenticated: (data) => data,
+          unauthenticated: () => '',
+          orElse: () => '',
+        );
+  }
 
   @override
   void dispose() {

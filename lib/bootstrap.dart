@@ -11,10 +11,13 @@ import 'package:talker_bloc_logger/talker_bloc_logger_observer.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 Future<void> bootstrap() async {
-  final talker = TalkerFlutter.init(
-    logger: AppLogger.instance.logger,
+  GetIt.instance.registerSingleton<Talker>(
+    TalkerFlutter.init(
+      logger: AppLogger.instance.logger,
+    ),
   );
-  Bloc.observer = TalkerBlocObserver(talker: talker);
+
+  Bloc.observer = TalkerBlocObserver(talker: GetIt.instance<Talker>());
 
   GoRouter.optionURLReflectsImperativeAPIs = true;
   GoogleFonts.config.allowRuntimeFetching = false;

@@ -9,7 +9,7 @@ class DashboardRoute extends GoRouteData {
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return NoTransitionPage(
       child: AppScaffold(
-        childBuilder: (context) => DashboardPage(),
+        child: DashboardPage(),
       ),
     );
   }

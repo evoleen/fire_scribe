@@ -1,6 +1,6 @@
-import 'package:auth_cubit/auth_cubit.dart';
 import 'package:azure_identity/azure_identity.dart';
 import 'package:fire_scribe/app_logger.dart';
+import 'package:fire_scribe/auth/cubit/auth_provider_cubit.dart';
 
 class AzureIdentityProviderCubitParams extends AuthProviderCubitParams {
   final String serverUrl;
@@ -10,14 +10,17 @@ class AzureIdentityProviderCubitParams extends AuthProviderCubitParams {
   });
 }
 
+/// This auth provider is designed to authenticate into Azure Health Data Service
+/// In is authenticated state, will offer the URL of the server in form of a [String]
 class AzureIdentityProviderCubit
     extends AuthProviderCubit<AzureIdentityProviderCubitParams> {
-  final DefaultAzureCredential defaultAzureCredential;
+  final DefaultAzureCredential azureCredential;
 
   CredentialManager? _credentialManager;
 
-  AzureIdentityProviderCubit({required this.defaultAzureCredential})
-      : super(const AuthProviderState.unauthenticated());
+  AzureIdentityProviderCubit({
+    required this.azureCredential,
+  }) : super(const AuthProviderState.unauthenticated());
 
   @override
   Future<bool> signIn([AzureIdentityProviderCubitParams? params]) async {
@@ -25,7 +28,7 @@ class AzureIdentityProviderCubit
       return false;
     }
     _credentialManager = CredentialManager(
-      credential: defaultAzureCredential,
+      credential: azureCredential,
       options: GetTokenOptions(
         scopes: [
           params.serverUrl,
@@ -34,20 +37,18 @@ class AzureIdentityProviderCubit
     );
 
     try {
-      final token = await _credentialManager!.getAccessToken();
-      if (token?.token != null) {
-        emit(AuthProviderState.authenticated());
+      final isSigned = await accessToken() != null;
+      if (!isSigned) {
+        emit(AuthProviderState.unauthenticated());
+        return false;
       }
-      return token?.token != null;
+      emit(AuthProviderState.authenticated(data: params.serverUrl));
+      return true;
     } catch (e) {
       AppLogger.instance.e(e);
+      emit(AuthProviderState.unauthenticated());
       return false;
     }
-  }
-
-  @override
-  Future<bool> signIn2FA([AuthProviderCubitParams? params]) async {
-    return false;
   }
 
   @override
@@ -60,9 +61,7 @@ class AzureIdentityProviderCubit
   @override
   Future<String?> accessToken() async {
     final token = await _credentialManager?.getAccessToken();
-    if (token?.token == null) {
-      emit(AuthProviderState.unauthenticated());
-    }
+
     return token?.token;
   }
 }

@@ -13,7 +13,7 @@ class SettingsRoute extends GoRouteData {
   Page<void> buildPage(final BuildContext context, final GoRouterState state) {
     return NoTransitionPage(
       child: AppScaffold(
-        childBuilder: (context) => SettingsPage(),
+        child: SettingsPage(),
       ),
     );
   }
@@ -25,7 +25,7 @@ class PrivacyPolicyRoute extends GoRouteData {
   Page<void> buildPage(final BuildContext context, final GoRouterState state) {
     return NoTransitionPage(
       child: AppScaffold(
-        childBuilder: (context) => PrivacyPolicyPage(),
+        child: PrivacyPolicyPage(),
       ),
     );
   }
@@ -37,7 +37,7 @@ class TermsOfUseRoute extends GoRouteData {
   Page<void> buildPage(final BuildContext context, final GoRouterState state) {
     return NoTransitionPage(
       child: AppScaffold(
-        childBuilder: (context) => TermsOfUsePage(),
+        child: TermsOfUsePage(),
       ),
     );
   }
@@ -49,7 +49,7 @@ class ThirdPartyLicensesRoute extends GoRouteData {
   Page<void> buildPage(final BuildContext context, final GoRouterState state) {
     return NoTransitionPage(
       child: AppScaffold(
-        childBuilder: (context) => ThirdPartyLicensesPage(),
+        child: ThirdPartyLicensesPage(),
       ),
     );
   }
@@ -66,7 +66,7 @@ class ThirdPartyLicensesDetailRoute extends GoRouteData {
   Page<void> buildPage(final BuildContext context, final GoRouterState state) {
     return NoTransitionPage(
       child: AppScaffold(
-        childBuilder: (context) => MiscOssLicenseSinglePage(
+        child: MiscOssLicenseSinglePage(
           packageName: thirdPartyLicensePackageName,
         ),
       ),

@@ -2,11 +2,11 @@ import 'package:fire_scribe/app_drawer_menu.dart';
 import 'package:flutter/material.dart';
 
 class AppScaffold extends StatelessWidget {
-  final Widget Function(BuildContext) childBuilder;
+  final Widget child;
 
   const AppScaffold({
     super.key,
-    required this.childBuilder,
+    required this.child,
   });
 
   @override
@@ -23,7 +23,7 @@ class AppScaffold extends StatelessWidget {
                 children: [
                   AppDrawerMenu(),
                   Expanded(
-                    child: childBuilder(context),
+                    child: child,
                   ),
                 ],
               ),

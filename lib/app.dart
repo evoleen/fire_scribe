@@ -25,7 +25,7 @@ class App extends StatelessWidget {
       routes: $appRoutes,
       errorBuilder: (context, state) {
         return AppScaffold(
-          childBuilder: (context) => _AppErrorPage(),
+          child: _AppErrorPage(),
         );
       },
     );
