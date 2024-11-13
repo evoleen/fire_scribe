@@ -19,12 +19,12 @@ class DashboardPage extends StatelessWidget with WidgetsBindingObserver {
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state) {
         return state.when(
-          authenticated: (url, providers) {
+          authenticated: (url, provider) {
             return RepositoryProvider<FhirServerRepository>(
               create: (context) => FhirServerRepository(
                 serverUrl: url,
                 talker: GetIt.instance<Talker>(),
-                accessToken: () => providers.first.accessToken(),
+                accessToken: () => provider.accessToken(),
               ),
               child: BlocProvider(
                 create: (context) => DashboardCubit(),

@@ -1,4 +1,3 @@
-import 'package:collection/collection.dart';
 import 'package:dio/dio.dart';
 import 'package:fhir_rest_client/fhir_rest_client.dart';
 import 'package:fire_scribe/app_logger.dart';
@@ -21,7 +20,7 @@ class AuthState with _$AuthState {
   /// authenticated with.
   const factory AuthState.authenticated({
     required String url,
-    required List<AuthProvider> providers,
+    required AuthProvider provider,
   }) = _Authenticated;
 }
 
@@ -68,14 +67,7 @@ class AuthCubit extends Cubit<AuthState> {
           },
         ),
       );
-      emit(
-        _Authenticated(
-          url: url,
-          providers: [
-            authProvider,
-          ],
-        ),
-      );
+      emit(_Authenticated(url: url, provider: authProvider));
       return true;
     } catch (e) {
       AppLogger.instance.e(e);
@@ -83,23 +75,9 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  /// Retrieves the authentication provider of the specified type.
-  ///
-  /// This function returns the first authentication provider in the list of registered providers
-  /// that matches the specified type. If no provider of the specified type is found, it throws
-  /// a [StateError].
-  ///
-  /// [T]: The type of authentication provider to retrieve. It must be a subtype of [AuthProviderCubit].
-  /// [Returns]: An instance of the specified authentication provider type.
-  ///
-  /// Example usage:
-  /// ```dart
-  /// final authProvider = authCubit.provider<EmailAuthProviderCubit>();
-  /// ```
-  T? provider<T extends AuthProvider>() {
+  Future<String?> accessToken() async {
     return state.maybeWhen(
-      authenticated: (_, providers) =>
-          providers.firstWhereOrNull((element) => element is T) as T?,
+      authenticated: (_, provider) => provider.accessToken(),
       orElse: () => null,
     );
   }

@@ -25,10 +25,7 @@ class _UrlTokenConnectionFormState extends State<UrlTokenConnectionForm> {
           orElse: () => '',
         );
 
-    BlocProvider.of<AuthCubit>(context)
-        .provider<BearerTokenAuthProvider>()
-        ?.accessToken()
-        .then((value) {
+    BlocProvider.of<AuthCubit>(context).accessToken().then((value) {
       tokenTextController.text = value ?? '';
     });
   }

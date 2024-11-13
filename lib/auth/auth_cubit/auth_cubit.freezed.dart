@@ -19,20 +19,19 @@ mixin _$AuthState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unauthenticated,
-    required TResult Function(String url, List<AuthProvider> providers)
-        authenticated,
+    required TResult Function(String url, AuthProvider provider) authenticated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unauthenticated,
-    TResult? Function(String url, List<AuthProvider> providers)? authenticated,
+    TResult? Function(String url, AuthProvider provider)? authenticated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unauthenticated,
-    TResult Function(String url, List<AuthProvider> providers)? authenticated,
+    TResult Function(String url, AuthProvider provider)? authenticated,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -119,8 +118,7 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unauthenticated,
-    required TResult Function(String url, List<AuthProvider> providers)
-        authenticated,
+    required TResult Function(String url, AuthProvider provider) authenticated,
   }) {
     return unauthenticated();
   }
@@ -129,7 +127,7 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unauthenticated,
-    TResult? Function(String url, List<AuthProvider> providers)? authenticated,
+    TResult? Function(String url, AuthProvider provider)? authenticated,
   }) {
     return unauthenticated?.call();
   }
@@ -138,7 +136,7 @@ class _$UnauthenticatedImpl implements _Unauthenticated {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unauthenticated,
-    TResult Function(String url, List<AuthProvider> providers)? authenticated,
+    TResult Function(String url, AuthProvider provider)? authenticated,
     required TResult orElse(),
   }) {
     if (unauthenticated != null) {
@@ -189,7 +187,7 @@ abstract class _$$AuthenticatedImplCopyWith<$Res> {
           _$AuthenticatedImpl value, $Res Function(_$AuthenticatedImpl) then) =
       __$$AuthenticatedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String url, List<AuthProvider> providers});
+  $Res call({String url, AuthProvider provider});
 }
 
 /// @nodoc
@@ -206,17 +204,17 @@ class __$$AuthenticatedImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? url = null,
-    Object? providers = null,
+    Object? provider = null,
   }) {
     return _then(_$AuthenticatedImpl(
       url: null == url
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String,
-      providers: null == providers
-          ? _value._providers
-          : providers // ignore: cast_nullable_to_non_nullable
-              as List<AuthProvider>,
+      provider: null == provider
+          ? _value.provider
+          : provider // ignore: cast_nullable_to_non_nullable
+              as AuthProvider,
     ));
   }
 }
@@ -224,23 +222,16 @@ class __$$AuthenticatedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$AuthenticatedImpl implements _Authenticated {
-  const _$AuthenticatedImpl(
-      {required this.url, required final List<AuthProvider> providers})
-      : _providers = providers;
+  const _$AuthenticatedImpl({required this.url, required this.provider});
 
   @override
   final String url;
-  final List<AuthProvider> _providers;
   @override
-  List<AuthProvider> get providers {
-    if (_providers is EqualUnmodifiableListView) return _providers;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_providers);
-  }
+  final AuthProvider provider;
 
   @override
   String toString() {
-    return 'AuthState.authenticated(url: $url, providers: $providers)';
+    return 'AuthState.authenticated(url: $url, provider: $provider)';
   }
 
   @override
@@ -249,13 +240,12 @@ class _$AuthenticatedImpl implements _Authenticated {
         (other.runtimeType == runtimeType &&
             other is _$AuthenticatedImpl &&
             (identical(other.url, url) || other.url == url) &&
-            const DeepCollectionEquality()
-                .equals(other._providers, _providers));
+            (identical(other.provider, provider) ||
+                other.provider == provider));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, url, const DeepCollectionEquality().hash(_providers));
+  int get hashCode => Object.hash(runtimeType, url, provider);
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
@@ -269,30 +259,29 @@ class _$AuthenticatedImpl implements _Authenticated {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unauthenticated,
-    required TResult Function(String url, List<AuthProvider> providers)
-        authenticated,
+    required TResult Function(String url, AuthProvider provider) authenticated,
   }) {
-    return authenticated(url, providers);
+    return authenticated(url, provider);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unauthenticated,
-    TResult? Function(String url, List<AuthProvider> providers)? authenticated,
+    TResult? Function(String url, AuthProvider provider)? authenticated,
   }) {
-    return authenticated?.call(url, providers);
+    return authenticated?.call(url, provider);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unauthenticated,
-    TResult Function(String url, List<AuthProvider> providers)? authenticated,
+    TResult Function(String url, AuthProvider provider)? authenticated,
     required TResult orElse(),
   }) {
     if (authenticated != null) {
-      return authenticated(url, providers);
+      return authenticated(url, provider);
     }
     return orElse();
   }
@@ -332,10 +321,10 @@ class _$AuthenticatedImpl implements _Authenticated {
 abstract class _Authenticated implements AuthState {
   const factory _Authenticated(
       {required final String url,
-      required final List<AuthProvider> providers}) = _$AuthenticatedImpl;
+      required final AuthProvider provider}) = _$AuthenticatedImpl;
 
   String get url;
-  List<AuthProvider> get providers;
+  AuthProvider get provider;
 
   /// Create a copy of AuthState
   /// with the given fields replaced by the non-null parameter values.
