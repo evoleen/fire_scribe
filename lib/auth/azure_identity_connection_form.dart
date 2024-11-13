@@ -38,7 +38,7 @@ class _AzureIdentityConnectionFormState
     setState(() {
       isConnecting = true;
     });
-    final isConnected = await BlocProvider.of<AuthCubit>(context).connect(
+    final isConnected = await BlocProvider.of<AuthCubit>(context).authenticate(
       url: textController.text,
       authProvider: createAzureIdentityProvider(url: textController.text),
     );

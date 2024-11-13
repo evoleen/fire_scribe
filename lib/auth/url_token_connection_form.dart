@@ -54,7 +54,7 @@ class _UrlTokenConnectionFormState extends State<UrlTokenConnectionForm> {
       isConnecting = true;
     });
 
-    final isConnected = await BlocProvider.of<AuthCubit>(context).connect(
+    final isConnected = await BlocProvider.of<AuthCubit>(context).authenticate(
       url: textController.text,
       authProvider: BearerTokenAuthProvider(
         bearerToken: tokenTextController.text,

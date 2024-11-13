@@ -41,7 +41,7 @@ class AuthState with _$AuthState {
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(_Unauthenticated());
 
-  Future<bool> connect({
+  Future<bool> authenticate({
     required final String url,
     required final AuthProvider authProvider,
   }) async {
