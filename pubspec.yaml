@@ -4,11 +4,11 @@ description: "fire_scribe"
 publish_to: none
 homepage: https://github.com/evoleen/fire_scribe
 repository: https://github.com/evoleen/fire_scribe
-issue_tracker: https://github.com/evoleen/fire_scribe
+issue_tracker: https://github.com/evoleen/fire_scribe/issues
 
 environment:
-  sdk: '>=3.5.0 <4.0.0'
-  flutter: ">=3.24.0"
+  sdk: ^3.5.0
+  flutter: ^3.24.3
 
 dependencies:
   args: 2.6.0
