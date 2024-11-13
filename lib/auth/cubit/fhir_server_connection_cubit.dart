@@ -53,7 +53,10 @@ class FhirServerConnectionCubit extends Cubit<FhirServerConnectionCubitState> {
           [
             TalkerDioLogger(
               talker: talker,
-              settings: TalkerDioLoggerSettings(),
+              settings: TalkerDioLoggerSettings(
+                printRequestHeaders: true,
+                printResponseHeaders: true,
+              ),
             ),
             InterceptorsWrapper(
               onRequest: (options, handler) async {
@@ -80,7 +83,7 @@ class FhirServerConnectionCubit extends Cubit<FhirServerConnectionCubitState> {
           operation: FhirRequestOperation.search,
           entityName: 'Patient',
           parameters: {
-            'count': '1',
+            '_count': '1',
           },
         ),
       );
