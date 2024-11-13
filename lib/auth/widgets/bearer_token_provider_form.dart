@@ -84,26 +84,20 @@ class _BearerTokenProviderFormState extends State<BearerTokenProviderForm> {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: TextField(
-                controller: serverUrlTextController,
-                onSubmitted: (_) => connect(),
-                decoration: InputDecoration(
-                  hintText: S.of(context).introduceServerUrl,
-                  labelText: S.of(context).serverUrl,
-                  hintStyle: Theme.of(context).textTheme.bodyLarge,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(4),
-                    borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                ),
+        TextField(
+          controller: serverUrlTextController,
+          onSubmitted: (_) => connect(),
+          decoration: InputDecoration(
+            hintText: S.of(context).introduceServerUrl,
+            labelText: S.of(context).serverUrl,
+            hintStyle: Theme.of(context).textTheme.bodyLarge,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(4),
+              borderSide: BorderSide(
+                color: Theme.of(context).colorScheme.primary,
               ),
             ),
-          ],
+          ),
         ),
         SizedBox(height: 16),
         TextField(
