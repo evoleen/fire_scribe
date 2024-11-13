@@ -113,6 +113,30 @@ class S {
         desc: 'The hint text of the server connection text field',
       );
 
+  String get serverUrlFormEmpty => Intl.message(
+        'Please, add a servel url to connect',
+        name: 'serverUrlFormEmpty',
+        desc: 'The error message when user connect with an empty server url',
+      );
+
+  String get bearerToken => Intl.message(
+        'Bearer Token',
+        name: 'bearerToken',
+        desc: 'The label of the bearer token form text field',
+      );
+
+  String get introduceBearerToken => Intl.message(
+        'Enter Bearer Token',
+        name: 'introduceBearerToken',
+        desc: 'The hint text of the bearer token form text field',
+      );
+
+  String get bearerTokenFormEmpty => Intl.message(
+        'Please, enter a Bearer token to connect',
+        name: 'bearerTokenFormEmpty',
+        desc: 'The error message when user connect with an empty bearer token',
+      );
+
   String get serverConnectedWarning => Intl.message(
         'Connected to server',
         name: 'serverConnectedWarning',

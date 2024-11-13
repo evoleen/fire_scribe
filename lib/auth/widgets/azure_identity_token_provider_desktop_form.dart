@@ -17,13 +17,13 @@ class AzureIdentityTokenProviderForm extends StatefulWidget {
 
 class _AzureIdentityTokenProviderFormState
     extends State<AzureIdentityTokenProviderForm> {
-  final textController = TextEditingController();
+  final serverUrlTextController = TextEditingController();
   var isConnecting = false;
 
   @override
   void initState() {
     super.initState();
-    textController.text =
+    serverUrlTextController.text =
         BlocProvider.of<FhirServerConnectionCubit>(context).state.maybeWhen(
               authenticated: (provider, client) => client.baseUrl.toString(),
               orElse: () => '',
@@ -32,19 +32,26 @@ class _AzureIdentityTokenProviderFormState
 
   @override
   void dispose() {
-    textController.dispose();
+    serverUrlTextController.dispose();
     super.dispose();
   }
 
   Future<void> connect() async {
+    if (serverUrlTextController.text.isEmpty) {
+      context.popAndPushSnackbar(
+        message: S.of(context).serverUrlFormEmpty,
+      );
+      return;
+    }
+
     setState(() {
       isConnecting = true;
     });
     final isConnected =
         await BlocProvider.of<FhirServerConnectionCubit>(context).authenticate(
-      url: textController.text,
+      url: serverUrlTextController.text,
       authProvider: AzureIdentityTokenProviderDesktop(
-        url: textController.text,
+        url: serverUrlTextController.text,
         azureCredential: DefaultAzureCredential(
           logger: AppLogger.instance.d,
         ),
@@ -66,7 +73,7 @@ class _AzureIdentityTokenProviderFormState
   @override
   Widget build(BuildContext context) {
     return TextField(
-      controller: textController,
+      controller: serverUrlTextController,
       onSubmitted: (_) => connect(),
       decoration: InputDecoration(
         hintText: S.of(context).introduceServerUrl,

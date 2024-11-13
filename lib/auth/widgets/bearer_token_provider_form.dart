@@ -14,14 +14,14 @@ class BearerTokenProviderForm extends StatefulWidget {
 }
 
 class _BearerTokenProviderFormState extends State<BearerTokenProviderForm> {
-  final textController = TextEditingController();
-  final tokenTextController = TextEditingController();
+  final serverUrlTextController = TextEditingController();
+  final bearerTokenTextController = TextEditingController();
   var isConnecting = false;
 
   @override
   void initState() {
     super.initState();
-    textController.text =
+    serverUrlTextController.text =
         BlocProvider.of<FhirServerConnectionCubit>(context).state.maybeWhen(
               authenticated: (_, client) => client.baseUrl.toString(),
               orElse: () => '',
@@ -30,25 +30,28 @@ class _BearerTokenProviderFormState extends State<BearerTokenProviderForm> {
     BlocProvider.of<FhirServerConnectionCubit>(context)
         .accessToken()
         .then((value) {
-      tokenTextController.text = value ?? '';
+      bearerTokenTextController.text = value ?? '';
     });
   }
 
   @override
   void dispose() {
-    textController.dispose();
+    serverUrlTextController.dispose();
+    bearerTokenTextController.dispose();
     super.dispose();
   }
 
   Future<void> connect() async {
-    if (textController.text.isEmpty) {
+    if (serverUrlTextController.text.isEmpty) {
       context.popAndPushSnackbar(
-          message: 'Please, add a servel url to connect');
+        message: S.of(context).serverUrlFormEmpty,
+      );
       return;
     }
-    if (tokenTextController.text.isEmpty) {
+    if (bearerTokenTextController.text.isEmpty) {
       context.popAndPushSnackbar(
-          message: 'Please, add a Bearer token to connect');
+        message: S.of(context).bearerTokenFormEmpty,
+      );
       return;
     }
     setState(() {
@@ -57,9 +60,9 @@ class _BearerTokenProviderFormState extends State<BearerTokenProviderForm> {
 
     final isConnected =
         await BlocProvider.of<FhirServerConnectionCubit>(context).authenticate(
-      url: textController.text,
+      url: serverUrlTextController.text,
       authProvider: BearerTokenAuthProvider(
-        bearerToken: tokenTextController.text,
+        bearerToken: bearerTokenTextController.text,
       ),
     );
 
@@ -85,7 +88,7 @@ class _BearerTokenProviderFormState extends State<BearerTokenProviderForm> {
           children: [
             Expanded(
               child: TextField(
-                controller: textController,
+                controller: serverUrlTextController,
                 onSubmitted: (_) => connect(),
                 decoration: InputDecoration(
                   hintText: S.of(context).introduceServerUrl,
@@ -104,11 +107,11 @@ class _BearerTokenProviderFormState extends State<BearerTokenProviderForm> {
         ),
         SizedBox(height: 16),
         TextField(
-          controller: tokenTextController,
+          controller: bearerTokenTextController,
           onSubmitted: (_) => connect(),
           decoration: InputDecoration(
-            hintText: 'Introduce Bearer token',
-            labelText: 'Bearer token',
+            hintText: S.of(context).introduceBearerToken,
+            labelText: S.of(context).bearerToken,
             hintStyle: Theme.of(context).textTheme.bodyLarge,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(4),
