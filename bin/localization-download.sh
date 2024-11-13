@@ -19,10 +19,10 @@ curl -f -s -o "localise-translated.zip" "https://localise.biz/api/export/archive
 unzip -qq -o -j -d "$OUTPUT_PATH" "localise-translated.zip" 
 
 # Generate Dart files with translations
-dart run intl_generator:generate_from_arb "$APP_LOCALIZATIONS_PATH" \
+fvm dart run intl_translation:generate_from_arb "$APP_LOCALIZATIONS_PATH" \
     --output-dir="$OUTPUT_PATH" \
     --codegen_mode debug \
-    $OUTPUT_PATH/intl_messages_*.arb
+    $OUTPUT_PATH/intl_messages*.arb
 
 # Cleanup
 rm "$OUTPUT_PATH/README.txt"
