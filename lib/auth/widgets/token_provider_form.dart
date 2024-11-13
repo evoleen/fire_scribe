@@ -4,15 +4,8 @@ import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class TokenProviderForm extends StatefulWidget {
+class TokenProviderForm extends StatelessWidget {
   const TokenProviderForm({super.key});
-
-  @override
-  State<TokenProviderForm> createState() => _TokenProviderFormState();
-}
-
-class _TokenProviderFormState extends State<TokenProviderForm> {
-  var useUrlTokenForm = kIsWeb;
 
   @override
   Widget build(BuildContext context) {
@@ -22,27 +15,41 @@ class _TokenProviderFormState extends State<TokenProviderForm> {
         horizontal: 24,
       ),
       color: Theme.of(context).colorScheme.surfaceContainer,
-      child: Column(
-        children: [
-          if (!kIsWeb)
-            TextButton(
-              onPressed: () {
-                setState(() {
-                  useUrlTokenForm = !useUrlTokenForm;
-                });
-              },
-              child: Text(
-                useUrlTokenForm
-                    ? S.of(context).loginWithAzureIdentity
-                    : S.of(context).loginWithBearerToken,
-              ),
-            ),
-          SizedBox(height: 16),
-          useUrlTokenForm
-              ? BearerTokenProviderForm()
-              : AzureIdentityTokenProviderForm(),
-        ],
-      ),
+      child: kIsWeb ? BearerTokenProviderForm() : TokenProviderDesktopForm(),
+    );
+  }
+}
+
+class TokenProviderDesktopForm extends StatefulWidget {
+  const TokenProviderDesktopForm({super.key});
+
+  @override
+  State<TokenProviderDesktopForm> createState() =>
+      _TokenProviderDesktopFormState();
+}
+
+class _TokenProviderDesktopFormState extends State<TokenProviderDesktopForm> {
+  var usingAzureIdentityForm = true;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        TextButton(
+          onPressed: () {
+            setState(() {
+              usingAzureIdentityForm = !usingAzureIdentityForm;
+            });
+          },
+          child: Text(usingAzureIdentityForm
+              ? S.of(context).loginWithBearerToken
+              : S.of(context).loginWithAzureIdentity),
+        ),
+        SizedBox(height: 16),
+        usingAzureIdentityForm
+            ? AzureIdentityTokenProviderForm()
+            : BearerTokenProviderForm(),
+      ],
     );
   }
 }
