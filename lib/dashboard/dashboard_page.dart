@@ -8,7 +8,7 @@ import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DashboardPage extends StatelessWidget with WidgetsBindingObserver {
+class DashboardPage extends StatelessWidget {
   const DashboardPage();
 
   @override
