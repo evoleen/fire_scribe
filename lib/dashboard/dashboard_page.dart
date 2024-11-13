@@ -1,6 +1,7 @@
-import 'package:auth_cubit/auth_cubit.dart';
-import 'package:azure_identity_provider/azure_identity_provider.dart';
+import 'package:fire_scribe/auth/auth_cubit/auth_cubit.dart';
+import 'package:fire_scribe/auth/auth_cubit/auth_provider_cubit.dart';
 import 'package:fire_scribe/auth/connection_form.dart';
+import 'package:fire_scribe/auth/providers/azure_identity/azure_identity_provider_cubit_base.dart';
 import 'package:fire_scribe/dashboard/cubit/dashboard_cubit.dart';
 import 'package:fire_scribe/dashboard/widgets/dashboard_left_panel.dart';
 import 'package:fire_scribe/dashboard/widgets/entity_data_paginated_list.dart';
@@ -17,12 +18,14 @@ class DashboardPage extends StatelessWidget with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthCubit, AuthState>(
+    return BlocBuilder<AzureIdentityProviderCubit, AuthProviderState>(
+      bloc: BlocProvider.of<AuthCubit>(context)
+          .provider<AzureIdentityProviderCubit>(),
       builder: (context, state) {
         return state.when(
           authenticated: (data) => RepositoryProvider(
             create: (context) => FhirServerRepository(
-              serverUrl: '', //data,
+              serverUrl: data,
               talker: GetIt.instance<Talker>(),
               accessToken: () => BlocProvider.of<AuthCubit>(context)
                   .provider<AzureIdentityProviderCubit>()
@@ -68,8 +71,7 @@ class DashboardPage extends StatelessWidget with WidgetsBindingObserver {
                   color: Theme.of(context).colorScheme.surfaceContainerLow,
                   child: Column(
                     children: [
-                      Text('hola'),
-                      // ConnectionForm(),
+                      ConnectionForm(),
                       Center(
                         child: Text(
                           S.of(context).connectToServerHelpText,

@@ -1,4 +1,4 @@
-import 'package:auth_cubit/auth_cubit.dart';
+import 'package:fire_scribe/auth/auth_cubit/auth_provider_cubit.dart';
 
 class UrlTokenAuthProviderCubitParams extends AuthProviderCubitParams {
   final String serverUrl;

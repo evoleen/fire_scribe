@@ -1,6 +1,12 @@
-//
-import 'package:auth_cubit/auth_cubit.dart';
-import 'package:azure_identity_provider/src/azure_identity_provider_cubit_params.dart';
+import 'package:fire_scribe/auth/auth_cubit/auth_provider_cubit.dart';
+
+class AzureIdentityProviderCubitParams extends AuthProviderCubitParams {
+  final String serverUrl;
+
+  AzureIdentityProviderCubitParams({
+    required this.serverUrl,
+  });
+}
 
 AzureIdentityProviderCubit getAzureIdentityProviderCubit() {
   return AzureIdentityProviderCubit();
@@ -15,16 +21,16 @@ class AzureIdentityProviderCubit
 
   @override
   Future<bool> signIn([AzureIdentityProviderCubitParams? params]) async {
-    throw Exception('Provider cannot be usable on web');
+    throw UnimplementedError();
   }
 
   @override
   Future<bool> signOut() async {
-    throw Exception('Provider cannot be usable on web');
+    throw UnimplementedError();
   }
 
   @override
   Future<String?> accessToken() async {
-    throw Exception('Provider cannot be usable on web');
+    throw UnimplementedError();
   }
 }

@@ -1,5 +1,6 @@
-import 'package:auth_cubit/auth_cubit.dart';
-import 'package:azure_identity_provider/azure_identity_provider.dart';
+import 'package:fire_scribe/auth/auth_cubit/auth_cubit.dart';
+import 'package:fire_scribe/auth/auth_cubit/auth_provider_cubit.dart';
+import 'package:fire_scribe/auth/providers/azure_identity/azure_identity_provider_cubit_base.dart';
 import 'package:fire_scribe/extensions/build_context.dart';
 import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';

@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:auth_cubit/src/auth_provider_cubit.dart';
-import 'package:bloc/bloc.dart';
+import 'package:fire_scribe/auth/auth_cubit/auth_provider_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'auth_cubit.freezed.dart';
