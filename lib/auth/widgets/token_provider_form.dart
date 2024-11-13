@@ -41,9 +41,11 @@ class _TokenProviderDesktopFormState extends State<TokenProviderDesktopForm> {
               usingAzureIdentityForm = !usingAzureIdentityForm;
             });
           },
-          child: Text(usingAzureIdentityForm
-              ? S.of(context).loginWithBearerToken
-              : S.of(context).loginWithAzureIdentity),
+          child: Text(
+            usingAzureIdentityForm
+                ? S.of(context).loginWithBearerToken
+                : S.of(context).loginWithAzureIdentity,
+          ),
         ),
         SizedBox(height: 16),
         usingAzureIdentityForm
