@@ -16,7 +16,7 @@ then
 fi
 
 # Generate .arb files
-dart run intl_generator:extract_to_arb --output-dir=$OUTPUT_PATH $APP_LOCALIZATIONS_PATH
+fvm dart run intl_translation:extract_to_arb --output-dir=$OUTPUT_PATH $APP_LOCALIZATIONS_PATH
 
 # Upload generated arb to Localise
 curl -f -s --data-binary "@$OUTPUT_PATH/intl_messages.arb" "https://localise.biz/api/import/arb?async=true&index=id&locale=en&delete-absent=$DELETE_ABSENT&key=$LOCO_API_KEY"

@@ -1,3 +1,119 @@
 {
-  "@@last_modified": "2023-12-11T23:25:20.982462",
+  "@@last_modified": "2024-11-12T23:12:18.751307",
+  "appTitle": "Fire Scribe",
+  "@appTitle": {
+    "description": "The title of the app",
+    "type": "text",
+    "placeholders": {}
+  },
+  "appErrorPageMessage": "Error found, please refresh",
+  "@appErrorPageMessage": {
+    "description": "The message showed when user access to a wrong route",
+    "type": "text",
+    "placeholders": {}
+  },
+  "refresh": "Refresh",
+  "@refresh": {
+    "description": "Refresh word",
+    "type": "text",
+    "placeholders": {}
+  },
+  "allResources": "All resources",
+  "@allResources": {
+    "description": "The title of the entity list section",
+    "type": "text",
+    "placeholders": {}
+  },
+  "serverUrl": "Server URL",
+  "@serverUrl": {
+    "description": "The label of the server connection text field",
+    "type": "text",
+    "placeholders": {}
+  },
+  "introduceServerUrl": "Enter Server URL",
+  "@introduceServerUrl": {
+    "description": "The hint text of the server connection text field",
+    "type": "text",
+    "placeholders": {}
+  },
+  "serverConnectedWarning": "Connected to server",
+  "@serverConnectedWarning": {
+    "description": "Message for showing in a snackbar after a successful connection",
+    "type": "text",
+    "placeholders": {}
+  },
+  "serverNotConnectedWarning": "Cannot connect to specified url",
+  "@serverNotConnectedWarning": {
+    "description": "Message for showing in a snackbar after an unsuccessful connection",
+    "type": "text",
+    "placeholders": {}
+  },
+  "connectToServerHelpText": "To view all resources please connect to server.\nCopy and paste the link to your server’s URL above.",
+  "@connectToServerHelpText": {
+    "description": "Message showed when the user does not have a valid connection to a server",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noDataAssociatedToAnEntity": "There's no data associated\nwith this entity",
+  "@noDataAssociatedToAnEntity": {
+    "description": "Message showed when no data retrieved from backend for a certcain entity",
+    "type": "text",
+    "placeholders": {}
+  },
+  "entityTypeIdHeader": "{entityType} ID",
+  "@entityTypeIdHeader": {
+    "description": "ID column for the data viewer",
+    "type": "text",
+    "placeholders": {
+      "entityType": {}
+    }
+  },
+  "lastUpdate": "Last update",
+  "@lastUpdate": {
+    "description": "Last update column for the data viewer",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectAnEntityFromList": "Select an entity to see entries of that type",
+  "@selectAnEntityFromList": {
+    "description": "Message showed when user is connected but not selected any entity to display data yet",
+    "type": "text",
+    "placeholders": {}
+  },
+  "pageComingSoon": "Page coming soon",
+  "@pageComingSoon": {
+    "description": "Message to show for pages that are not integrated yet",
+    "type": "text",
+    "placeholders": {}
+  },
+  "server": "Server",
+  "@server": {
+    "description": "Server menu item label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "settings": "Settings",
+  "@settings": {
+    "description": "Settings menu item label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "privacyPolicy": "Privacy Policy",
+  "@privacyPolicy": {
+    "description": "Privacy Policy menu item label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "termsOfUse": "Terms Of Use",
+  "@termsOfUse": {
+    "description": "Terms of Use menu item label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "thirdPartyLicenses": "Third-Party Licenses",
+  "@thirdPartyLicenses": {
+    "description": "third party licenses menu item label",
+    "type": "text",
+    "placeholders": {}
+  }
 }

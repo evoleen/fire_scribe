@@ -7,4 +7,4 @@
 #
 # After translation, use ./bin/localization-generate.sh to prepare the app locale.
 #
-dart run intl_generator:extract_to_arb --output-dir=lib/l10n/l10n lib/l10n/app_localizations.dart
+fvm dart run intl_translation:extract_to_arb --output-dir=lib/l10n/l10n lib/l10n/app_localizations.dart

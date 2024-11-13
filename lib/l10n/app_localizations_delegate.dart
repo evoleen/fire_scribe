@@ -1,9 +1,8 @@
 import 'dart:async';
 
+import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:fire_scribe/l10n/supported_locales.dart';
 import 'package:flutter/material.dart';
-
-import 'app_localizations.dart';
 
 class AppLocalizationsDelegate extends LocalizationsDelegate<S> {
   const AppLocalizationsDelegate();
