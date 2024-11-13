@@ -11,7 +11,7 @@ environment:
   flutter: ">=3.24.0"
 
 dependencies:
-  args: 2.5.0
+  args: 2.6.0
   azure_identity: 0.0.5+1
   built_collection: 5.1.1
   collection: 1.18.0
@@ -26,7 +26,6 @@ dependencies:
   flutter_bloc: 8.1.6
   flutter_localizations:
     sdk: flutter
-  flutter_native_splash: 2.3.7
   freezed_annotation: 2.4.4
   get_it: 7.7.0
   google_fonts: 6.2.1
