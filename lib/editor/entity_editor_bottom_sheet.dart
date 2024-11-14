@@ -1,6 +1,6 @@
 import 'package:fhir/r4.dart';
-import 'package:firearrow_admin_app/editor/entity_editor_cubit.dart';
-import 'package:firearrow_admin_app/l10n/app_localizations.dart';
+import 'package:fire_scribe/editor/entity_editor_cubit.dart';
+import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:json_editor_flutter/json_editor_flutter.dart';
