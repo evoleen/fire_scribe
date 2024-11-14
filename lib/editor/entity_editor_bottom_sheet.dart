@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:fhir/r4.dart';
 import 'package:fire_scribe/editor/entity_editor_cubit.dart';
 import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:json_editor_flutter/json_editor_flutter.dart';
+import 'package:flutter_code_editor/flutter_code_editor.dart';
+import 'package:flutter_highlight/themes/atom-one-light.dart';
+import 'package:highlight/languages/json.dart';
 
 class EntityEditorBottonSheet extends StatefulWidget {
   const EntityEditorBottonSheet({
@@ -83,14 +87,26 @@ class _EntityEditorBottonSheetState extends State<EntityEditorBottonSheet> {
                 ),
               ),
               Expanded(
-                child: JsonEditor(
-                  json: widget.resource.toJsonString(),
-                  enableKeyEdit: false,
-                  themeColor:
-                      Theme.of(context).colorScheme.primary.withOpacity(0.2),
-                  onChanged: (data) =>
-                      BlocProvider.of<EntityEditorCubit>(context).update(
-                    resource: Resource.fromJson(data),
+                child: SingleChildScrollView(
+                  child: CodeTheme(
+                    data: CodeThemeData(
+                      styles: atomOneLightTheme,
+                    ),
+                    child: CodeField(
+                      controller: CodeController(
+                        text: JsonEncoder.withIndent('\t')
+                            .convert(widget.resource.toJson()),
+                        readOnlySectionNames: {
+                          'resourceType',
+                          'id',
+                        },
+                        language: json,
+                      ),
+                      onChanged: (data) =>
+                          BlocProvider.of<EntityEditorCubit>(context).update(
+                        resource: Resource.fromJsonString(data),
+                      ),
+                    ),
                   ),
                 ),
               ),
