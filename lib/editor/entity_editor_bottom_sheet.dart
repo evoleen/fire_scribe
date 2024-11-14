@@ -75,7 +75,7 @@ class _EntityEditorBottonSheetState extends State<EntityEditorBottonSheet> {
     if (formatException.offset == null) {
       return null;
     }
-    // Split the JSON string by newline to get each line.
+
     final lines = formatException.source.split('\n') as List<String>;
     var currentOffset = 0;
     var errorLine = 0;
