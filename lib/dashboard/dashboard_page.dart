@@ -7,8 +7,8 @@ import 'package:fire_scribe/dashboard/cubit/dashboard_cubit.dart';
 import 'package:fire_scribe/dashboard/widgets/dashboard_left_panel.dart';
 import 'package:fire_scribe/dashboard/widgets/entity_data_paginated_list.dart';
 import 'package:fire_scribe/dashboard/widgets/entity_type_list.dart';
-import 'package:fire_scribe/editor/entity_editor_bottom_sheet.dart';
-import 'package:fire_scribe/editor/patient_json.dart';
+import 'package:fire_scribe/fhir_resource/fhir_resource_editor_bottom_sheet.dart';
+import 'package:fire_scribe/fhir_resource/patient_json.dart';
 import 'package:fire_scribe/fhir_server/fhir_server_repository.dart';
 import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -86,7 +86,7 @@ class DashboardPage extends StatelessWidget with WidgetsBindingObserver {
                         child: SizedBox(
                           width: double.infinity,
                           child: FilledButton(
-                            onPressed: () => EntityEditorBottonSheet.show(
+                            onPressed: () => FhirResourceEditorBottonSheet.show(
                               context,
                               resource: Resource.fromJson(patientJson),
                             ),
@@ -106,9 +106,6 @@ class DashboardPage extends StatelessWidget with WidgetsBindingObserver {
                 ),
               ),
             ],
-          ),
-          preAuthenticated: (_) => Center(
-            child: CircularProgressIndicator(),
           ),
         );
       },

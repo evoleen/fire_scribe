@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'entity_editor_cubit.dart';
+part of 'fhir_resource_editor_cubit.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$EntityEditorCubitState {
+mixin _$FhirResourceEditorCubitState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() busy,
@@ -63,24 +63,26 @@ mixin _$EntityEditorCubitState {
 }
 
 /// @nodoc
-abstract class $EntityEditorCubitStateCopyWith<$Res> {
-  factory $EntityEditorCubitStateCopyWith(EntityEditorCubitState value,
-          $Res Function(EntityEditorCubitState) then) =
-      _$EntityEditorCubitStateCopyWithImpl<$Res, EntityEditorCubitState>;
+abstract class $FhirResourceEditorCubitStateCopyWith<$Res> {
+  factory $FhirResourceEditorCubitStateCopyWith(
+          FhirResourceEditorCubitState value,
+          $Res Function(FhirResourceEditorCubitState) then) =
+      _$FhirResourceEditorCubitStateCopyWithImpl<$Res,
+          FhirResourceEditorCubitState>;
 }
 
 /// @nodoc
-class _$EntityEditorCubitStateCopyWithImpl<$Res,
-        $Val extends EntityEditorCubitState>
-    implements $EntityEditorCubitStateCopyWith<$Res> {
-  _$EntityEditorCubitStateCopyWithImpl(this._value, this._then);
+class _$FhirResourceEditorCubitStateCopyWithImpl<$Res,
+        $Val extends FhirResourceEditorCubitState>
+    implements $FhirResourceEditorCubitStateCopyWith<$Res> {
+  _$FhirResourceEditorCubitStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of EntityEditorCubitState
+  /// Create a copy of FhirResourceEditorCubitState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -93,12 +95,12 @@ abstract class _$$BusyImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$BusyImplCopyWithImpl<$Res>
-    extends _$EntityEditorCubitStateCopyWithImpl<$Res, _$BusyImpl>
+    extends _$FhirResourceEditorCubitStateCopyWithImpl<$Res, _$BusyImpl>
     implements _$$BusyImplCopyWith<$Res> {
   __$$BusyImplCopyWithImpl(_$BusyImpl _value, $Res Function(_$BusyImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of EntityEditorCubitState
+  /// Create a copy of FhirResourceEditorCubitState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -109,7 +111,7 @@ class _$BusyImpl implements _Busy {
 
   @override
   String toString() {
-    return 'EntityEditorCubitState.busy()';
+    return 'FhirResourceEditorCubitState.busy()';
   }
 
   @override
@@ -190,7 +192,7 @@ class _$BusyImpl implements _Busy {
   }
 }
 
-abstract class _Busy implements EntityEditorCubitState {
+abstract class _Busy implements FhirResourceEditorCubitState {
   const factory _Busy() = _$BusyImpl;
 }
 
@@ -205,12 +207,12 @@ abstract class _$$DataImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$DataImplCopyWithImpl<$Res>
-    extends _$EntityEditorCubitStateCopyWithImpl<$Res, _$DataImpl>
+    extends _$FhirResourceEditorCubitStateCopyWithImpl<$Res, _$DataImpl>
     implements _$$DataImplCopyWith<$Res> {
   __$$DataImplCopyWithImpl(_$DataImpl _value, $Res Function(_$DataImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of EntityEditorCubitState
+  /// Create a copy of FhirResourceEditorCubitState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -236,7 +238,7 @@ class _$DataImpl implements _Data {
 
   @override
   String toString() {
-    return 'EntityEditorCubitState.data(resource: $resource)';
+    return 'FhirResourceEditorCubitState.data(resource: $resource)';
   }
 
   @override
@@ -251,7 +253,7 @@ class _$DataImpl implements _Data {
   @override
   int get hashCode => Object.hash(runtimeType, resource);
 
-  /// Create a copy of EntityEditorCubitState
+  /// Create a copy of FhirResourceEditorCubitState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -328,12 +330,12 @@ class _$DataImpl implements _Data {
   }
 }
 
-abstract class _Data implements EntityEditorCubitState {
+abstract class _Data implements FhirResourceEditorCubitState {
   const factory _Data({required final Resource resource}) = _$DataImpl;
 
   Resource get resource;
 
-  /// Create a copy of EntityEditorCubitState
+  /// Create a copy of FhirResourceEditorCubitState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DataImplCopyWith<_$DataImpl> get copyWith =>
@@ -349,13 +351,13 @@ abstract class _$$ErrorImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$ErrorImplCopyWithImpl<$Res>
-    extends _$EntityEditorCubitStateCopyWithImpl<$Res, _$ErrorImpl>
+    extends _$FhirResourceEditorCubitStateCopyWithImpl<$Res, _$ErrorImpl>
     implements _$$ErrorImplCopyWith<$Res> {
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of EntityEditorCubitState
+  /// Create a copy of FhirResourceEditorCubitState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -366,7 +368,7 @@ class _$ErrorImpl implements _Error {
 
   @override
   String toString() {
-    return 'EntityEditorCubitState.error()';
+    return 'FhirResourceEditorCubitState.error()';
   }
 
   @override
@@ -447,6 +449,6 @@ class _$ErrorImpl implements _Error {
   }
 }
 
-abstract class _Error implements EntityEditorCubitState {
+abstract class _Error implements FhirResourceEditorCubitState {
   const factory _Error() = _$ErrorImpl;
 }

@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:fhir/r4.dart';
 import 'package:fire_scribe/app_logger.dart';
-import 'package:fire_scribe/editor/entity_editor_cubit.dart';
+import 'package:fire_scribe/fhir_resource/fhir_resource_editor_cubit.dart';
 import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,8 +10,8 @@ import 'package:flutter_code_editor/flutter_code_editor.dart';
 import 'package:flutter_highlight/themes/atom-one-light.dart';
 import 'package:highlight/languages/json.dart';
 
-class EntityEditorBottonSheet extends StatefulWidget {
-  const EntityEditorBottonSheet({
+class FhirResourceEditorBottonSheet extends StatefulWidget {
+  const FhirResourceEditorBottonSheet({
     super.key,
     required this.resource,
   });
@@ -37,20 +37,21 @@ class EntityEditorBottonSheet extends StatefulWidget {
         ),
         backgroundColor: Colors.transparent,
         builder: (context) => BlocProvider(
-          create: (context) => EntityEditorCubit(
+          create: (context) => FhirResourceEditorCubit(
             resource: resource,
           ),
-          child: EntityEditorBottonSheet(
+          child: FhirResourceEditorBottonSheet(
             resource: resource,
           ),
         ),
       );
 
   @override
-  State createState() => _EntityEditorBottonSheetState();
+  State createState() => _FhirResourceEditorBottonSheetState();
 }
 
-class _EntityEditorBottonSheetState extends State<EntityEditorBottonSheet> {
+class _FhirResourceEditorBottonSheetState
+    extends State<FhirResourceEditorBottonSheet> {
   var sheetSize = 1.0;
   String? currentFormatError;
 
@@ -68,8 +69,8 @@ class _EntityEditorBottonSheetState extends State<EntityEditorBottonSheet> {
   );
 
   final minChildSize = 1.0 -
-      EntityEditorBottonSheet.minHeightRatio *
-          EntityEditorBottonSheet.minHeightRatio;
+      FhirResourceEditorBottonSheet.minHeightRatio *
+          FhirResourceEditorBottonSheet.minHeightRatio;
 
   String? getLineBeforeError(final FormatException formatException) {
     if (formatException.offset == null) {
@@ -117,7 +118,7 @@ class _EntityEditorBottonSheetState extends State<EntityEditorBottonSheet> {
                     sheetSize = newSheetSize;
                   });
                 },
-                child: EntityEditorDraggableHeader(
+                child: FhirResourceEditorDraggableHeader(
                   resource: widget.resource,
                 ),
               ),
@@ -135,7 +136,8 @@ class _EntityEditorBottonSheetState extends State<EntityEditorBottonSheet> {
                           setState(() {
                             currentFormatError = null;
                           });
-                          BlocProvider.of<EntityEditorCubit>(context).update(
+                          BlocProvider.of<FhirResourceEditorCubit>(context)
+                              .update(
                             resource: resource,
                           );
                         } on FormatException catch (e, st) {
@@ -180,8 +182,8 @@ class _EntityEditorBottonSheetState extends State<EntityEditorBottonSheet> {
   }
 }
 
-class EntityEditorDraggableHeader extends StatelessWidget {
-  const EntityEditorDraggableHeader({
+class FhirResourceEditorDraggableHeader extends StatelessWidget {
+  const FhirResourceEditorDraggableHeader({
     super.key,
     required this.resource,
   });
@@ -190,7 +192,7 @@ class EntityEditorDraggableHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EntityEditorCubit, EntityEditorCubitState>(
+    return BlocBuilder<FhirResourceEditorCubit, FhirResourceEditorCubitState>(
       builder: (context, state) {
         final wasModified = state.maybeWhen(
           data: (data) => data.toJsonString() != resource.toJsonString(),
@@ -230,8 +232,8 @@ class EntityEditorDraggableHeader extends StatelessWidget {
                 ),
                 FilledButton(
                   onPressed: wasModified
-                      ? () =>
-                          BlocProvider.of<EntityEditorCubit>(context).publish()
+                      ? () => BlocProvider.of<FhirResourceEditorCubit>(context)
+                          .publish()
                       : null,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(

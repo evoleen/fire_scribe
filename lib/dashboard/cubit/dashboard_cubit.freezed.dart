@@ -57,23 +57,23 @@ mixin _$DashboardCubitState {
 }
 
 /// @nodoc
-abstract class $DashboardStateCopyWith<$Res> {
-  factory $DashboardStateCopyWith(
+abstract class $DashboardCubitStateCopyWith<$Res> {
+  factory $DashboardCubitStateCopyWith(
           DashboardCubitState value, $Res Function(DashboardCubitState) then) =
-      _$DashboardStateCopyWithImpl<$Res, DashboardCubitState>;
+      _$DashboardCubitStateCopyWithImpl<$Res, DashboardCubitState>;
 }
 
 /// @nodoc
-class _$DashboardStateCopyWithImpl<$Res, $Val extends DashboardCubitState>
-    implements $DashboardStateCopyWith<$Res> {
-  _$DashboardStateCopyWithImpl(this._value, this._then);
+class _$DashboardCubitStateCopyWithImpl<$Res, $Val extends DashboardCubitState>
+    implements $DashboardCubitStateCopyWith<$Res> {
+  _$DashboardCubitStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of DashboardState
+  /// Create a copy of DashboardCubitState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -86,13 +86,13 @@ abstract class _$$NoSelectedImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$NoSelectedImplCopyWithImpl<$Res>
-    extends _$DashboardStateCopyWithImpl<$Res, _$NoSelectedImpl>
+    extends _$DashboardCubitStateCopyWithImpl<$Res, _$NoSelectedImpl>
     implements _$$NoSelectedImplCopyWith<$Res> {
   __$$NoSelectedImplCopyWithImpl(
       _$NoSelectedImpl _value, $Res Function(_$NoSelectedImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of DashboardState
+  /// Create a copy of DashboardCubitState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -103,7 +103,7 @@ class _$NoSelectedImpl implements _NoSelected {
 
   @override
   String toString() {
-    return 'DashboardState.noselected()';
+    return 'DashboardCubitState.noselected()';
   }
 
   @override
@@ -193,13 +193,13 @@ abstract class _$$SelectedImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$SelectedImplCopyWithImpl<$Res>
-    extends _$DashboardStateCopyWithImpl<$Res, _$SelectedImpl>
+    extends _$DashboardCubitStateCopyWithImpl<$Res, _$SelectedImpl>
     implements _$$SelectedImplCopyWith<$Res> {
   __$$SelectedImplCopyWithImpl(
       _$SelectedImpl _value, $Res Function(_$SelectedImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of DashboardState
+  /// Create a copy of DashboardCubitState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -225,7 +225,7 @@ class _$SelectedImpl implements _Selected {
 
   @override
   String toString() {
-    return 'DashboardState.selected(entityType: $entityType)';
+    return 'DashboardCubitState.selected(entityType: $entityType)';
   }
 
   @override
@@ -240,7 +240,7 @@ class _$SelectedImpl implements _Selected {
   @override
   int get hashCode => Object.hash(runtimeType, entityType);
 
-  /// Create a copy of DashboardState
+  /// Create a copy of DashboardCubitState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -316,7 +316,7 @@ abstract class _Selected implements DashboardCubitState {
 
   String get entityType;
 
-  /// Create a copy of DashboardState
+  /// Create a copy of DashboardCubitState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SelectedImplCopyWith<_$SelectedImpl> get copyWith =>

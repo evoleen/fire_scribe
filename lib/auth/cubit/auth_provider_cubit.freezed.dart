@@ -19,21 +19,18 @@ mixin _$AuthProviderState<T> {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unauthenticated,
-    required TResult Function(T? data) preAuthenticated,
     required TResult Function(T? data) authenticated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unauthenticated,
-    TResult? Function(T? data)? preAuthenticated,
     TResult? Function(T? data)? authenticated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unauthenticated,
-    TResult Function(T? data)? preAuthenticated,
     TResult Function(T? data)? authenticated,
     required TResult orElse(),
   }) =>
@@ -41,21 +38,18 @@ mixin _$AuthProviderState<T> {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Unauthenticated<T> value) unauthenticated,
-    required TResult Function(_PreAuthenticated<T> value) preAuthenticated,
     required TResult Function(_Authenticated<T> value) authenticated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Unauthenticated<T> value)? unauthenticated,
-    TResult? Function(_PreAuthenticated<T> value)? preAuthenticated,
     TResult? Function(_Authenticated<T> value)? authenticated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Unauthenticated<T> value)? unauthenticated,
-    TResult Function(_PreAuthenticated<T> value)? preAuthenticated,
     TResult Function(_Authenticated<T> value)? authenticated,
     required TResult orElse(),
   }) =>
@@ -79,6 +73,9 @@ class _$AuthProviderStateCopyWithImpl<T, $Res,
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+
+  /// Create a copy of AuthProviderState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -95,6 +92,9 @@ class __$$UnauthenticatedImplCopyWithImpl<T, $Res>
   __$$UnauthenticatedImplCopyWithImpl(_$UnauthenticatedImpl<T> _value,
       $Res Function(_$UnauthenticatedImpl<T>) _then)
       : super(_value, _then);
+
+  /// Create a copy of AuthProviderState
+  /// with the given fields replaced by the non-null parameter values.
 }
 
 /// @nodoc
@@ -120,7 +120,6 @@ class _$UnauthenticatedImpl<T> implements _Unauthenticated<T> {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unauthenticated,
-    required TResult Function(T? data) preAuthenticated,
     required TResult Function(T? data) authenticated,
   }) {
     return unauthenticated();
@@ -130,7 +129,6 @@ class _$UnauthenticatedImpl<T> implements _Unauthenticated<T> {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unauthenticated,
-    TResult? Function(T? data)? preAuthenticated,
     TResult? Function(T? data)? authenticated,
   }) {
     return unauthenticated?.call();
@@ -140,7 +138,6 @@ class _$UnauthenticatedImpl<T> implements _Unauthenticated<T> {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unauthenticated,
-    TResult Function(T? data)? preAuthenticated,
     TResult Function(T? data)? authenticated,
     required TResult orElse(),
   }) {
@@ -154,7 +151,6 @@ class _$UnauthenticatedImpl<T> implements _Unauthenticated<T> {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Unauthenticated<T> value) unauthenticated,
-    required TResult Function(_PreAuthenticated<T> value) preAuthenticated,
     required TResult Function(_Authenticated<T> value) authenticated,
   }) {
     return unauthenticated(this);
@@ -164,7 +160,6 @@ class _$UnauthenticatedImpl<T> implements _Unauthenticated<T> {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Unauthenticated<T> value)? unauthenticated,
-    TResult? Function(_PreAuthenticated<T> value)? preAuthenticated,
     TResult? Function(_Authenticated<T> value)? authenticated,
   }) {
     return unauthenticated?.call(this);
@@ -174,7 +169,6 @@ class _$UnauthenticatedImpl<T> implements _Unauthenticated<T> {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Unauthenticated<T> value)? unauthenticated,
-    TResult Function(_PreAuthenticated<T> value)? preAuthenticated,
     TResult Function(_Authenticated<T> value)? authenticated,
     required TResult orElse(),
   }) {
@@ -187,147 +181,6 @@ class _$UnauthenticatedImpl<T> implements _Unauthenticated<T> {
 
 abstract class _Unauthenticated<T> implements AuthProviderState<T> {
   const factory _Unauthenticated() = _$UnauthenticatedImpl<T>;
-}
-
-/// @nodoc
-abstract class _$$PreAuthenticatedImplCopyWith<T, $Res> {
-  factory _$$PreAuthenticatedImplCopyWith(_$PreAuthenticatedImpl<T> value,
-          $Res Function(_$PreAuthenticatedImpl<T>) then) =
-      __$$PreAuthenticatedImplCopyWithImpl<T, $Res>;
-  @useResult
-  $Res call({T? data});
-}
-
-/// @nodoc
-class __$$PreAuthenticatedImplCopyWithImpl<T, $Res>
-    extends _$AuthProviderStateCopyWithImpl<T, $Res, _$PreAuthenticatedImpl<T>>
-    implements _$$PreAuthenticatedImplCopyWith<T, $Res> {
-  __$$PreAuthenticatedImplCopyWithImpl(_$PreAuthenticatedImpl<T> _value,
-      $Res Function(_$PreAuthenticatedImpl<T>) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? data = freezed,
-  }) {
-    return _then(_$PreAuthenticatedImpl<T>(
-      data: freezed == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as T?,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$PreAuthenticatedImpl<T> implements _PreAuthenticated<T> {
-  const _$PreAuthenticatedImpl({this.data});
-
-  @override
-  final T? data;
-
-  @override
-  String toString() {
-    return 'AuthProviderState<$T>.preAuthenticated(data: $data)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$PreAuthenticatedImpl<T> &&
-            const DeepCollectionEquality().equals(other.data, data));
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(data));
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$PreAuthenticatedImplCopyWith<T, _$PreAuthenticatedImpl<T>> get copyWith =>
-      __$$PreAuthenticatedImplCopyWithImpl<T, _$PreAuthenticatedImpl<T>>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() unauthenticated,
-    required TResult Function(T? data) preAuthenticated,
-    required TResult Function(T? data) authenticated,
-  }) {
-    return preAuthenticated(data);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? unauthenticated,
-    TResult? Function(T? data)? preAuthenticated,
-    TResult? Function(T? data)? authenticated,
-  }) {
-    return preAuthenticated?.call(data);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? unauthenticated,
-    TResult Function(T? data)? preAuthenticated,
-    TResult Function(T? data)? authenticated,
-    required TResult orElse(),
-  }) {
-    if (preAuthenticated != null) {
-      return preAuthenticated(data);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Unauthenticated<T> value) unauthenticated,
-    required TResult Function(_PreAuthenticated<T> value) preAuthenticated,
-    required TResult Function(_Authenticated<T> value) authenticated,
-  }) {
-    return preAuthenticated(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Unauthenticated<T> value)? unauthenticated,
-    TResult? Function(_PreAuthenticated<T> value)? preAuthenticated,
-    TResult? Function(_Authenticated<T> value)? authenticated,
-  }) {
-    return preAuthenticated?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Unauthenticated<T> value)? unauthenticated,
-    TResult Function(_PreAuthenticated<T> value)? preAuthenticated,
-    TResult Function(_Authenticated<T> value)? authenticated,
-    required TResult orElse(),
-  }) {
-    if (preAuthenticated != null) {
-      return preAuthenticated(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _PreAuthenticated<T> implements AuthProviderState<T> {
-  const factory _PreAuthenticated({final T? data}) = _$PreAuthenticatedImpl<T>;
-
-  T? get data;
-  @JsonKey(ignore: true)
-  _$$PreAuthenticatedImplCopyWith<T, _$PreAuthenticatedImpl<T>> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -347,6 +200,8 @@ class __$$AuthenticatedImplCopyWithImpl<T, $Res>
       $Res Function(_$AuthenticatedImpl<T>) _then)
       : super(_value, _then);
 
+  /// Create a copy of AuthProviderState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -386,7 +241,9 @@ class _$AuthenticatedImpl<T> implements _Authenticated<T> {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(data));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of AuthProviderState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$AuthenticatedImplCopyWith<T, _$AuthenticatedImpl<T>> get copyWith =>
@@ -397,7 +254,6 @@ class _$AuthenticatedImpl<T> implements _Authenticated<T> {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() unauthenticated,
-    required TResult Function(T? data) preAuthenticated,
     required TResult Function(T? data) authenticated,
   }) {
     return authenticated(data);
@@ -407,7 +263,6 @@ class _$AuthenticatedImpl<T> implements _Authenticated<T> {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? unauthenticated,
-    TResult? Function(T? data)? preAuthenticated,
     TResult? Function(T? data)? authenticated,
   }) {
     return authenticated?.call(data);
@@ -417,7 +272,6 @@ class _$AuthenticatedImpl<T> implements _Authenticated<T> {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? unauthenticated,
-    TResult Function(T? data)? preAuthenticated,
     TResult Function(T? data)? authenticated,
     required TResult orElse(),
   }) {
@@ -431,7 +285,6 @@ class _$AuthenticatedImpl<T> implements _Authenticated<T> {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Unauthenticated<T> value) unauthenticated,
-    required TResult Function(_PreAuthenticated<T> value) preAuthenticated,
     required TResult Function(_Authenticated<T> value) authenticated,
   }) {
     return authenticated(this);
@@ -441,7 +294,6 @@ class _$AuthenticatedImpl<T> implements _Authenticated<T> {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Unauthenticated<T> value)? unauthenticated,
-    TResult? Function(_PreAuthenticated<T> value)? preAuthenticated,
     TResult? Function(_Authenticated<T> value)? authenticated,
   }) {
     return authenticated?.call(this);
@@ -451,7 +303,6 @@ class _$AuthenticatedImpl<T> implements _Authenticated<T> {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Unauthenticated<T> value)? unauthenticated,
-    TResult Function(_PreAuthenticated<T> value)? preAuthenticated,
     TResult Function(_Authenticated<T> value)? authenticated,
     required TResult orElse(),
   }) {
@@ -466,7 +317,10 @@ abstract class _Authenticated<T> implements AuthProviderState<T> {
   const factory _Authenticated({final T? data}) = _$AuthenticatedImpl<T>;
 
   T? get data;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of AuthProviderState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$AuthenticatedImplCopyWith<T, _$AuthenticatedImpl<T>> get copyWith =>
       throw _privateConstructorUsedError;
 }
