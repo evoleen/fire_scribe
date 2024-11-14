@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:fhir/r4.dart';
+import 'package:fire_scribe/app_logger.dart';
 import 'package:fire_scribe/editor/entity_editor_cubit.dart';
 import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -51,10 +52,44 @@ class EntityEditorBottonSheet extends StatefulWidget {
 
 class _EntityEditorBottonSheetState extends State<EntityEditorBottonSheet> {
   var sheetSize = 1.0;
+  String? currentFormatError;
+
+  late final codeController = CodeController(
+    analyzer: DefaultLocalAnalyzer(),
+    text: JsonEncoder.withIndent('\t').convert(widget.resource.toJson()),
+    params: EditorParams(
+      tabSpaces: 4,
+    ),
+    readOnlySectionNames: {
+      'resourceType',
+      'id',
+    },
+    language: json,
+  );
 
   final minChildSize = 1.0 -
       EntityEditorBottonSheet.minHeightRatio *
           EntityEditorBottonSheet.minHeightRatio;
+
+  String? getLineBeforeError(final FormatException formatException) {
+    if (formatException.offset == null) {
+      return null;
+    }
+    // Split the JSON string by newline to get each line.
+    final lines = formatException.source.split('\n') as List<String>;
+    var currentOffset = 0;
+    var errorLine = 0;
+
+    for (int i = 0; i < lines.length; i++) {
+      currentOffset += lines[i].length + 1;
+      if (currentOffset > formatException.offset!) {
+        errorLine = i;
+        break;
+      }
+    }
+
+    return errorLine > 0 ? lines[errorLine - 1] : null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,29 +122,56 @@ class _EntityEditorBottonSheetState extends State<EntityEditorBottonSheet> {
                 ),
               ),
               Expanded(
-                child: SingleChildScrollView(
-                  child: CodeTheme(
-                    data: CodeThemeData(
-                      styles: atomOneLightTheme,
-                    ),
+                child: CodeTheme(
+                  data: CodeThemeData(
+                    styles: atomOneLightTheme,
+                  ),
+                  child: SingleChildScrollView(
                     child: CodeField(
-                      controller: CodeController(
-                        text: JsonEncoder.withIndent('\t')
-                            .convert(widget.resource.toJson()),
-                        readOnlySectionNames: {
-                          'resourceType',
-                          'id',
-                        },
-                        language: json,
-                      ),
-                      onChanged: (data) =>
+                      controller: codeController,
+                      onChanged: (data) {
+                        try {
+                          final resource = Resource.fromJsonString(data);
+                          setState(() {
+                            currentFormatError = null;
+                          });
                           BlocProvider.of<EntityEditorCubit>(context).update(
-                        resource: Resource.fromJsonString(data),
-                      ),
+                            resource: resource,
+                          );
+                        } on FormatException catch (e, st) {
+                          final error = getLineBeforeError(e)?.trim();
+                          setState(() {
+                            currentFormatError = 'Invalid JSON Format: $error';
+                          });
+                          AppLogger.instance.e(e, st);
+                        } catch (e, st) {
+                          setState(() {
+                            currentFormatError = 'Invalid FHIR JSON Format';
+                          });
+                          AppLogger.instance.e(e, st);
+                        }
+                      },
                     ),
                   ),
                 ),
               ),
+              if (currentFormatError != null)
+                Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Color(0xfffdeded),
+                    border: Border.all(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(
+                      vertical: 12,
+                      horizontal: 24,
+                    ),
+                    child: Text(currentFormatError!),
+                  ),
+                )
             ],
           ),
         );
