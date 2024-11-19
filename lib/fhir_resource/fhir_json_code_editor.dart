@@ -26,20 +26,17 @@ class _FhirJsonCodeEditorState extends State<FhirJsonCodeEditor> {
   String? currentFormatError;
   late CodeController codeController;
 
-  Map<String, dynamic> cleanResouceForEditing(final Map<String, dynamic> data) {
-    return data
-      ..remove('id')
-      ..remove('resourceType');
-  }
-
   @override
   void initState() {
     super.initState();
 
     codeController = CodeController(
       analyzer: DefaultLocalAnalyzer(),
-      text: JsonEncoder.withIndent('\t')
-          .convert(cleanResouceForEditing(widget.initialResource.toJson())),
+      text: JsonEncoder.withIndent('\t').convert(
+        widget.initialResource.toJson()
+          ..remove('id')
+          ..remove('resourceType'),
+      ),
       params: EditorParams(
         tabSpaces: 4,
       ),
