@@ -157,10 +157,12 @@ class _FhirJsonCodeEditorState extends State<FhirJsonCodeEditor> {
                       final decodedJson = jsonDecode(data);
 
                       BlocProvider.of<FhirResourceEditorCubit>(context).update(
-                        resource: Resource.fromJson(decodedJson
-                          ..['id'] = widget.initialResource.fhirId!
-                          ..['resourceType'] =
-                              widget.initialResource.resourceType!.name),
+                        resource: Resource.fromJson(
+                          decodedJson
+                            ..['id'] = widget.initialResource.fhirId!
+                            ..['resourceType'] =
+                                widget.initialResource.resourceType!.name,
+                        ),
                       );
                       setState(() {
                         currentFormatError = null;
