@@ -1,16 +1,10 @@
-import 'dart:convert';
-
 import 'package:fhir/r4.dart';
-import 'package:fire_scribe/app_logger.dart';
+import 'package:fire_scribe/fhir_resource/fhir_json_code_editor.dart';
 import 'package:fire_scribe/fhir_resource/fhir_resource_editor_cubit.dart';
-import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_code_editor/flutter_code_editor.dart';
-import 'package:flutter_highlight/themes/atom-one-light.dart';
-import 'package:highlight/languages/json.dart';
 
-class FhirResourceEditorBottonSheet extends StatefulWidget {
+class FhirResourceEditorBottonSheet extends StatelessWidget {
   const FhirResourceEditorBottonSheet({
     super.key,
     required this.resource,
@@ -36,67 +30,16 @@ class FhirResourceEditorBottonSheet extends StatefulWidget {
           minHeight: MediaQuery.of(context).size.height * minHeightRatio,
         ),
         backgroundColor: Colors.transparent,
-        builder: (context) => BlocProvider(
-          create: (context) => FhirResourceEditorCubit(
-            resource: resource,
-          ),
-          child: FhirResourceEditorBottonSheet(
-            resource: resource,
-          ),
+        builder: (context) => FhirResourceEditorBottonSheet(
+          resource: resource,
         ),
       );
 
   @override
-  State createState() => _FhirResourceEditorBottonSheetState();
-}
-
-class _FhirResourceEditorBottonSheetState
-    extends State<FhirResourceEditorBottonSheet> {
-  var sheetSize = 1.0;
-  String? currentFormatError;
-
-  late final codeController = CodeController(
-    analyzer: DefaultLocalAnalyzer(),
-    text: JsonEncoder.withIndent('\t').convert(widget.resource.toJson()),
-    params: EditorParams(
-      tabSpaces: 4,
-    ),
-    readOnlySectionNames: {
-      'resourceType',
-      'id',
-    },
-    language: json,
-  );
-
-  final minChildSize = 1.0 -
-      FhirResourceEditorBottonSheet.minHeightRatio *
-          FhirResourceEditorBottonSheet.minHeightRatio;
-
-  String? getLineBeforeError(final FormatException formatException) {
-    if (formatException.offset == null) {
-      return null;
-    }
-
-    final lines = formatException.source.split('\n') as List<String>;
-    var currentOffset = 0;
-    var errorLine = 0;
-
-    for (int i = 0; i < lines.length; i++) {
-      currentOffset += lines[i].length + 1;
-      if (currentOffset > formatException.offset!) {
-        errorLine = i;
-        break;
-      }
-    }
-
-    return errorLine > 0 ? lines[errorLine - 1] : null;
-  }
-
-  @override
   Widget build(BuildContext context) {
     return DraggableScrollableSheet(
-      initialChildSize: sheetSize,
-      minChildSize: minChildSize,
+      initialChildSize: 1.0,
+      minChildSize: 1.0,
       maxChildSize: 1.0,
       builder: (context, scrollController) {
         return Container(
@@ -106,149 +49,12 @@ class _FhirResourceEditorBottonSheetState
               top: Radius.circular(16),
             ),
           ),
-          child: Column(
-            children: [
-              GestureDetector(
-                onVerticalDragUpdate: (details) {
-                  final newSheetSize = (sheetSize -
-                          details.primaryDelta! /
-                              MediaQuery.of(context).size.height)
-                      .clamp(minChildSize, 1.0);
-                  setState(() {
-                    sheetSize = newSheetSize;
-                  });
-                },
-                child: FhirResourceEditorDraggableHeader(
-                  resource: widget.resource,
-                ),
-              ),
-              Expanded(
-                child: CodeTheme(
-                  data: CodeThemeData(
-                    styles: atomOneLightTheme,
-                  ),
-                  child: SingleChildScrollView(
-                    child: CodeField(
-                      controller: codeController,
-                      onChanged: (data) {
-                        try {
-                          final resource = Resource.fromJsonString(data);
-                          setState(() {
-                            currentFormatError = null;
-                          });
-                          BlocProvider.of<FhirResourceEditorCubit>(context)
-                              .update(
-                            resource: resource,
-                          );
-                        } on FormatException catch (e, st) {
-                          final error = getLineBeforeError(e)?.trim();
-                          setState(() {
-                            currentFormatError = 'Invalid JSON Format: $error';
-                          });
-                          AppLogger.instance.e(e, st);
-                        } catch (e, st) {
-                          setState(() {
-                            currentFormatError = 'Invalid FHIR JSON Format';
-                          });
-                          AppLogger.instance.e(e, st);
-                        }
-                      },
-                    ),
-                  ),
-                ),
-              ),
-              if (currentFormatError != null)
-                Container(
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    color: Color(0xfffdeded),
-                    border: Border.all(
-                      color: Theme.of(context).colorScheme.error,
-                    ),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 12,
-                      horizontal: 24,
-                    ),
-                    child: Text(currentFormatError!),
-                  ),
-                )
-            ],
-          ),
-        );
-      },
-    );
-  }
-}
-
-class FhirResourceEditorDraggableHeader extends StatelessWidget {
-  const FhirResourceEditorDraggableHeader({
-    super.key,
-    required this.resource,
-  });
-
-  final Resource resource;
-
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<FhirResourceEditorCubit, FhirResourceEditorCubitState>(
-      builder: (context, state) {
-        final wasModified = state.maybeWhen(
-          data: (data) => data.toJsonString() != resource.toJsonString(),
-          orElse: () => false,
-        );
-
-        return Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.surfaceContainerLow,
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(16),
+          child: BlocProvider(
+            create: (context) => FhirResourceEditorCubit(
+              resource: resource,
             ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 8,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      padding: EdgeInsets.zero,
-                      onPressed: () => Navigator.of(context).pop(),
-                      icon: Icon(Icons.close),
-                    ),
-                    SizedBox(width: 4),
-                    Text(
-                      resource.fhirId ?? '',
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                  ],
-                ),
-                FilledButton(
-                  onPressed: wasModified
-                      ? () => BlocProvider.of<FhirResourceEditorCubit>(context)
-                          .publish()
-                      : null,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 10,
-                    ),
-                    child: Text(
-                      S.of(context).saveChanges,
-                      style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                            color: Theme.of(context).colorScheme.surface,
-                          ),
-                    ),
-                  ),
-                ),
-              ],
+            child: FhirJsonCodeEditor(
+              initialResource: resource,
             ),
           ),
         );
