@@ -170,12 +170,14 @@ class _FhirJsonCodeEditorState extends State<FhirJsonCodeEditor> {
                     } on FormatException catch (e, st) {
                       final error = getLineBeforeError(e)?.trim();
                       setState(() {
-                        currentFormatError = 'Invalid JSON Format: $error';
+                        currentFormatError =
+                            S.of(context).invalidJsonFormat(error ?? '');
                       });
                       AppLogger.instance.e(e, st);
                     } catch (e, st) {
                       setState(() {
-                        currentFormatError = 'Invalid FHIR JSON Format';
+                        currentFormatError =
+                            S.of(context).invalidFhirJsonFormat;
                       });
                       AppLogger.instance.e(e, st);
                     }

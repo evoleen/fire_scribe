@@ -23,6 +23,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m0(entityType) => "${entityType} ID";
 
+  static m1(error) => "Invalid JSON Format: ${error}";
+
   @override
   final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
 
@@ -33,11 +35,14 @@ class MessageLookup extends MessageLookupByLibrary {
     'connectToServerHelpText': MessageLookupByLibrary.simpleMessage('To view all resources please connect to server.\nCopy and paste the link to your server’s URL above.'),
     'entityTypeIdHeader': m0,
     'introduceServerUrl': MessageLookupByLibrary.simpleMessage('Enter Server URL'),
+    'invalidFhirJsonFormat': MessageLookupByLibrary.simpleMessage('Invalid FHIR JSON Format'),
+    'invalidJsonFormat': m1,
     'lastUpdate': MessageLookupByLibrary.simpleMessage('Last update'),
     'noDataAssociatedToAnEntity': MessageLookupByLibrary.simpleMessage('There\'s no data associated\nwith this entity'),
     'pageComingSoon': MessageLookupByLibrary.simpleMessage('Page coming soon'),
     'privacyPolicy': MessageLookupByLibrary.simpleMessage('Privacy Policy'),
     'refresh': MessageLookupByLibrary.simpleMessage('Refresh'),
+    'saveChanges': MessageLookupByLibrary.simpleMessage('Save changes'),
     'selectAnEntityFromList': MessageLookupByLibrary.simpleMessage('Select an entity to see entries of that type'),
     'server': MessageLookupByLibrary.simpleMessage('Server'),
     'serverConnectedWarning': MessageLookupByLibrary.simpleMessage('Connected to server'),

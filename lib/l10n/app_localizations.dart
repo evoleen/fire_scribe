@@ -199,5 +199,20 @@ with this entity''',
   String get saveChanges => Intl.message(
         'Save changes',
         name: 'saveChanges',
+        desc: 'Save changes button title in json code editor',
+      );
+
+  String get invalidFhirJsonFormat => Intl.message(
+        'Invalid FHIR JSON Format',
+        name: 'invalidFhirJsonFormat',
+        desc:
+            'Error message when json code editor does not fhir FHIR structure',
+      );
+
+  String invalidJsonFormat(final String error) => Intl.message(
+        'Invalid JSON Format: $error',
+        name: 'invalidJsonFormat',
+        desc: 'Error message when json code editor does not JSON structure',
+        args: [error],
       );
 }

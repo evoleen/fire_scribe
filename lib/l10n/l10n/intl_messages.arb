@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2024-11-12T23:12:18.751307",
+  "@@last_modified": "2024-11-19T08:19:28.215752",
   "appTitle": "Fire Scribe",
   "@appTitle": {
     "description": "The title of the app",
@@ -115,5 +115,25 @@
     "description": "third party licenses menu item label",
     "type": "text",
     "placeholders": {}
+  },
+  "saveChanges": "Save changes",
+  "@saveChanges": {
+    "description": "Save changes button title in json code editor",
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidFhirJsonFormat": "Invalid FHIR JSON Format",
+  "@invalidFhirJsonFormat": {
+    "description": "Error message when json code editor does not fhir FHIR structure",
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidJsonFormat": "Invalid JSON Format: {error}",
+  "@invalidJsonFormat": {
+    "description": "Error message when json code editor does not JSON structure",
+    "type": "text",
+    "placeholders": {
+      "error": {}
+    }
   }
 }
