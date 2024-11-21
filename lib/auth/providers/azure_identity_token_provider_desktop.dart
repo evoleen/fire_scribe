@@ -7,10 +7,10 @@ class AzureIdentityTokenProviderDesktop extends TokenProvider {
   final CredentialManager credentialManager;
 
   AzureIdentityTokenProviderDesktop({
-    required final DefaultAzureCredential azureCredential,
+    required final TokenCredential tokenCredential,
     required final String url,
   }) : credentialManager = CredentialManager(
-          credential: azureCredential,
+          credential: tokenCredential,
           options: GetTokenOptions(
             scopes: [
               url,

@@ -52,7 +52,7 @@ class _AzureIdentityTokenProviderFormState
       url: serverUrlTextController.text,
       authProvider: AzureIdentityTokenProviderDesktop(
         url: serverUrlTextController.text,
-        azureCredential: DefaultAzureCredential(
+        tokenCredential: DefaultAzureCredential(
           logger: AppLogger.instance.d,
         ),
       ),
