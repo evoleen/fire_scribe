@@ -2,6 +2,7 @@ import 'package:fhir/r4.dart';
 import 'package:fhir_rest_client/fhir_rest_client.dart';
 import 'package:fire_scribe/auth/cubit/fhir_server_connection_cubit.dart';
 import 'package:fire_scribe/dashboard/cubit/dashboard_cubit.dart';
+import 'package:fire_scribe/fhir_resource/fhir_resource_editor_bottom_sheet.dart';
 import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -189,27 +190,33 @@ class EntityDataPaginatedListCard extends StatelessWidget {
     final dateTime =
         iso8601String != null ? DateTime.parse(iso8601String) : null;
 
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 24,
-        vertical: 12,
+    return InkWell(
+      onTap: () => FhirResourceEditorBottonSheet.show(
+        context,
+        resource: Resource.fromJsonString(entityData.rawDataJson),
       ),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerLowest,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            entityData.fhirId ?? '',
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-          Text(
-            dateTime != null ? DateFormat.yMd().format(dateTime) : '',
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-        ],
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: 24,
+          vertical: 12,
+        ),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surfaceContainerLowest,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              entityData.fhirId ?? '',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            Text(
+              dateTime != null ? DateFormat.yMd().format(dateTime) : '',
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+          ],
+        ),
       ),
     );
   }
