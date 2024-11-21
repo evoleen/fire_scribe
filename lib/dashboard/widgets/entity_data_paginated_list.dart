@@ -106,6 +106,29 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 48,
+                  ),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: FilledButton(
+                      onPressed: () async {
+                        await BlocProvider.of<FhirServerConnectionCubit>(
+                                context)
+                            .request(
+                          request: FhirRequest(
+                            operation: FhirRequestOperation.create,
+                            entityName: entitySelected,
+                          ),
+                        );
+                        pagingController.refresh();
+                      },
+                      child: Text('Add entity'),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
                     vertical: 20,
                     horizontal: 48,
                   ),
