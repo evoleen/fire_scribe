@@ -4,15 +4,15 @@ description: "fire_scribe"
 publish_to: none
 homepage: https://github.com/evoleen/fire_scribe
 repository: https://github.com/evoleen/fire_scribe
-issue_tracker: https://github.com/evoleen/fire_scribe
+issue_tracker: https://github.com/evoleen/fire_scribe/issues
 
 environment:
-  sdk: '>=3.5.0 <4.0.0'
-  flutter: ">=3.24.0"
+  sdk: ^3.5.0
+  flutter: ^3.24.3
 
 dependencies:
-  args: 2.5.0
-  azure_identity: 0.0.5
+  args: 2.6.0
+  azure_identity: 0.0.5+1
   built_collection: 5.1.1
   collection: 1.18.0
   dio: 5.7.0
@@ -26,7 +26,6 @@ dependencies:
   flutter_bloc: 8.1.6
   flutter_localizations:
     sdk: flutter
-  flutter_native_splash: 2.3.7
   freezed_annotation: 2.4.4
   get_it: 7.7.0
   google_fonts: 6.2.1

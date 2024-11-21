@@ -113,6 +113,42 @@ class S {
         desc: 'The hint text of the server connection text field',
       );
 
+  String get serverUrlFormEmpty => Intl.message(
+        'Please, add a servel url to connect',
+        name: 'serverUrlFormEmpty',
+        desc: 'The error message when user connect with an empty server url',
+      );
+
+  String get bearerToken => Intl.message(
+        'Bearer Token',
+        name: 'bearerToken',
+        desc: 'The label of the bearer token form text field',
+      );
+
+  String get introduceBearerToken => Intl.message(
+        'Enter Bearer Token',
+        name: 'introduceBearerToken',
+        desc: 'The hint text of the bearer token form text field',
+      );
+
+  String get bearerTokenFormEmpty => Intl.message(
+        'Please, enter a Bearer token to connect',
+        name: 'bearerTokenFormEmpty',
+        desc: 'The error message when user connect with an empty bearer token',
+      );
+
+  String get loginWithAzureIdentity => Intl.message(
+        'Login with Azure Identity',
+        name: 'loginWithAzureIdentity',
+        desc: 'The title of the button to change to azure identity login form',
+      );
+
+  String get loginWithBearerToken => Intl.message(
+        'Login with Bearer token',
+        name: 'loginWithBearerToken',
+        desc: 'The title of the button to change to bearer token login form',
+      );
+
   String get serverConnectedWarning => Intl.message(
         'Connected to server',
         name: 'serverConnectedWarning',

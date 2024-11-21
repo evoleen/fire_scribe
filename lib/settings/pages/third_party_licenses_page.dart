@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:fire_scribe/oss_licenses.dart';
 import 'package:fire_scribe/routes.dart';
 import 'package:fire_scribe/settings/settings_routes.dart';
@@ -15,24 +16,26 @@ class ThirdPartyLicensesPage extends StatelessWidget {
       }
     }
 
-    final licenses = ossLicenses.toList();
+    var licenses = List<Package>.from(allDependencies, growable: true);
     for (final key in lm.keys) {
-      if (ossLicenses
+      if (allDependencies
           .where((final element) => lm.containsKey(element.name))
           .isEmpty) {
-        licenses.add(Package(
-          name: key,
-          description: '',
-          authors: [],
-          version: '',
-          license: lm[key]!.join('\n\n'),
-          isMarkdown: false,
-          isSdk: false,
-          isDirectDependency: false,
-        ));
+        licenses.add(
+          Package(
+            name: key,
+            description: '',
+            authors: [],
+            version: '',
+            license: lm[key]!.join('\n\n'),
+            isMarkdown: false,
+            isSdk: false,
+            dependencies: [],
+          ),
+        );
       }
     }
-    return licenses..sort((final a, final b) => a.name.compareTo(b.name));
+    return licenses.sorted((final a, final b) => a.name.compareTo(b.name));
   }
 
   static final _licenses = loadLicenses();

@@ -14,8 +14,7 @@ import 'package:intl/message_lookup_by_library.dart';
 
 final messages = MessageLookup();
 
-typedef String? MessageIfAbsent(
-    String? messageStr, List<Object>? args);
+typedef String? MessageIfAbsent(String? messageStr, List<Object>? args);
 
 class MessageLookup extends MessageLookupByLibrary {
   @override
@@ -24,27 +23,48 @@ class MessageLookup extends MessageLookupByLibrary {
   static m0(entityType) => "${entityType} ID";
 
   @override
-  final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
+  final Map<String, dynamic> messages =
+      _notInlinedMessages(_notInlinedMessages);
 
   static Map<String, dynamic> _notInlinedMessages(_) => {
-      'allResources': MessageLookupByLibrary.simpleMessage('All resources'),
-    'appErrorPageMessage': MessageLookupByLibrary.simpleMessage('Error found, please refresh'),
-    'appTitle': MessageLookupByLibrary.simpleMessage('Fire Scribe'),
-    'connectToServerHelpText': MessageLookupByLibrary.simpleMessage('To view all resources please connect to server.\nCopy and paste the link to your server’s URL above.'),
-    'entityTypeIdHeader': m0,
-    'introduceServerUrl': MessageLookupByLibrary.simpleMessage('Enter Server URL'),
-    'lastUpdate': MessageLookupByLibrary.simpleMessage('Last update'),
-    'noDataAssociatedToAnEntity': MessageLookupByLibrary.simpleMessage('There\'s no data associated\nwith this entity'),
-    'pageComingSoon': MessageLookupByLibrary.simpleMessage('Page coming soon'),
-    'privacyPolicy': MessageLookupByLibrary.simpleMessage('Privacy Policy'),
-    'refresh': MessageLookupByLibrary.simpleMessage('Refresh'),
-    'selectAnEntityFromList': MessageLookupByLibrary.simpleMessage('Select an entity to see entries of that type'),
-    'server': MessageLookupByLibrary.simpleMessage('Server'),
-    'serverConnectedWarning': MessageLookupByLibrary.simpleMessage('Connected to server'),
-    'serverNotConnectedWarning': MessageLookupByLibrary.simpleMessage('Cannot connect to specified url'),
-    'serverUrl': MessageLookupByLibrary.simpleMessage('Server URL'),
-    'settings': MessageLookupByLibrary.simpleMessage('Settings'),
-    'termsOfUse': MessageLookupByLibrary.simpleMessage('Terms Of Use'),
-    'thirdPartyLicenses': MessageLookupByLibrary.simpleMessage('Third-Party Licenses')
-  };
+        'allResources': MessageLookupByLibrary.simpleMessage('All resources'),
+        'appErrorPageMessage':
+            MessageLookupByLibrary.simpleMessage('Error found, please refresh'),
+        'appTitle': MessageLookupByLibrary.simpleMessage('Fire Scribe'),
+        'bearerToken': MessageLookupByLibrary.simpleMessage('Bearer Token'),
+        'bearerTokenFormEmpty': MessageLookupByLibrary.simpleMessage(
+            'Please, enter a Bearer token to connect'),
+        'connectToServerHelpText': MessageLookupByLibrary.simpleMessage(
+            'To view all resources please connect to server.\nCopy and paste the link to your server’s URL above.'),
+        'entityTypeIdHeader': m0,
+        'introduceBearerToken':
+            MessageLookupByLibrary.simpleMessage('Enter Bearer Token'),
+        'introduceServerUrl':
+            MessageLookupByLibrary.simpleMessage('Enter Server URL'),
+        'lastUpdate': MessageLookupByLibrary.simpleMessage('Last update'),
+        'loginWithAzureIdentity':
+            MessageLookupByLibrary.simpleMessage('Login with Azure Identity'),
+        'loginWithBearerToken':
+            MessageLookupByLibrary.simpleMessage('Login with Bearer token'),
+        'noDataAssociatedToAnEntity': MessageLookupByLibrary.simpleMessage(
+            'There\'s no data associated\nwith this entity'),
+        'pageComingSoon':
+            MessageLookupByLibrary.simpleMessage('Page coming soon'),
+        'privacyPolicy': MessageLookupByLibrary.simpleMessage('Privacy Policy'),
+        'refresh': MessageLookupByLibrary.simpleMessage('Refresh'),
+        'selectAnEntityFromList': MessageLookupByLibrary.simpleMessage(
+            'Select an entity to see entries of that type'),
+        'server': MessageLookupByLibrary.simpleMessage('Server'),
+        'serverConnectedWarning':
+            MessageLookupByLibrary.simpleMessage('Connected to server'),
+        'serverNotConnectedWarning': MessageLookupByLibrary.simpleMessage(
+            'Cannot connect to specified url'),
+        'serverUrl': MessageLookupByLibrary.simpleMessage('Server URL'),
+        'serverUrlFormEmpty': MessageLookupByLibrary.simpleMessage(
+            'Please, add a servel url to connect'),
+        'settings': MessageLookupByLibrary.simpleMessage('Settings'),
+        'termsOfUse': MessageLookupByLibrary.simpleMessage('Terms Of Use'),
+        'thirdPartyLicenses':
+            MessageLookupByLibrary.simpleMessage('Third-Party Licenses')
+      };
 }
