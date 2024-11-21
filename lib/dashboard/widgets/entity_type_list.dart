@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
+import 'package:fire_scribe/auth/cubit/fhir_server_connection_cubit.dart';
 import 'package:fire_scribe/dashboard/cubit/dashboard_cubit.dart';
-import 'package:fire_scribe/fhir_server/fhir_server_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,7 +12,7 @@ class EntityTypeList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<String>>(
-      future: RepositoryProvider.of<FhirServerRepository>(context)
+      future: BlocProvider.of<FhirServerConnectionCubit>(context)
           .getListOfSchemaEntities(),
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {

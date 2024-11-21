@@ -1,7 +1,7 @@
 import 'package:fhir/r4.dart';
 import 'package:fhir_rest_client/fhir_rest_client.dart';
+import 'package:fire_scribe/auth/cubit/fhir_server_connection_cubit.dart';
 import 'package:fire_scribe/dashboard/cubit/dashboard_cubit.dart';
-import 'package:fire_scribe/fhir_server/fhir_server_repository.dart';
 import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -54,7 +54,7 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
     }
 
     final rawBundle =
-        await RepositoryProvider.of<FhirServerRepository>(context).request(
+        await BlocProvider.of<FhirServerConnectionCubit>(context).request(
       request: FhirRequest(
         operation: FhirRequestOperation.search,
         entityName: entitySelected!,
