@@ -209,7 +209,7 @@ class EntityDataPaginatedListCard extends StatelessWidget {
     required this.resourceWasUpdated,
   });
 
-  Future<void> showCodeEditor(final BuildContext context) async {
+  Future<void> _showCodeEditor(final BuildContext context) async {
     final resource = await FhirResourceEditorBottonSheet.show(
       context,
       resource: Resource.fromJsonString(entityData.rawDataJson),
@@ -227,7 +227,7 @@ class EntityDataPaginatedListCard extends StatelessWidget {
         iso8601String != null ? DateTime.parse(iso8601String) : null;
 
     return InkWell(
-      onTap: () => showCodeEditor(context),
+      onTap: () => _showCodeEditor(context),
       child: Container(
         padding: EdgeInsets.symmetric(
           horizontal: 24,
