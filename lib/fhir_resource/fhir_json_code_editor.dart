@@ -1,8 +1,9 @@
 import 'dart:convert';
 
 import 'package:fhir/r4.dart';
+import 'package:fhir_rest_client/fhir_rest_client.dart';
 import 'package:fire_scribe/app_logger.dart';
-import 'package:fire_scribe/fhir_resource/fhir_resource_editor_cubit.dart';
+import 'package:fire_scribe/auth/cubit/fhir_server_connection_cubit.dart';
 import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,6 +25,7 @@ class FhirJsonCodeEditor extends StatefulWidget {
 
 class _FhirJsonCodeEditorState extends State<FhirJsonCodeEditor> {
   String? currentFormatError;
+  bool wasModified = false;
   late CodeController codeController;
 
   @override
@@ -34,6 +36,10 @@ class _FhirJsonCodeEditorState extends State<FhirJsonCodeEditor> {
       analyzer: DefaultLocalAnalyzer(),
       text: JsonEncoder.withIndent('\t').convert(
         widget.initialResource.toJson()
+
+          /// We should not display resourceType and if of the entity
+          /// in order to reduce the amount of errors that the user
+          /// could have when editing the resource
           ..remove('id')
           ..remove('resourceType'),
       ),
@@ -59,7 +65,7 @@ class _FhirJsonCodeEditorState extends State<FhirJsonCodeEditor> {
     var currentOffset = 0;
     var errorLine = 0;
 
-    for (int i = 0; i < lines.length; i++) {
+    for (var i = 0; i < lines.length; i++) {
       currentOffset += lines[i].length + 1;
       if (currentOffset > formatException.offset!) {
         errorLine = i;
@@ -70,78 +76,136 @@ class _FhirJsonCodeEditorState extends State<FhirJsonCodeEditor> {
     return errorLine > 0 ? lines[errorLine - 1] : null;
   }
 
+  Future<void> updateLocalCopy(final String data) async {
+    try {
+      // Try to decode as JSON in order to detect syntax errors
+      final decodedJson = jsonDecode(data);
+      // Try to decode as FHIR JSON in order to detect syntax errors
+      final resource = Resource.fromJson(
+        /// As we removed id and resourceType on the initState
+        /// we need to add in each update call since data
+        /// coming from editor, and editor was setup without
+        /// these values
+        decodedJson
+          ..['id'] = widget.initialResource.fhirId!
+          ..['resourceType'] = widget.initialResource.resourceType!.name,
+      );
+
+      setState(() {
+        currentFormatError = null;
+        wasModified = widget.initialResource != resource;
+      });
+    } on FormatException catch (e, st) {
+      final error = getLineBeforeError(e)?.trim();
+      setState(() {
+        currentFormatError = S.of(context).invalidJsonFormat(error ?? '');
+      });
+      AppLogger.instance.e(e, st);
+    } catch (e, st) {
+      setState(() {
+        currentFormatError = S.of(context).invalidFhirJsonFormat;
+      });
+      AppLogger.instance.e(e, st);
+    }
+  }
+
+  Future<void> publish() async {
+    try {
+      // Try to decode as JSON in order to detect syntax errors
+      final decodedJson = jsonDecode(codeController.fullText);
+      // Try to decode as FHIR JSON in order to detect syntax errors
+      Resource.fromJson(
+        decodedJson
+          ..['id'] = widget.initialResource.fhirId!
+          ..['resourceType'] = widget.initialResource.resourceType!.name,
+      );
+
+      final rawBundle =
+          await BlocProvider.of<FhirServerConnectionCubit>(context).request(
+        request: FhirRequest(
+          operation: FhirRequestOperation.update,
+          entityName: widget.initialResource.resourceType!.name,
+          entityId: widget.initialResource.fhirId!,
+          parameters: decodedJson,
+        ),
+      );
+
+      print(rawBundle);
+
+      setState(() {
+        currentFormatError = null;
+        wasModified = false;
+      });
+    } on FormatException catch (e, st) {
+      final error = getLineBeforeError(e)?.trim();
+      setState(() {
+        currentFormatError = S.of(context).invalidJsonFormat(error ?? '');
+      });
+      AppLogger.instance.e(e, st);
+    } catch (e, st) {
+      setState(() {
+        currentFormatError = S.of(context).invalidFhirJsonFormat;
+      });
+      AppLogger.instance.e(e, st);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SelectionArea(
       child: Column(
         children: [
-          BlocBuilder<FhirResourceEditorCubit, FhirResourceEditorCubitState>(
-            builder: (context, state) {
-              final wasModified = state.maybeWhen(
-                data: (data) =>
-                    data.toJsonString() !=
-                    widget.initialResource.toJsonString(),
-                orElse: () => false,
-              );
-
-              return Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceContainerLow,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(16),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 8,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceContainerLow,
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(16),
+              ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            padding: EdgeInsets.zero,
-                            onPressed: () => Navigator.of(context).pop(),
-                            icon: Icon(Icons.close),
-                          ),
-                          SizedBox(width: 4),
-                          Text(
-                            '${widget.initialResource.resourceType?.name}/${widget.initialResource.fhirId}',
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                        ],
+                      IconButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: () => Navigator.of(context).pop(),
+                        icon: Icon(Icons.close),
                       ),
-                      FilledButton(
-                        onPressed: wasModified && currentFormatError == null
-                            ? () => BlocProvider.of<FhirResourceEditorCubit>(
-                                    context)
-                                .publish()
-                            : null,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 24,
-                            vertical: 10,
-                          ),
-                          child: Text(
-                            S.of(context).saveChanges,
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelLarge
-                                ?.copyWith(
-                                  color: Theme.of(context).colorScheme.surface,
-                                ),
-                          ),
-                        ),
+                      SizedBox(width: 4),
+                      Text(
+                        '${widget.initialResource.resourceType?.name}/${widget.initialResource.fhirId}',
+                        style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ],
                   ),
-                ),
-              );
-            },
+                  FilledButton(
+                    onPressed: wasModified && currentFormatError == null
+                        ? () => publish()
+                        : null,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 24,
+                        vertical: 10,
+                      ),
+                      child: Text(
+                        S.of(context).saveChanges,
+                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                              color: Theme.of(context).colorScheme.surface,
+                            ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
           Expanded(
             child: CodeTheme(
@@ -152,36 +216,7 @@ class _FhirJsonCodeEditorState extends State<FhirJsonCodeEditor> {
                 physics: ClampingScrollPhysics(),
                 child: CodeField(
                   controller: codeController,
-                  onChanged: (data) {
-                    try {
-                      final decodedJson = jsonDecode(data);
-
-                      BlocProvider.of<FhirResourceEditorCubit>(context).update(
-                        resource: Resource.fromJson(
-                          decodedJson
-                            ..['id'] = widget.initialResource.fhirId!
-                            ..['resourceType'] =
-                                widget.initialResource.resourceType!.name,
-                        ),
-                      );
-                      setState(() {
-                        currentFormatError = null;
-                      });
-                    } on FormatException catch (e, st) {
-                      final error = getLineBeforeError(e)?.trim();
-                      setState(() {
-                        currentFormatError =
-                            S.of(context).invalidJsonFormat(error ?? '');
-                      });
-                      AppLogger.instance.e(e, st);
-                    } catch (e, st) {
-                      setState(() {
-                        currentFormatError =
-                            S.of(context).invalidFhirJsonFormat;
-                      });
-                      AppLogger.instance.e(e, st);
-                    }
-                  },
+                  onChanged: (data) => updateLocalCopy(data),
                 ),
               ),
             ),

@@ -1,12 +1,9 @@
 import 'package:fhir/r4.dart';
 import 'package:fire_scribe/fhir_resource/fhir_json_code_editor.dart';
-import 'package:fire_scribe/fhir_resource/fhir_resource_editor_cubit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-class FhirResourceEditorBottonSheet extends StatelessWidget {
+class FhirResourceEditorBottonSheet {
   const FhirResourceEditorBottonSheet({
-    super.key,
     required this.resource,
   });
 
@@ -30,35 +27,23 @@ class FhirResourceEditorBottonSheet extends StatelessWidget {
           minHeight: MediaQuery.of(context).size.height * minHeightRatio,
         ),
         backgroundColor: Colors.transparent,
-        builder: (context) => FhirResourceEditorBottonSheet(
-          resource: resource,
+        builder: (context) => DraggableScrollableSheet(
+          initialChildSize: 1.0,
+          minChildSize: 1.0,
+          maxChildSize: 1.0,
+          builder: (context, scrollController) {
+            return Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(16),
+                ),
+              ),
+              child: FhirJsonCodeEditor(
+                initialResource: resource,
+              ),
+            );
+          },
         ),
       );
-
-  @override
-  Widget build(BuildContext context) {
-    return DraggableScrollableSheet(
-      initialChildSize: 1.0,
-      minChildSize: 1.0,
-      maxChildSize: 1.0,
-      builder: (context, scrollController) {
-        return Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(16),
-            ),
-          ),
-          child: BlocProvider(
-            create: (context) => FhirResourceEditorCubit(
-              resource: resource,
-            ),
-            child: FhirJsonCodeEditor(
-              initialResource: resource,
-            ),
-          ),
-        );
-      },
-    );
-  }
 }

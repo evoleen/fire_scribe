@@ -59,6 +59,7 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
       request: FhirRequest(
         operation: FhirRequestOperation.search,
         entityName: entitySelected!,
+        parameters: {'_sort': '-_lastUpdated'},
       ),
     );
     if (rawBundle == null) {
