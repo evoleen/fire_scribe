@@ -69,16 +69,31 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
     final bundle = Bundle.fromJson(rawBundle);
 
     final entries = (bundle.entry ?? <BundleEntry>[])
+        .where((entry) => entry.resource != null)
         .map(
           (entry) => EntityData(
-            fhirId: entry.resource?.fhirId,
-            lastUpdate: entry.resource?.meta?.lastUpdated,
-            rawDataJson: entry.resource?.toJsonString() ?? '',
+            fhirId: entry.resource!.fhirId,
+            lastUpdate: entry.resource!.meta?.lastUpdated,
+            rawDataJson: entry.resource!.toJsonString(),
           ),
         )
         .toList();
 
     pagingController.appendLastPage(entries);
+  }
+
+  void updateExistingResource(final int index, final Resource resource) {
+    setState(() {
+      pagingController.itemList?.removeAt(index);
+      pagingController.itemList?.insert(
+        0,
+        EntityData(
+          fhirId: resource.fhirId,
+          lastUpdate: resource.meta?.lastUpdated,
+          rawDataJson: resource.toJsonString(),
+        ),
+      );
+    });
   }
 
   @override
@@ -136,7 +151,14 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
                       noMoreItemsIndicatorBuilder: (context) =>
                           const SizedBox(),
                       itemBuilder: (context, item, index) {
-                        return EntityDataPaginatedListCard(entityData: item);
+                        return EntityDataPaginatedListCard(
+                          entityData: item,
+                          resourceWasUpdated: (resource) =>
+                              updateExistingResource(
+                            index,
+                            resource,
+                          ),
+                        );
                       },
                     ),
                     separatorBuilder: (context, index) =>
@@ -179,11 +201,24 @@ class EntityDataPaginatedListHeader extends StatelessWidget {
 
 class EntityDataPaginatedListCard extends StatelessWidget {
   final EntityData entityData;
+  final Function(Resource) resourceWasUpdated;
 
   const EntityDataPaginatedListCard({
     super.key,
     required this.entityData,
+    required this.resourceWasUpdated,
   });
+
+  Future<void> showCodeEditor(final BuildContext context) async {
+    final resource = await FhirResourceEditorBottonSheet.show(
+      context,
+      resource: Resource.fromJsonString(entityData.rawDataJson),
+    );
+
+    if (resource != null && resource.toJsonString() != entityData.rawDataJson) {
+      resourceWasUpdated(resource);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -192,10 +227,7 @@ class EntityDataPaginatedListCard extends StatelessWidget {
         iso8601String != null ? DateTime.parse(iso8601String) : null;
 
     return InkWell(
-      onTap: () => FhirResourceEditorBottonSheet.show(
-        context,
-        resource: Resource.fromJsonString(entityData.rawDataJson),
-      ),
+      onTap: () => showCodeEditor(context),
       child: Container(
         padding: EdgeInsets.symmetric(
           horizontal: 24,

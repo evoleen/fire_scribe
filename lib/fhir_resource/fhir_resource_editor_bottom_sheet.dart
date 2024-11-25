@@ -11,11 +11,11 @@ class FhirResourceEditorBottonSheet {
   static const minHeightRatio = 0.5;
   final Resource resource;
 
-  static Future<dynamic> show(
+  static Future<Resource?> show(
     final BuildContext context, {
     required final Resource resource,
   }) =>
-      showModalBottomSheet(
+      showModalBottomSheet<Resource>(
         context: context,
         isScrollControlled: true,
         isDismissible: false,

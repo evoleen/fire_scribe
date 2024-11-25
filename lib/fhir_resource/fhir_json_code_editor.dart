@@ -130,12 +130,19 @@ class _FhirJsonCodeEditorState extends State<FhirJsonCodeEditor> {
         ),
       );
 
-      print(rawBundle);
-
+      if (rawBundle == null) {
+        setState(() {
+          currentFormatError = 'Error when updating resource, please try again';
+        });
+        return;
+      }
       setState(() {
         currentFormatError = null;
         wasModified = false;
       });
+
+      final updatedResource = Resource.fromJson(rawBundle);
+      Navigator.of(context).pop(updatedResource);
     } on FormatException catch (e, st) {
       final error = getLineBeforeError(e)?.trim();
       setState(() {
