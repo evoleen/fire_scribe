@@ -213,7 +213,9 @@ class EntityDataPaginatedListCard extends StatelessWidget {
               style: Theme.of(context).textTheme.bodyLarge,
             ),
             Text(
-              dateTime != null ? DateFormat.yMd().format(dateTime) : '',
+              dateTime != null
+                  ? DateFormat.yMd().add_Hms().format(dateTime)
+                  : '',
               style: Theme.of(context).textTheme.bodyLarge,
             ),
           ],
