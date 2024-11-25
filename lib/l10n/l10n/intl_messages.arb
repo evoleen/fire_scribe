@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2024-11-21T09:06:38.794521",
+  "@@last_modified": "2024-11-25T09:52:10.381034",
   "appTitle": "Fire Scribe",
   "@appTitle": {
     "description": "The title of the app",
@@ -171,5 +171,11 @@
     "placeholders": {
       "error": {}
     }
+  },
+  "errorWhenUpdatingResource": "Error when updating resource, please try again",
+  "@errorWhenUpdatingResource": {
+    "description": "Error message when json is syntax correct but cannot be updated on backend",
+    "type": "text",
+    "placeholders": {}
   }
 }

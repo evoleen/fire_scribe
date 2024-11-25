@@ -251,4 +251,11 @@ with this entity''',
         desc: 'Error message when json code editor does not JSON structure',
         args: [error],
       );
+
+  String get errorWhenUpdatingResource => Intl.message(
+        'Error when updating resource, please try again',
+        name: 'errorWhenUpdatingResource',
+        desc:
+            'Error message when json is syntax correct but cannot be updated on backend',
+      );
 }

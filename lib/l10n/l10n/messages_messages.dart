@@ -36,6 +36,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'bearerTokenFormEmpty': MessageLookupByLibrary.simpleMessage('Please, enter a Bearer token to connect'),
     'connectToServerHelpText': MessageLookupByLibrary.simpleMessage('To view all resources please connect to server.\nCopy and paste the link to your server’s URL above.'),
     'entityTypeIdHeader': m0,
+    'errorWhenUpdatingResource': MessageLookupByLibrary.simpleMessage('Error when updating resource, please try again'),
     'introduceBearerToken': MessageLookupByLibrary.simpleMessage('Enter Bearer Token'),
     'introduceServerUrl': MessageLookupByLibrary.simpleMessage('Enter Server URL'),
     'invalidFhirJsonFormat': MessageLookupByLibrary.simpleMessage('Invalid FHIR JSON Format'),
