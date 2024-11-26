@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:fhir/r4.dart';
 import 'package:fhir_rest_client/fhir_rest_client.dart';
 import 'package:fire_scribe/auth/cubit/fhir_server_connection_cubit.dart';
@@ -33,6 +34,7 @@ class EntityDataPaginatedList extends StatefulWidget {
 class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
   final pagingController = PagingController<int, EntityData>(firstPageKey: 0);
   String? entitySelected;
+  String? nextToken;
 
   @override
   void initState() {
@@ -53,11 +55,21 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
       return;
     }
 
+    final parameters = {
+      '_sort': '-_lastUpdated',
+      '_count': '25',
+    };
+
+    if (nextToken != null) {
+      parameters['ct'] = nextToken!;
+    }
+
     final rawBundle =
         await BlocProvider.of<FhirServerConnectionCubit>(context).request(
       request: FhirRequest(
         operation: FhirRequestOperation.search,
         entityName: entitySelected!,
+        parameters: parameters,
       ),
     );
     if (rawBundle == null) {
@@ -65,18 +77,29 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
       return;
     }
     final bundle = Bundle.fromJson(rawBundle);
+    final nextUrl =
+        bundle.link?.firstWhereOrNull((item) => item.relation == 'next')?.url;
+    nextToken = nextUrl?.value?.queryParameters['ct'];
 
     final entries = (bundle.entry ?? <BundleEntry>[])
+        .where((entry) => entry.resource != null)
         .map(
           (entry) => EntityData(
-            fhirId: entry.resource?.fhirId,
-            lastUpdate: entry.resource?.meta?.lastUpdated,
-            rawDataJson: entry.resource?.toJsonString() ?? '',
+            fhirId: entry.resource!.fhirId,
+            lastUpdate: entry.resource!.meta?.lastUpdated,
+            rawDataJson: entry.resource!.toJsonString(),
           ),
         )
         .toList();
 
-    pagingController.appendLastPage(entries);
+    if (nextToken == null) {
+      pagingController.appendLastPage(entries);
+    } else {
+      pagingController.appendPage(
+        entries,
+        (pagingController.itemList?.length ?? 0) + entries.length,
+      );
+    }
   }
 
   @override
