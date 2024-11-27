@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2024-11-25T09:52:10.381034",
+  "@@last_modified": "2024-11-27T15:11:52.138206",
   "appTitle": "Fire Scribe",
   "@appTitle": {
     "description": "The title of the app",
@@ -175,6 +175,12 @@
   "errorWhenUpdatingResource": "Error when updating resource, please try again",
   "@errorWhenUpdatingResource": {
     "description": "Error message when json is syntax correct but cannot be updated on backend",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noData": "--",
+  "@noData": {
+    "description": "Text to display in entity list view when no data available for any of its columns",
     "type": "text",
     "placeholders": {}
   }

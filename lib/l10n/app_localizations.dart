@@ -258,4 +258,11 @@ with this entity''',
         desc:
             'Error message when json is syntax correct but cannot be updated on backend',
       );
+
+  String get noData => Intl.message(
+        '--',
+        name: 'noData',
+        desc:
+            'Text to display in entity list view when no data available for any of its columns',
+      );
 }
