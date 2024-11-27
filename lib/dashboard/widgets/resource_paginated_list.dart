@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:fhir/r4.dart';
 import 'package:fhir_rest_client/fhir_rest_client.dart';
 import 'package:fire_scribe/auth/cubit/fhir_server_connection_cubit.dart';
@@ -8,31 +9,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 
-class EntityData {
-  final String? fhirId;
-  final FhirInstant? lastUpdate;
-  final String rawDataJson;
-
-  EntityData({
-    this.fhirId,
-    this.lastUpdate,
-    required this.rawDataJson,
-  });
-}
-
-class EntityDataPaginatedList extends StatefulWidget {
-  const EntityDataPaginatedList({
+class ResourcePaginatedList extends StatefulWidget {
+  const ResourcePaginatedList({
     super.key,
   });
 
   @override
-  State<EntityDataPaginatedList> createState() =>
-      _EntityDataPaginatedListState();
+  State<ResourcePaginatedList> createState() => _ResourcePaginatedListState();
 }
 
-class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
-  final pagingController = PagingController<int, EntityData>(firstPageKey: 0);
+class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
+  final pagingController = PagingController<int, Resource>(firstPageKey: 0);
   String? entitySelected;
+  String? searchCursor;
 
   @override
   void initState() {
@@ -48,16 +37,27 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
   }
 
   Future<void> fetchPage(final int pageOffset) async {
-    if (entitySelected == null || entitySelected!.isEmpty) {
+    final currenEntity = entitySelected;
+    if (currenEntity == null || currenEntity.isEmpty) {
       pagingController.appendLastPage([]);
       return;
+    }
+
+    final parameters = {
+      '_sort': '-_lastUpdated',
+      '_count': '25',
+    };
+
+    if (searchCursor != null) {
+      parameters['ct'] = searchCursor!;
     }
 
     final rawBundle =
         await BlocProvider.of<FhirServerConnectionCubit>(context).request(
       request: FhirRequest(
         operation: FhirRequestOperation.search,
-        entityName: entitySelected!,
+        entityName: currenEntity,
+        parameters: parameters,
       ),
     );
     if (rawBundle == null) {
@@ -65,18 +65,23 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
       return;
     }
     final bundle = Bundle.fromJson(rawBundle);
+    final nextUrl =
+        bundle.link?.firstWhereOrNull((item) => item.relation == 'next')?.url;
+    searchCursor = nextUrl?.value?.queryParameters['ct'];
 
     final entries = (bundle.entry ?? <BundleEntry>[])
-        .map(
-          (entry) => EntityData(
-            fhirId: entry.resource?.fhirId,
-            lastUpdate: entry.resource?.meta?.lastUpdated,
-            rawDataJson: entry.resource?.toJsonString() ?? '',
-          ),
-        )
+        .map((entry) => entry.resource)
+        .whereNotNull()
         .toList();
 
-    pagingController.appendLastPage(entries);
+    if (searchCursor == null) {
+      pagingController.appendLastPage(entries);
+    } else {
+      pagingController.appendPage(
+        entries,
+        (pagingController.itemList?.length ?? 0) + entries.length,
+      );
+    }
   }
 
   @override
@@ -109,17 +114,17 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
                     vertical: 20,
                     horizontal: 48,
                   ),
-                  child: EntityDataPaginatedListHeader(
+                  child: ResourcePaginatedListHeader(
                     entityType: entitySelected,
                   ),
                 ),
                 Expanded(
-                  child: PagedListView<int, EntityData>.separated(
+                  child: PagedListView<int, Resource>.separated(
                     pagingController: pagingController,
                     physics: const AlwaysScrollableScrollPhysics(),
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     itemExtent: 80,
-                    builderDelegate: PagedChildBuilderDelegate<EntityData>(
+                    builderDelegate: PagedChildBuilderDelegate<Resource>(
                       newPageProgressIndicatorBuilder: (context) =>
                           const Center(
                         child: CircularProgressIndicator(),
@@ -134,7 +139,7 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
                       noMoreItemsIndicatorBuilder: (context) =>
                           const SizedBox(),
                       itemBuilder: (context, item, index) {
-                        return EntityDataPaginatedListCard(entityData: item);
+                        return ResourcePaginatedListCard(resource: item);
                       },
                     ),
                     separatorBuilder: (context, index) =>
@@ -150,10 +155,10 @@ class _EntityDataPaginatedListState extends State<EntityDataPaginatedList> {
   }
 }
 
-class EntityDataPaginatedListHeader extends StatelessWidget {
+class ResourcePaginatedListHeader extends StatelessWidget {
   final String entityType;
 
-  const EntityDataPaginatedListHeader({
+  const ResourcePaginatedListHeader({
     super.key,
     required this.entityType,
   });
@@ -175,17 +180,17 @@ class EntityDataPaginatedListHeader extends StatelessWidget {
   }
 }
 
-class EntityDataPaginatedListCard extends StatelessWidget {
-  final EntityData entityData;
+class ResourcePaginatedListCard extends StatelessWidget {
+  final Resource resource;
 
-  const EntityDataPaginatedListCard({
+  const ResourcePaginatedListCard({
     super.key,
-    required this.entityData,
+    required this.resource,
   });
 
   @override
   Widget build(BuildContext context) {
-    final iso8601String = entityData.lastUpdate?.toIso8601String();
+    final iso8601String = resource.meta?.lastUpdated?.toIso8601String();
     final dateTime =
         iso8601String != null ? DateTime.parse(iso8601String) : null;
 
@@ -202,11 +207,13 @@ class EntityDataPaginatedListCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            entityData.fhirId ?? '',
+            resource.fhirId ?? S.of(context).noData,
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           Text(
-            dateTime != null ? DateFormat.yMd().format(dateTime) : '',
+            dateTime != null
+                ? DateFormat.yMd().format(dateTime)
+                : S.of(context).noData,
             style: Theme.of(context).textTheme.bodyLarge,
           ),
         ],

@@ -231,4 +231,11 @@ with this entity''',
         name: 'thirdPartyLicenses',
         desc: 'third party licenses menu item label',
       );
+
+  String get noData => Intl.message(
+        '--',
+        name: 'noData',
+        desc:
+            'Text to display in entity list view when no data available for any of its columns',
+      );
 }
