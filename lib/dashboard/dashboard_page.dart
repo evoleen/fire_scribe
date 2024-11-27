@@ -2,8 +2,8 @@ import 'package:fire_scribe/auth/cubit/fhir_server_connection_cubit.dart';
 import 'package:fire_scribe/auth/widgets/token_provider_form.dart';
 import 'package:fire_scribe/dashboard/cubit/dashboard_cubit.dart';
 import 'package:fire_scribe/dashboard/widgets/dashboard_left_panel.dart';
-import 'package:fire_scribe/dashboard/widgets/entity_data_paginated_list.dart';
 import 'package:fire_scribe/dashboard/widgets/entity_type_list.dart';
+import 'package:fire_scribe/dashboard/widgets/resource_paginated_list.dart';
 import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,7 +39,7 @@ class DashboardPage extends StatelessWidget {
                             key: connectionFormKey,
                           ),
                           Expanded(
-                            child: EntityDataPaginatedList(),
+                            child: ResourcePaginatedList(),
                           ),
                         ],
                       ),
