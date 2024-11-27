@@ -69,10 +69,8 @@ class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
     searchCursor = nextUrl?.value?.queryParameters['ct'];
 
     final entries = (bundle.entry ?? <BundleEntry>[])
-        .where((entry) => entry.resource != null)
-        .map(
-          (entry) => entry.resource!,
-        )
+        .map((entry) => entry.resource)
+        .whereNotNull()
         .toList();
 
     if (searchCursor == null) {
