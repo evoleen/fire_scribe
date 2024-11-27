@@ -37,7 +37,8 @@ class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
   }
 
   Future<void> fetchPage(final int pageOffset) async {
-    if (entitySelected == null || entitySelected!.isEmpty) {
+    final currenEntity = entitySelected;
+    if (currenEntity == null || currenEntity.isEmpty) {
       pagingController.appendLastPage([]);
       return;
     }
@@ -55,7 +56,7 @@ class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
         await BlocProvider.of<FhirServerConnectionCubit>(context).request(
       request: FhirRequest(
         operation: FhirRequestOperation.search,
-        entityName: entitySelected!,
+        entityName: currenEntity,
         parameters: parameters,
       ),
     );
