@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2024-11-13T20:39:03.673799",
+  "@@last_modified": "2024-11-27T14:49:09.098931",
   "appTitle": "Fire Scribe",
   "@appTitle": {
     "description": "The title of the app",
@@ -149,6 +149,12 @@
   "thirdPartyLicenses": "Third-Party Licenses",
   "@thirdPartyLicenses": {
     "description": "third party licenses menu item label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noData": "--",
+  "@noData": {
+    "description": "Text to display in entity list view when no data available for any of its columns",
     "type": "text",
     "placeholders": {}
   }
