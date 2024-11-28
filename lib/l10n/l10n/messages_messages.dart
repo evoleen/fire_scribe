@@ -27,6 +27,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static m2(error) => "Invalid JSON Format: ${error}";
 
+  static m3(resourceType, resourceId) => "${resourceType} ${resourceId} created succesfuly";
+
   @override
   final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
 
@@ -54,6 +56,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'privacyPolicy': MessageLookupByLibrary.simpleMessage('Privacy Policy'),
     'proceed': MessageLookupByLibrary.simpleMessage('Continue'),
     'refresh': MessageLookupByLibrary.simpleMessage('Refresh'),
+    'resourceCreationSuccessful': m3,
     'saveChanges': MessageLookupByLibrary.simpleMessage('Save changes'),
     'selectAnEntityFromList': MessageLookupByLibrary.simpleMessage('Select an entity to see entries of that type'),
     'server': MessageLookupByLibrary.simpleMessage('Server'),

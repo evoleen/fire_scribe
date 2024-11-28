@@ -105,7 +105,10 @@ class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
         resource: ResourceX.factoryCreation(entitySelected!));
     if (resource != null) {
       context.popAndPushSnackbar(
-        message: '$entitySelected ${resource.fhirId} created succesfuly',
+        message: S.of(context).resourceCreationSuccessful(
+              entitySelected!,
+              resource.fhirId ?? '',
+            ),
       );
       setState(() {
         pagingController.itemList?.insert(0, resource);

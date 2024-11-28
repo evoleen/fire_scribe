@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2024-11-28T11:28:34.518324",
+  "@@last_modified": "2024-11-28T11:31:46.801588",
   "appTitle": "Fire Scribe",
   "@appTitle": {
     "description": "The title of the app",
@@ -220,6 +220,15 @@
     "type": "text",
     "placeholders": {
       "resourceType": {}
+    }
+  },
+  "resourceCreationSuccessful": "{resourceType} {resourceId} created succesfuly",
+  "@resourceCreationSuccessful": {
+    "description": "Success message to show in after create a new resource",
+    "type": "text",
+    "placeholders": {
+      "resourceType": {},
+      "resourceId": {}
     }
   }
 }
