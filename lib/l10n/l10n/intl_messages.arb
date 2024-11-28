@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2024-11-13T20:39:03.673799",
+  "@@last_modified": "2024-11-28T10:40:58.291749",
   "appTitle": "Fire Scribe",
   "@appTitle": {
     "description": "The title of the app",
@@ -149,6 +149,68 @@
   "thirdPartyLicenses": "Third-Party Licenses",
   "@thirdPartyLicenses": {
     "description": "third party licenses menu item label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "saveChanges": "Save changes",
+  "@saveChanges": {
+    "description": "Save changes button title in json code editor",
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidFhirJsonFormat": "Invalid FHIR JSON Format",
+  "@invalidFhirJsonFormat": {
+    "description": "Error message when json code editor does not fhir FHIR structure",
+    "type": "text",
+    "placeholders": {}
+  },
+  "invalidJsonFormat": "Invalid JSON Format: {error}",
+  "@invalidJsonFormat": {
+    "description": "Error message when json code editor does not JSON structure",
+    "type": "text",
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "errorWhenUpdatingResource": "Error when updating resource, please try again",
+  "@errorWhenUpdatingResource": {
+    "description": "Error message when json is syntax correct but cannot be updated on backend",
+    "type": "text",
+    "placeholders": {}
+  },
+  "warningResourceIdChanged": "The resource's id was modified, the update will be saved as new resource or be rejected by the server.\nDo you want to continue?",
+  "@warningResourceIdChanged": {
+    "description": "Warning message to show when user try to publish an entity with a different ID than original",
+    "type": "text",
+    "placeholders": {}
+  },
+  "warningResourceTypeChanged": "The resource's type was modified, the update will be saved as new resource or be rejected by the server.\nDo you want to continue?",
+  "@warningResourceTypeChanged": {
+    "description": "Warning message to show when user try to publish an entity with a different resource type than original",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noData": "--",
+  "@noData": {
+    "description": "Text to display in entity list view when no data available for any of its columns",
+    "type": "text",
+    "placeholders": {}
+  },
+  "warning": "Warning",
+  "@warning": {
+    "description": "Title of the warning dialog",
+    "type": "text",
+    "placeholders": {}
+  },
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Title of the cancel button in the warning dialog",
+    "type": "text",
+    "placeholders": {}
+  },
+  "proceed": "Continue",
+  "@proceed": {
+    "description": "Title of the continue button in the warning dialog",
     "type": "text",
     "placeholders": {}
   }
