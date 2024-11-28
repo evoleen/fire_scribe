@@ -2,8 +2,8 @@ import 'package:fhir/r4.dart';
 import 'package:fire_scribe/fhir_resource/fhir_json_code_editor.dart';
 import 'package:flutter/material.dart';
 
-class FhirResourceEditorBottonSheet {
-  const FhirResourceEditorBottonSheet({
+class FhirResourceEditorBottomSheet {
+  const FhirResourceEditorBottomSheet({
     required this.resource,
   });
 

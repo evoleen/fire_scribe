@@ -260,15 +260,15 @@ with this entity''',
       );
 
   String get warningResourceIdChanged => Intl.message(
-        'The id of the resource to edit was modified, could appear an error when updating.\nDo you want to continue?',
+        'The resource\'s id was modified, the update will be saved as new resource or be rejected by the server.\nDo you want to continue?',
         name: 'warningResourceIdChanged',
         desc:
             'Warning message to show when user try to publish an entity with a different ID than original',
       );
 
   String get warningResourceTypeChanged => Intl.message(
-        'The type of the resource to edit was modified, could appear an error when updating.\nDo you want to continue?',
-        name: 'warningResourceIdChanged',
+        'The resource\'s type was modified, the update will be saved as new resource or be rejected by the server.\nDo you want to continue?',
+        name: 'warningResourceTypeChanged',
         desc:
             'Warning message to show when user try to publish an entity with a different resource type than original',
       );

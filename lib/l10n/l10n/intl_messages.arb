@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2024-11-28T09:52:17.245968",
+  "@@last_modified": "2024-11-28T10:40:58.291749",
   "appTitle": "Fire Scribe",
   "@appTitle": {
     "description": "The title of the app",
@@ -178,9 +178,15 @@
     "type": "text",
     "placeholders": {}
   },
-  "warningResourceIdChanged": "The id of the resource to edit was modified, could appear an error when updating.\nDo you want to continue?",
+  "warningResourceIdChanged": "The resource's id was modified, the update will be saved as new resource or be rejected by the server.\nDo you want to continue?",
   "@warningResourceIdChanged": {
     "description": "Warning message to show when user try to publish an entity with a different ID than original",
+    "type": "text",
+    "placeholders": {}
+  },
+  "warningResourceTypeChanged": "The resource's type was modified, the update will be saved as new resource or be rejected by the server.\nDo you want to continue?",
+  "@warningResourceTypeChanged": {
+    "description": "Warning message to show when user try to publish an entity with a different resource type than original",
     "type": "text",
     "placeholders": {}
   },

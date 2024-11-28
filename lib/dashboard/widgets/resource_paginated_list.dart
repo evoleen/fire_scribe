@@ -209,7 +209,7 @@ class ResourcePaginatedListCard extends StatelessWidget {
   });
 
   Future<void> _showCodeEditor(final BuildContext context) async {
-    final resource = await FhirResourceEditorBottonSheet.show(
+    final resource = await FhirResourceEditorBottomSheet.show(
       context,
       resource: this.resource,
     );

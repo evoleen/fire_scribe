@@ -62,6 +62,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'termsOfUse': MessageLookupByLibrary.simpleMessage('Terms Of Use'),
     'thirdPartyLicenses': MessageLookupByLibrary.simpleMessage('Third-Party Licenses'),
     'warning': MessageLookupByLibrary.simpleMessage('Warning'),
-    'warningResourceIdChanged': MessageLookupByLibrary.simpleMessage('The id of the resource to edit was modified, could appear an error when updating.\nDo you want to continue?')
+    'warningResourceIdChanged': MessageLookupByLibrary.simpleMessage('The resource\'s id was modified, the update will be saved as new resource or be rejected by the server.\nDo you want to continue?'),
+    'warningResourceTypeChanged': MessageLookupByLibrary.simpleMessage('The resource\'s type was modified, the update will be saved as new resource or be rejected by the server.\nDo you want to continue?')
   };
 }
