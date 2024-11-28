@@ -5,6 +5,7 @@ import 'package:fhir_rest_client/fhir_rest_client.dart';
 import 'package:fire_scribe/app_logger.dart';
 import 'package:fire_scribe/auth/cubit/fhir_server_connection_cubit.dart';
 import 'package:fire_scribe/l10n/app_localizations.dart';
+import 'package:fire_scribe/widgets/warning_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_code_editor/flutter_code_editor.dart';
@@ -35,13 +36,7 @@ class _FhirJsonCodeEditorState extends State<FhirJsonCodeEditor> {
     codeController = CodeController(
       analyzer: DefaultLocalAnalyzer(),
       text: JsonEncoder.withIndent('\t').convert(
-        widget.resource.toJson()
-
-          /// We should not display resourceType and if of the entity
-          /// in order to reduce the amount of errors that the user
-          /// could have when editing the resource
-          ..remove('id')
-          ..remove('resourceType'),
+        widget.resource.toJson(),
       ),
       params: EditorParams(
         tabSpaces: 4,
@@ -82,15 +77,7 @@ class _FhirJsonCodeEditorState extends State<FhirJsonCodeEditor> {
       // Try to decode as JSON in order to detect syntax errors
       final decodedJson = jsonDecode(data);
       // Try to decode as FHIR JSON in order to detect syntax errors
-      final resource = Resource.fromJson(
-        /// As we removed id and resourceType on the initState
-        /// we need to add in each update call since data
-        /// coming from editor, and editor was setup without
-        /// these values
-        decodedJson
-          ..['id'] = widget.resource.fhirId
-          ..['resourceType'] = widget.resource.resourceType?.name,
-      );
+      final resource = Resource.fromJson(decodedJson);
 
       setState(() {
         currentFormatError = null;
@@ -113,11 +100,12 @@ class _FhirJsonCodeEditorState extends State<FhirJsonCodeEditor> {
   Future<void> publish() async {
     try {
       // Try to decode as JSON in order to detect syntax errors
-      final decodedJson = jsonDecode(codeController.fullText);
+      final decodedJson =
+          jsonDecode(codeController.fullText) as Map<String, dynamic>;
       // Try to decode as FHIR JSON in order to detect syntax errors
-
-      final resourceName = widget.resource.resourceType?.name;
-      final resourceId = widget.resource.fhirId;
+      final resource = Resource.fromJson(decodedJson);
+      final resourceName = resource.resourceType?.name;
+      final resourceId = resource.fhirId;
 
       if (resourceId == null || resourceName == null) {
         setState(() {
@@ -126,20 +114,33 @@ class _FhirJsonCodeEditorState extends State<FhirJsonCodeEditor> {
         return;
       }
 
-      Resource.fromJson(
-        decodedJson
-          ..['id'] = resourceId
-          ..['resourceType'] = resourceName,
-      );
+      var continueWithWarnings = true;
+      if (widget.resource.fhirId != resource.fhirId) {
+        continueWithWarnings = await WarningDialog.show(
+              context,
+              warningMessage: S.of(context).warningResourceIdChanged,
+            ) ??
+            false;
+      } else if (widget.resource.resourceType?.name !=
+          resource.resourceType?.name) {
+        continueWithWarnings = await WarningDialog.show(
+              context,
+              warningMessage: S.of(context).warningResourceTypeChanged,
+            ) ??
+            false;
+      }
+
+      if (!continueWithWarnings) {
+        return;
+      }
 
       final rawBundle =
           await BlocProvider.of<FhirServerConnectionCubit>(context).request(
         request: FhirRequest(
-          operation: FhirRequestOperation.update,
-          entityName: resourceName,
-          entityId: resourceId,
-          parameters: decodedJson,
-        ),
+            operation: FhirRequestOperation.update,
+            entityName: resourceName,
+            entityId: resourceId,
+            parameters: decodedJson),
       );
 
       if (rawBundle == null) {

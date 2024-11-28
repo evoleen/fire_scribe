@@ -34,6 +34,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'appTitle': MessageLookupByLibrary.simpleMessage('Fire Scribe'),
     'bearerToken': MessageLookupByLibrary.simpleMessage('Bearer Token'),
     'bearerTokenFormEmpty': MessageLookupByLibrary.simpleMessage('Please, enter a Bearer token to connect'),
+    'cancel': MessageLookupByLibrary.simpleMessage('Cancel'),
     'connectToServerHelpText': MessageLookupByLibrary.simpleMessage('To view all resources please connect to server.\nCopy and paste the link to your server’s URL above.'),
     'entityTypeIdHeader': m0,
     'errorWhenUpdatingResource': MessageLookupByLibrary.simpleMessage('Error when updating resource, please try again'),
@@ -48,6 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'noDataAssociatedToAnEntity': MessageLookupByLibrary.simpleMessage('There\'s no data associated\nwith this entity'),
     'pageComingSoon': MessageLookupByLibrary.simpleMessage('Page coming soon'),
     'privacyPolicy': MessageLookupByLibrary.simpleMessage('Privacy Policy'),
+    'proceed': MessageLookupByLibrary.simpleMessage('Continue'),
     'refresh': MessageLookupByLibrary.simpleMessage('Refresh'),
     'saveChanges': MessageLookupByLibrary.simpleMessage('Save changes'),
     'selectAnEntityFromList': MessageLookupByLibrary.simpleMessage('Select an entity to see entries of that type'),
@@ -58,6 +60,8 @@ class MessageLookup extends MessageLookupByLibrary {
     'serverUrlFormEmpty': MessageLookupByLibrary.simpleMessage('Please, add a servel url to connect'),
     'settings': MessageLookupByLibrary.simpleMessage('Settings'),
     'termsOfUse': MessageLookupByLibrary.simpleMessage('Terms Of Use'),
-    'thirdPartyLicenses': MessageLookupByLibrary.simpleMessage('Third-Party Licenses')
+    'thirdPartyLicenses': MessageLookupByLibrary.simpleMessage('Third-Party Licenses'),
+    'warning': MessageLookupByLibrary.simpleMessage('Warning'),
+    'warningResourceIdChanged': MessageLookupByLibrary.simpleMessage('The id of the resource to edit was modified, could appear an error when updating.\nDo you want to continue?')
   };
 }

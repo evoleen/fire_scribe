@@ -259,10 +259,42 @@ with this entity''',
             'Error message when json is syntax correct but cannot be updated on backend',
       );
 
+  String get warningResourceIdChanged => Intl.message(
+        'The id of the resource to edit was modified, could appear an error when updating.\nDo you want to continue?',
+        name: 'warningResourceIdChanged',
+        desc:
+            'Warning message to show when user try to publish an entity with a different ID than original',
+      );
+
+  String get warningResourceTypeChanged => Intl.message(
+        'The type of the resource to edit was modified, could appear an error when updating.\nDo you want to continue?',
+        name: 'warningResourceIdChanged',
+        desc:
+            'Warning message to show when user try to publish an entity with a different resource type than original',
+      );
+
   String get noData => Intl.message(
         '--',
         name: 'noData',
         desc:
             'Text to display in entity list view when no data available for any of its columns',
+      );
+
+  String get warning => Intl.message(
+        'Warning',
+        name: 'warning',
+        desc: 'Title of the warning dialog',
+      );
+
+  String get cancel => Intl.message(
+        'Cancel',
+        name: 'cancel',
+        desc: 'Title of the cancel button in the warning dialog',
+      );
+
+  String get proceed => Intl.message(
+        'Continue',
+        name: 'proceed',
+        desc: 'Title of the continue button in the warning dialog',
       );
 }
