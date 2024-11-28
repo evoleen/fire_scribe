@@ -297,4 +297,11 @@ with this entity''',
         name: 'proceed',
         desc: 'Title of the continue button in the warning dialog',
       );
+
+  String createNewResource(final String resourceType) => Intl.message(
+        'Create new $resourceType',
+        name: 'createNewResource',
+        desc: 'Title of the create resource button',
+        args: [resourceType],
+      );
 }

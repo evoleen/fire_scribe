@@ -147,7 +147,9 @@ class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
                     width: double.infinity,
                     child: FilledButton(
                       onPressed: () => createResource(),
-                      child: Text('Create new $entitySelected'),
+                      child: Text(
+                        S.of(context).createNewResource(entitySelected),
+                      ),
                     ),
                   ),
                 ),
