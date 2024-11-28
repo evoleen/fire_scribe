@@ -40,7 +40,7 @@ class FhirResourceEditorBottonSheet {
                 ),
               ),
               child: FhirJsonCodeEditor(
-                initialResource: resource,
+                resource: resource,
               ),
             );
           },

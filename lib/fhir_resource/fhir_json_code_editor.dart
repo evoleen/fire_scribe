@@ -14,10 +14,10 @@ import 'package:highlight/languages/json.dart';
 class FhirJsonCodeEditor extends StatefulWidget {
   const FhirJsonCodeEditor({
     super.key,
-    required this.initialResource,
+    required this.resource,
   });
 
-  final Resource initialResource;
+  final Resource resource;
 
   @override
   State<FhirJsonCodeEditor> createState() => _FhirJsonCodeEditorState();
@@ -35,7 +35,7 @@ class _FhirJsonCodeEditorState extends State<FhirJsonCodeEditor> {
     codeController = CodeController(
       analyzer: DefaultLocalAnalyzer(),
       text: JsonEncoder.withIndent('\t').convert(
-        widget.initialResource.toJson()
+        widget.resource.toJson()
 
           /// We should not display resourceType and if of the entity
           /// in order to reduce the amount of errors that the user
@@ -57,7 +57,8 @@ class _FhirJsonCodeEditorState extends State<FhirJsonCodeEditor> {
   }
 
   String? getLineBeforeError(final FormatException formatException) {
-    if (formatException.offset == null) {
+    final formatExceptionOffset = formatException.offset;
+    if (formatExceptionOffset == null) {
       return null;
     }
 
@@ -67,7 +68,7 @@ class _FhirJsonCodeEditorState extends State<FhirJsonCodeEditor> {
 
     for (var i = 0; i < lines.length; i++) {
       currentOffset += lines[i].length + 1;
-      if (currentOffset > formatException.offset!) {
+      if (currentOffset > formatExceptionOffset) {
         errorLine = i;
         break;
       }
@@ -87,13 +88,13 @@ class _FhirJsonCodeEditorState extends State<FhirJsonCodeEditor> {
         /// coming from editor, and editor was setup without
         /// these values
         decodedJson
-          ..['id'] = widget.initialResource.fhirId!
-          ..['resourceType'] = widget.initialResource.resourceType!.name,
+          ..['id'] = widget.resource.fhirId
+          ..['resourceType'] = widget.resource.resourceType?.name,
       );
 
       setState(() {
         currentFormatError = null;
-        wasModified = widget.initialResource != resource;
+        wasModified = widget.resource != resource;
       });
     } on FormatException catch (e, st) {
       final error = getLineBeforeError(e)?.trim();
@@ -114,18 +115,29 @@ class _FhirJsonCodeEditorState extends State<FhirJsonCodeEditor> {
       // Try to decode as JSON in order to detect syntax errors
       final decodedJson = jsonDecode(codeController.fullText);
       // Try to decode as FHIR JSON in order to detect syntax errors
+
+      final resourceName = widget.resource.resourceType?.name;
+      final resourceId = widget.resource.fhirId;
+
+      if (resourceId == null || resourceName == null) {
+        setState(() {
+          currentFormatError = S.of(context).invalidFhirJsonFormat;
+        });
+        return;
+      }
+
       Resource.fromJson(
         decodedJson
-          ..['id'] = widget.initialResource.fhirId!
-          ..['resourceType'] = widget.initialResource.resourceType!.name,
+          ..['id'] = resourceId
+          ..['resourceType'] = resourceName,
       );
 
       final rawBundle =
           await BlocProvider.of<FhirServerConnectionCubit>(context).request(
         request: FhirRequest(
           operation: FhirRequestOperation.update,
-          entityName: widget.initialResource.resourceType!.name,
-          entityId: widget.initialResource.fhirId!,
+          entityName: resourceName,
+          entityId: resourceId,
           parameters: decodedJson,
         ),
       );
@@ -188,7 +200,7 @@ class _FhirJsonCodeEditorState extends State<FhirJsonCodeEditor> {
                       ),
                       SizedBox(width: 4),
                       Text(
-                        '${widget.initialResource.resourceType?.name}/${widget.initialResource.fhirId}',
+                        '${widget.resource.resourceType?.name}/${widget.resource.fhirId}',
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ],
