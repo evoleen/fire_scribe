@@ -26,13 +26,13 @@ class FhirJsonCodeEditor extends StatefulWidget {
 
 class _FhirJsonCodeEditorState extends State<FhirJsonCodeEditor> {
   String? currentFormatError;
-  bool wasModified = false;
+  late bool wasModified;
   late CodeController codeController;
 
   @override
   void initState() {
     super.initState();
-
+    wasModified = widget.resource.fhirId == null;
     codeController = CodeController(
       analyzer: DefaultLocalAnalyzer(),
       text: JsonEncoder.withIndent('\t').convert(
@@ -81,7 +81,8 @@ class _FhirJsonCodeEditorState extends State<FhirJsonCodeEditor> {
 
       setState(() {
         currentFormatError = null;
-        wasModified = widget.resource != resource;
+        wasModified =
+            widget.resource != resource || widget.resource.fhirId == null;
       });
     } on FormatException catch (e, st) {
       final error = getLineBeforeError(e)?.trim();
@@ -107,7 +108,8 @@ class _FhirJsonCodeEditorState extends State<FhirJsonCodeEditor> {
       final resourceName = resource.resourceType?.name;
       final resourceId = resource.fhirId;
 
-      if (resourceId == null || resourceName == null) {
+      if ((resourceId == null && widget.resource.fhirId != null) ||
+          resourceName == null) {
         setState(() {
           currentFormatError = S.of(context).invalidFhirJsonFormat;
         });
@@ -137,7 +139,9 @@ class _FhirJsonCodeEditorState extends State<FhirJsonCodeEditor> {
       final rawBundle =
           await BlocProvider.of<FhirServerConnectionCubit>(context).request(
         request: FhirRequest(
-            operation: FhirRequestOperation.update,
+            operation: widget.resource.fhirId == null
+                ? FhirRequestOperation.create
+                : FhirRequestOperation.update,
             entityName: resourceName,
             entityId: resourceId,
             parameters: decodedJson),
@@ -201,7 +205,9 @@ class _FhirJsonCodeEditorState extends State<FhirJsonCodeEditor> {
                       ),
                       SizedBox(width: 4),
                       Text(
-                        '${widget.resource.resourceType?.name}/${widget.resource.fhirId}',
+                        widget.resource.fhirId != null
+                            ? '${widget.resource.resourceType?.name}/${widget.resource.fhirId}'
+                            : widget.resource.resourceType?.name ?? '',
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     ],

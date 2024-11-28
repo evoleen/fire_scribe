@@ -3,6 +3,8 @@ import 'package:fhir/r4.dart';
 import 'package:fhir_rest_client/fhir_rest_client.dart';
 import 'package:fire_scribe/auth/cubit/fhir_server_connection_cubit.dart';
 import 'package:fire_scribe/dashboard/cubit/dashboard_cubit.dart';
+import 'package:fire_scribe/extensions/build_context.dart';
+import 'package:fire_scribe/extensions/resource.dart';
 import 'package:fire_scribe/fhir_resource/fhir_resource_editor_bottom_sheet.dart';
 import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -95,6 +97,25 @@ class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
     });
   }
 
+  Future<void> createResource() async {
+    if (entitySelected == null) {
+      return;
+    }
+    final resource = await FhirResourceEditorBottomSheet.show(context,
+        resource: ResourceX.factoryCreation(entitySelected!));
+    if (resource != null) {
+      context.popAndPushSnackbar(
+        message: S.of(context).resourceCreationSuccessful(
+              entitySelected!,
+              resource.fhirId ?? '',
+            ),
+      );
+      setState(() {
+        pagingController.itemList?.insert(0, resource);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<DashboardCubit, DashboardCubitState>(
@@ -120,6 +141,21 @@ class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
           selected: (entitySelected) {
             return Column(
               children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 8,
+                    horizontal: 48,
+                  ),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: FilledButton(
+                      onPressed: () => createResource(),
+                      child: Text(
+                        S.of(context).createNewResource(entitySelected),
+                      ),
+                    ),
+                  ),
+                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: 20,

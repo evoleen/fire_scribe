@@ -21,9 +21,13 @@ class MessageLookup extends MessageLookupByLibrary {
   @override
   String get localeName => 'messages';
 
-  static m0(entityType) => "${entityType} ID";
+  static m0(resourceType) => "Create new ${resourceType}";
 
-  static m1(error) => "Invalid JSON Format: ${error}";
+  static m1(entityType) => "${entityType} ID";
+
+  static m2(error) => "Invalid JSON Format: ${error}";
+
+  static m3(resourceType, resourceId) => "${resourceType} ${resourceId} created succesfuly";
 
   @override
   final Map<String, dynamic> messages = _notInlinedMessages(_notInlinedMessages);
@@ -36,12 +40,13 @@ class MessageLookup extends MessageLookupByLibrary {
     'bearerTokenFormEmpty': MessageLookupByLibrary.simpleMessage('Please, enter a Bearer token to connect'),
     'cancel': MessageLookupByLibrary.simpleMessage('Cancel'),
     'connectToServerHelpText': MessageLookupByLibrary.simpleMessage('To view all resources please connect to server.\nCopy and paste the link to your server’s URL above.'),
-    'entityTypeIdHeader': m0,
+    'createNewResource': m0,
+    'entityTypeIdHeader': m1,
     'errorWhenUpdatingResource': MessageLookupByLibrary.simpleMessage('Error when updating resource, please try again'),
     'introduceBearerToken': MessageLookupByLibrary.simpleMessage('Enter Bearer Token'),
     'introduceServerUrl': MessageLookupByLibrary.simpleMessage('Enter Server URL'),
     'invalidFhirJsonFormat': MessageLookupByLibrary.simpleMessage('Invalid FHIR JSON Format'),
-    'invalidJsonFormat': m1,
+    'invalidJsonFormat': m2,
     'lastUpdate': MessageLookupByLibrary.simpleMessage('Last update'),
     'loginWithAzureIdentity': MessageLookupByLibrary.simpleMessage('Login with Azure Identity'),
     'loginWithBearerToken': MessageLookupByLibrary.simpleMessage('Login with Bearer token'),
@@ -51,6 +56,7 @@ class MessageLookup extends MessageLookupByLibrary {
     'privacyPolicy': MessageLookupByLibrary.simpleMessage('Privacy Policy'),
     'proceed': MessageLookupByLibrary.simpleMessage('Continue'),
     'refresh': MessageLookupByLibrary.simpleMessage('Refresh'),
+    'resourceCreationSuccessful': m3,
     'saveChanges': MessageLookupByLibrary.simpleMessage('Save changes'),
     'selectAnEntityFromList': MessageLookupByLibrary.simpleMessage('Select an entity to see entries of that type'),
     'server': MessageLookupByLibrary.simpleMessage('Server'),

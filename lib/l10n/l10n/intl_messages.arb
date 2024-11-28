@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2024-11-28T10:40:58.291749",
+  "@@last_modified": "2024-11-28T11:31:46.801588",
   "appTitle": "Fire Scribe",
   "@appTitle": {
     "description": "The title of the app",
@@ -213,5 +213,22 @@
     "description": "Title of the continue button in the warning dialog",
     "type": "text",
     "placeholders": {}
+  },
+  "createNewResource": "Create new {resourceType}",
+  "@createNewResource": {
+    "description": "Title of the create resource button",
+    "type": "text",
+    "placeholders": {
+      "resourceType": {}
+    }
+  },
+  "resourceCreationSuccessful": "{resourceType} {resourceId} created succesfuly",
+  "@resourceCreationSuccessful": {
+    "description": "Success message to show in after create a new resource",
+    "type": "text",
+    "placeholders": {
+      "resourceType": {},
+      "resourceId": {}
+    }
   }
 }

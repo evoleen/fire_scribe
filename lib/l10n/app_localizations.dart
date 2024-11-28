@@ -297,4 +297,20 @@ with this entity''',
         name: 'proceed',
         desc: 'Title of the continue button in the warning dialog',
       );
+
+  String createNewResource(final String resourceType) => Intl.message(
+        'Create new $resourceType',
+        name: 'createNewResource',
+        desc: 'Title of the create resource button',
+        args: [resourceType],
+      );
+
+  String resourceCreationSuccessful(
+          final String resourceType, final String resourceId) =>
+      Intl.message(
+        '$resourceType $resourceId created succesfuly',
+        name: 'resourceCreationSuccessful',
+        desc: 'Success message to show in after create a new resource',
+        args: [resourceType, resourceId],
+      );
 }
