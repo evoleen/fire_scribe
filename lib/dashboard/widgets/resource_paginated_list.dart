@@ -95,6 +95,20 @@ class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
     });
   }
 
+  Future<void> createResource() async {
+    final resource = await FhirResourceEditorBottomSheet.show(
+      context,
+      resource: Resource.fromJson(
+        {'resourceType': entitySelected},
+      ),
+    );
+    if (resource != null) {
+      setState(() {
+        pagingController.itemList?.insert(0, resource);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<DashboardCubit, DashboardCubitState>(
@@ -128,17 +142,7 @@ class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
                   child: SizedBox(
                     width: double.infinity,
                     child: FilledButton(
-                      onPressed: () async {
-                        await BlocProvider.of<FhirServerConnectionCubit>(
-                                context)
-                            .request(
-                          request: FhirRequest(
-                            operation: FhirRequestOperation.create,
-                            entityName: entitySelected,
-                          ),
-                        );
-                        pagingController.refresh();
-                      },
+                      onPressed: () => createResource(),
                       child: Text('Add entity'),
                     ),
                   ),
