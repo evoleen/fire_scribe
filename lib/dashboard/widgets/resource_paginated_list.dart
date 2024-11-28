@@ -3,6 +3,7 @@ import 'package:fhir/r4.dart';
 import 'package:fhir_rest_client/fhir_rest_client.dart';
 import 'package:fire_scribe/auth/cubit/fhir_server_connection_cubit.dart';
 import 'package:fire_scribe/dashboard/cubit/dashboard_cubit.dart';
+import 'package:fire_scribe/fhir_resource/fhir_resource_editor_bottom_sheet.dart';
 import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -84,6 +85,16 @@ class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
     }
   }
 
+  void updateExistingResource(final int index, final Resource resource) {
+    setState(() {
+      pagingController.itemList?.removeAt(index);
+      pagingController.itemList?.insert(
+        0,
+        resource,
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<DashboardCubit, DashboardCubitState>(
@@ -139,7 +150,14 @@ class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
                       noMoreItemsIndicatorBuilder: (context) =>
                           const SizedBox(),
                       itemBuilder: (context, item, index) {
-                        return ResourcePaginatedListCard(resource: item);
+                        return ResourcePaginatedListCard(
+                          resource: item,
+                          resourceWasUpdated: (resource) =>
+                              updateExistingResource(
+                            index,
+                            resource,
+                          ),
+                        );
                       },
                     ),
                     separatorBuilder: (context, index) =>
@@ -182,11 +200,24 @@ class ResourcePaginatedListHeader extends StatelessWidget {
 
 class ResourcePaginatedListCard extends StatelessWidget {
   final Resource resource;
+  final Function(Resource) resourceWasUpdated;
 
   const ResourcePaginatedListCard({
     super.key,
     required this.resource,
+    required this.resourceWasUpdated,
   });
+
+  Future<void> _showCodeEditor(final BuildContext context) async {
+    final resource = await FhirResourceEditorBottomSheet.show(
+      context,
+      resource: this.resource,
+    );
+
+    if (resource != null && resource != this.resource) {
+      resourceWasUpdated(resource);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -194,29 +225,32 @@ class ResourcePaginatedListCard extends StatelessWidget {
     final dateTime =
         iso8601String != null ? DateTime.parse(iso8601String) : null;
 
-    return Container(
-      padding: EdgeInsets.symmetric(
-        horizontal: 24,
-        vertical: 12,
-      ),
-      decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surfaceContainerLowest,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            resource.fhirId ?? S.of(context).noData,
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-          Text(
-            dateTime != null
-                ? DateFormat.yMd().format(dateTime)
-                : S.of(context).noData,
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-        ],
+    return InkWell(
+      onTap: () => _showCodeEditor(context),
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: 24,
+          vertical: 12,
+        ),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surfaceContainerLowest,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              resource.fhirId ?? S.of(context).noData,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+            Text(
+              dateTime != null
+                  ? DateFormat.yMd().add_Hms().format(dateTime)
+                  : S.of(context).noData,
+              style: Theme.of(context).textTheme.bodyLarge,
+            ),
+          ],
+        ),
       ),
     );
   }
