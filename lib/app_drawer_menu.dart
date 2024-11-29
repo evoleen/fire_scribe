@@ -27,7 +27,7 @@ class AppDrawerMenu extends StatelessWidget {
                   horizontal: 8,
                 ),
                 child: Image.asset(
-                  'assets/images/logo.png',
+                  'assets/app/logo.png',
                   width: 52,
                   height: 52,
                 ),
