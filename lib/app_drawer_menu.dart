@@ -1,7 +1,7 @@
 import 'package:fire_scribe/dashboard/dashboard_route.dart';
 import 'package:fire_scribe/l10n/app_localizations.dart';
+import 'package:fire_scribe/license/license_routes.dart';
 import 'package:fire_scribe/routes.dart';
-import 'package:fire_scribe/settings/settings_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -39,21 +39,6 @@ class AppDrawerMenu extends StatelessWidget {
                 icon: Symbols.dns,
                 title: S.of(context).server,
                 route: DashboardRoute().location,
-              ),
-              AppDrawerMenuItemData(
-                icon: Symbols.settings,
-                title: S.of(context).settings,
-                route: SettingsRoute().location,
-              ),
-              AppDrawerMenuItemData(
-                icon: Symbols.admin_panel_settings,
-                title: S.of(context).privacyPolicy,
-                route: PrivacyPolicyRoute().location,
-              ),
-              AppDrawerMenuItemData(
-                icon: Symbols.description,
-                title: S.of(context).license,
-                route: TermsOfUseRoute().location,
               ),
               AppDrawerMenuItemData(
                 icon: Symbols.license,
