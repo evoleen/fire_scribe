@@ -88,9 +88,10 @@ class S {
         desc: 'The title of the app',
       );
 
-  String get appErrorPageMessage => Intl.message('Error found, please refresh',
-      name: 'appErrorPageMessage',
-      desc: 'The message showed when user access to a wrong route');
+  String get appErrorPageMessage =>
+      Intl.message('Internal error, refresh the page or restart the app.',
+          name: 'appErrorPageMessage',
+          desc: 'The message shown when a user accesses an incorrect route');
 
   String get refresh =>
       Intl.message('Refresh', name: 'refresh', desc: 'Refresh word');
@@ -114,7 +115,7 @@ class S {
       );
 
   String get serverUrlFormEmpty => Intl.message(
-        'Please, add a servel url to connect',
+        'Enter the URL of the server to connect before proceeding.',
         name: 'serverUrlFormEmpty',
         desc: 'The error message when user connect with an empty server url',
       );
@@ -132,7 +133,7 @@ class S {
       );
 
   String get bearerTokenFormEmpty => Intl.message(
-        'Please, enter a Bearer token to connect',
+        'Enter a Bearer token to connect',
         name: 'bearerTokenFormEmpty',
         desc: 'The error message when user connect with an empty bearer token',
       );
@@ -156,15 +157,15 @@ class S {
       );
 
   String get serverNotConnectedWarning => Intl.message(
-        'Cannot connect to specified url',
+        'Cannot connect to specified URL',
         name: 'serverNotConnectedWarning',
         desc:
             'Message for showing in a snackbar after an unsuccessful connection',
       );
 
   String get connectToServerHelpText => Intl.message(
-        '''To view all resources please connect to server.
-Copy and paste the link to your server’s URL above.''',
+        '''Connect to the server to view all resources.
+Copy and paste the link to your server's URL above.''',
         name: 'connectToServerHelpText',
         desc:
             'Message showed when the user does not have a valid connection to a server',
@@ -220,10 +221,10 @@ with this entity''',
         desc: 'Privacy Policy menu item label',
       );
 
-  String get termsOfUse => Intl.message(
-        'Terms Of Use',
-        name: 'termsOfUse',
-        desc: 'Terms of Use menu item label',
+  String get license => Intl.message(
+        'License',
+        name: 'license',
+        desc: 'License menu item label',
       );
 
   String get thirdPartyLicenses => Intl.message(

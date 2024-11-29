@@ -1,14 +1,14 @@
 {
-  "@@last_modified": "2024-11-28T11:31:46.801588",
+  "@@last_modified": "2024-11-29T10:09:52.275106",
   "appTitle": "Fire Scribe",
   "@appTitle": {
     "description": "The title of the app",
     "type": "text",
     "placeholders": {}
   },
-  "appErrorPageMessage": "Error found, please refresh",
+  "appErrorPageMessage": "Internal error, refresh the page or restart the app.",
   "@appErrorPageMessage": {
-    "description": "The message showed when user access to a wrong route",
+    "description": "The message shown when a user accesses an incorrect route",
     "type": "text",
     "placeholders": {}
   },
@@ -36,7 +36,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "serverUrlFormEmpty": "Please, add a servel url to connect",
+  "serverUrlFormEmpty": "Enter the URL of the server to connect before proceeding.",
   "@serverUrlFormEmpty": {
     "description": "The error message when user connect with an empty server url",
     "type": "text",
@@ -54,7 +54,7 @@
     "type": "text",
     "placeholders": {}
   },
-  "bearerTokenFormEmpty": "Please, enter a Bearer token to connect",
+  "bearerTokenFormEmpty": "Enter a Bearer token to connect",
   "@bearerTokenFormEmpty": {
     "description": "The error message when user connect with an empty bearer token",
     "type": "text",
@@ -78,13 +78,13 @@
     "type": "text",
     "placeholders": {}
   },
-  "serverNotConnectedWarning": "Cannot connect to specified url",
+  "serverNotConnectedWarning": "Cannot connect to specified URL",
   "@serverNotConnectedWarning": {
     "description": "Message for showing in a snackbar after an unsuccessful connection",
     "type": "text",
     "placeholders": {}
   },
-  "connectToServerHelpText": "To view all resources please connect to server.\nCopy and paste the link to your server’s URL above.",
+  "connectToServerHelpText": "Connect to the server to view all resources.\nCopy and paste the link to your server's URL above.",
   "@connectToServerHelpText": {
     "description": "Message showed when the user does not have a valid connection to a server",
     "type": "text",
@@ -140,9 +140,9 @@
     "type": "text",
     "placeholders": {}
   },
-  "termsOfUse": "Terms Of Use",
-  "@termsOfUse": {
-    "description": "Terms of Use menu item label",
+  "license": "License",
+  "@license": {
+    "description": "License menu item label",
     "type": "text",
     "placeholders": {}
   },
