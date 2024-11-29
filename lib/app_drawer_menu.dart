@@ -52,7 +52,7 @@ class AppDrawerMenu extends StatelessWidget {
               ),
               AppDrawerMenuItemData(
                 icon: Symbols.description,
-                title: S.of(context).termsOfUse,
+                title: S.of(context).license,
                 route: TermsOfUseRoute().location,
               ),
               AppDrawerMenuItemData(

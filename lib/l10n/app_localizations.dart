@@ -221,7 +221,7 @@ with this entity''',
         desc: 'Privacy Policy menu item label',
       );
 
-  String get termsOfUse => Intl.message(
+  String get license => Intl.message(
         'License',
         name: 'license',
         desc: 'License menu item label',
