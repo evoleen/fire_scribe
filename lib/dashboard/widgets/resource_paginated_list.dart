@@ -74,7 +74,7 @@ class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
 
     final entries = (bundle.entry ?? <BundleEntry>[])
         .map((entry) => entry.resource)
-        .whereNotNull()
+        .nonNulls
         .toList();
 
     if (searchCursor == null) {
@@ -113,6 +113,26 @@ class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
       setState(() {
         pagingController.itemList?.insert(0, resource);
       });
+    }
+  }
+
+  Future<void> deleteResource(final int index, final Resource resource) async {
+    try {
+      await BlocProvider.of<FhirServerConnectionCubit>(context).request(
+        request: FhirRequest(
+          operation: FhirRequestOperation.delete,
+          entityName: resource.resourceTypeString ?? '###invalid_name###',
+          entityId: resource.fhirId ?? '###invalid_id###',
+          parameters: {},
+        ),
+      );
+      setState(() {
+        pagingController.itemList?.removeAt(index);
+      });
+    } catch (e) {
+      context.popAndPushSnackbar(
+        message: S.of(context).errorWhenDeletingResource,
+      );
     }
   }
 
@@ -193,6 +213,8 @@ class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
                             index,
                             resource,
                           ),
+                          resourceDelete: (resource) =>
+                              deleteResource(index, resource),
                         );
                       },
                     ),
@@ -237,11 +259,13 @@ class ResourcePaginatedListHeader extends StatelessWidget {
 class ResourcePaginatedListCard extends StatelessWidget {
   final Resource resource;
   final Function(Resource) resourceWasUpdated;
+  final Function(Resource) resourceDelete;
 
   const ResourcePaginatedListCard({
     super.key,
     required this.resource,
     required this.resourceWasUpdated,
+    required this.resourceDelete,
   });
 
   Future<void> _showCodeEditor(final BuildContext context) async {
@@ -285,6 +309,10 @@ class ResourcePaginatedListCard extends StatelessWidget {
                   : S.of(context).noData,
               style: Theme.of(context).textTheme.bodyLarge,
             ),
+            IconButton(
+              onPressed: () => {resourceDelete(resource)},
+              icon: const Icon(Icons.delete),
+            )
           ],
         ),
       ),
