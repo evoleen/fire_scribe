@@ -14,7 +14,7 @@ dependencies:
   args: 2.6.0
   azure_identity: 0.0.5+1
   built_collection: 5.1.1
-  collection: 1.18.0
+  collection: 1.19.1
   dio: 5.7.0
   diff_match_patch: 0.4.1
   fhir_rest_client:
@@ -38,10 +38,10 @@ dependencies:
   intl: 0.19.0
   material_symbols_icons: 4.2789.0
   package_info_plus: 8.1.1
-  path: 1.9.0
+  path: 1.9.1
   pub_semver: 2.1.4
   shared_preferences: 2.3.2
-  stack_trace: 1.11.1
+  stack_trace: 1.12.1
   talker: 4.4.1
   talker_bloc_logger: 4.4.1
   talker_dio_logger: 4.4.1
@@ -61,7 +61,7 @@ dev_dependencies:
   intl_translation: 0.20.0
   mocktail: 1.0.4
   remove_from_coverage: 2.0.0
-  
+
 flutter:
   uses-material-design: true
 

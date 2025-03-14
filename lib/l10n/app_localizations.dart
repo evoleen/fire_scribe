@@ -256,6 +256,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
             'Error message when json is syntax correct but cannot be updated on backend',
       );
 
+  String get errorWhenDeletingResource => Intl.message(
+        'Error when deleting resource, please try again',
+        name: 'errorWhenDeletingResource',
+        desc: 'Error message when a deletion request is rejected by the server',
+      );
+
   String get warningResourceIdChanged => Intl.message(
         'The resource\'s id was modified, the update will be saved as new resource or be rejected by the server.\nDo you want to continue?',
         name: 'warningResourceIdChanged',

@@ -88,7 +88,7 @@ class AppDrawerMenuItem extends StatelessWidget {
                         color: Theme.of(context)
                             .colorScheme
                             .primaryContainer
-                            .withOpacity(0.3),
+                            .withValues(alpha: 0.3),
                         borderRadius: BorderRadius.circular(24),
                       )
                     : null,
