@@ -35,10 +35,18 @@ jobs:
           flutter config --enable-macos-desktop
           flutter build macos --release
       - name: Create DMG
-        uses: L-Super/create-dmg-actions@v1.0.3
-        with:
-          dmg_name: 'Fire-Scribe-${{ steps.get_version.outputs.VERSION }}'
-          src_dir: 'build/macos/Build/Products/Release/Fire\ Scribe.app'
+        run: |
+          brew install create-dmg
+          create-dmg \
+            --volname "${{ github.event.repository.name }}" \
+            --window-pos 200 120 \
+            --window-size 800 400 \
+            --icon-size 100 \
+            --icon "build/macos/Build/Products/Release/*.app" 200 190 \
+            --hide-extension "*.app" \
+            --app-drop-link 600 185 \
+            "${{ github.event.repository.name }}-${{ steps.get_version.outputs.VERSION }}.dmg" \
+            "build/macos/Build/Products/Release/Fire\ Scribe.app"
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
