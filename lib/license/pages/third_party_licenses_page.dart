@@ -66,8 +66,8 @@ class ThirdPartyLicensesPage extends StatelessWidget {
                     Text(
                       S.of(context).appTitle,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.w900,
-                          ),
+                        fontWeight: FontWeight.w900,
+                      ),
                     ),
                     SizedBox(height: 0),
                     FutureBuilder(
@@ -76,7 +76,8 @@ class ThirdPartyLicensesPage extends StatelessWidget {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return const Center(
-                              child: CircularProgressIndicator());
+                            child: CircularProgressIndicator(),
+                          );
                         } else {
                           final data = snapshot.data;
                           if (data == null) {
@@ -90,10 +91,7 @@ class ThirdPartyLicensesPage extends StatelessWidget {
                       },
                     ),
                     SizedBox(height: 0),
-                    Text(
-                      S.of(context).license,
-                      textAlign: TextAlign.center,
-                    ),
+                    Text(S.of(context).license, textAlign: TextAlign.center),
                   ],
                 ),
               );
@@ -102,19 +100,22 @@ class ThirdPartyLicensesPage extends StatelessWidget {
               return ListTile(
                 title: Text(
                   '${package.name} ${package.version}',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w900,
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w900),
                 ),
-                subtitle: package.description.isNotEmpty
-                    ? Text(package.description,
-                        style: Theme.of(context).textTheme.bodyMedium)
-                    : null,
+                subtitle:
+                    package.description.isNotEmpty
+                        ? Text(
+                          package.description,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        )
+                        : null,
                 trailing: const Icon(Icons.chevron_right),
                 onTap: () async {
                   ThirdPartyLicensesDetailRoute(
-                          thirdPartyLicensePackageName: package.name)
-                      .push(context);
+                    thirdPartyLicensePackageName: package.name,
+                  ).push(context);
                 },
               );
             }
