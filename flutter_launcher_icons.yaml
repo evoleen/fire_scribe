@@ -4,3 +4,5 @@ flutter_icons:
   image_path: "assets/app/logo.png"
   web:
     generate: true
+  macos:
+    generate: true
