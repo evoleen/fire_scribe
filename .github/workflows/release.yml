@@ -8,7 +8,7 @@ on:
 
 permissions:
   id-token: write
-  contents: read 
+  contents: write  # Changed to write to allow releasing artifacts
 
 env:
   LC_ALL: en_US.UTF-8
@@ -23,5 +23,27 @@ jobs:
         uses: actions/checkout@v4
       - name: 🏗️ Setup Flutter
         uses: ./.github/actions/setup_flutter
+      - name: Get version from tag name and edit pubspec accordingly
+        run: |
+          tail -n +2 pubspec.yaml > pubspec.tmp && mv pubspec.tmp pubspec.yaml
+          echo $GITHUB_REF | perl -ne 'm/v(\d+\.\d+\.\d+)/; print "\nversion: $1\n" ' >> pubspec.yaml
+      - name: Get version from tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_OUTPUT
+      - name: Build macOS app
+        run: |
+          flutter config --enable-macos-desktop
+          flutter build macos --release
+      - name: Create DMG
+        uses: L-Super/create-dmg-actions@v1.0.3
         with:
-            cloudsmith-access-token: ${{ secrets.CLOUDSMITH_ACCESS_TOKEN }}
+          dmg_name: 'Fire-Scribe-${{ steps.get_version.outputs.VERSION }}'
+          src_dir: 'build/macos/Build/Products/Release/Fire\ Scribe.app'
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ./*.dmg
+          draft: false
+          prerelease: false
+          generate_release_notes: true
