@@ -1,5 +1,8 @@
 # Fire Scribe
-Database viewer/editor for Azure Health Data Services
+Database viewer/editor for FHIR server. Currently targeting Azure Health Data Services.
+
+<img width="1146" alt="Screenshot 2025-04-01 at 21 31 44" src="https://github.com/user-attachments/assets/7273c1dc-9dee-4485-b4d6-202ebf5243bd" />
+<img width="1146" alt="Screenshot 2025-04-01 at 21 31 50" src="https://github.com/user-attachments/assets/439b98d5-3319-4668-b956-2f466fa63f6f" />
 
 ## Localizations
 
