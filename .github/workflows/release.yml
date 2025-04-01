@@ -38,15 +38,13 @@ jobs:
         run: |
           brew install create-dmg
           create-dmg \
-            --volname "${{ github.event.repository.name }}" \
+            --volname "Fire Scribe ${{ steps.get_version.outputs.VERSION }}" \
             --window-pos 200 120 \
             --window-size 800 400 \
             --icon-size 100 \
-            --icon "build/macos/Build/Products/Release/*.app" 200 190 \
-            --hide-extension "*.app" \
-            --app-drop-link 600 185 \
+            --app-drop-link 600 190 \
             "${{ github.event.repository.name }}-${{ steps.get_version.outputs.VERSION }}.dmg" \
-            "build/macos/Build/Products/Release/Fire\ Scribe.app"
+            "build/macos/Build/Products/Release/Fire Scribe.app"
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
