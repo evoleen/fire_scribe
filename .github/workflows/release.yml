@@ -66,10 +66,10 @@ jobs:
             "build/macos/Build/Products/Release/Fire Scribe.app"
       - name: Notarize macOS app
         run: |
-          # Seems notary tool needs its own keychain but can only refer to it by filename, so create another one
-          security create-keychain -p "" temporary-notary.keychain
-          security default-keychain -s temporary-notary.keychain
-          security unlock-keychain -p "" temporary-notary.keychain
+          # Create keychain with the correct path that notarytool expects
+          security create-keychain -p "" ~/Library/Keychains/temporary-notary.keychain-db
+          security default-keychain -s ~/Library/Keychains/temporary-notary.keychain-db
+          security unlock-keychain -p "" ~/Library/Keychains/temporary-notary.keychain-db
           echo ${{ secrets.APPLE_API_KEY }} | base64 --decode > AuthKey_XXXXXX.p8
           xcrun notarytool store-credentials "notary-profile" --apple-id "apple@evoleen.com" --team-id "3PQF7KVR56" --key "AuthKey_XXXXXX.p8" --keychain ~/Library/Keychains/temporary-notary.keychain-db
           xcrun notarytool submit "${{ github.event.repository.name }}-${{ steps.get_version.outputs.VERSION }}.dmg" --keychain-profile "notary-profile" --keychain ~/Library/Keychains/temporary-notary.keychain-db --wait
