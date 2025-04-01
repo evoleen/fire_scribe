@@ -13,6 +13,8 @@ permissions:
 env:
   LC_ALL: en_US.UTF-8
   LANG: en_US.UTF-8
+  KEYCHAIN_NAME: "fire_scribe_keychain"
+  KEYCHAIN_PASSWORD: "fire_scribe_keychain_password"
 
 jobs:
   build-and-deploy:
@@ -34,6 +36,23 @@ jobs:
         run: |
           flutter config --enable-macos-desktop
           flutter build macos --release
+      - name: Sign macOS app
+        run: |
+          # Extract the certificate from the P12 file
+          echo ${{ secrets.DEVELOPER_ID_CERTIFICATE }} | base64 --decode > certificate.p12
+          # Create a new keychain
+          security create-keychain -p "${{ env.KEYCHAIN_PASSWORD }}" "${{ env.KEYCHAIN_NAME }}"
+          # Make the keychain default
+          security default-keychain -s "${{ env.KEYCHAIN_NAME }}"
+          # Unlock the keychain
+          security unlock-keychain -p "${{ env.KEYCHAIN_PASSWORD }}" "${{ env.KEYCHAIN_NAME }}"
+          # Import the certificate
+          security import certificate.p12 -k "${{ env.KEYCHAIN_NAME }}" -P "${{ secrets.DEVELOPER_ID_CERTIFICATE_PASSWORD }}" -T /usr/bin/codesign
+          # Allow codesigning without prompts
+          security set-key-partition-list -S apple-tool:,apple: -s -k "${{ env.KEYCHAIN_PASSWORD }}" "${{ env.KEYCHAIN_NAME }}"
+          codesign --deep --force --verbose --options runtime --sign "Developer ID Application: Evoleen AG (3PQF7KVR56)" build/macos/Build/Products/Release/Fire\ Scribe.app
+          # Delete the keychain
+          security delete-keychain "${{ env.KEYCHAIN_NAME }}"
       - name: Create DMG
         run: |
           brew install create-dmg
