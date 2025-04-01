@@ -67,7 +67,7 @@ jobs:
       - name: Notarize macOS app
         run: |
           echo ${{ secrets.APPLE_API_KEY }} | base64 --decode > AuthKey_XXXXXX.json
-          fastlane run notarize package:"${{ github.event.repository.name }}-${{ steps.get_version.outputs.VERSION }}.dmg" api_key_path:AuthKey_XXXXXX.json
+          fastlane run notarize package:"${{ github.event.repository.name }}-${{ steps.get_version.outputs.VERSION }}.dmg" bundle_id:"com.evoleen.firescribe" api_key_path:AuthKey_XXXXXX.json
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
