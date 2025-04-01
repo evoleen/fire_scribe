@@ -16,7 +16,7 @@ jobs:
   lint-and-test:
     environment: dev
     name: Sanity Check
-    runs-on: [self-hosted, macos]
+    runs-on: [self-hosted]
     steps:
       - name: ⬇️ Checkout
         uses: actions/checkout@v4
