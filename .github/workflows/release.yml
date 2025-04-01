@@ -51,6 +51,8 @@ jobs:
           # Allow codesigning without prompts
           security set-key-partition-list -S apple-tool:,apple: -s -k "${{ env.KEYCHAIN_PASSWORD }}" "${{ env.KEYCHAIN_NAME }}"
           codesign --deep --force --verbose --options runtime --sign "Developer ID Application: Evoleen AG (3PQF7KVR56)" build/macos/Build/Products/Release/Fire\ Scribe.app
+          # Delete the keychain
+          security delete-keychain "${{ env.KEYCHAIN_NAME }}"
       - name: Create DMG
         run: |
           brew install create-dmg
@@ -64,13 +66,16 @@ jobs:
             "build/macos/Build/Products/Release/Fire Scribe.app"
       - name: Notarize macOS app
         run: |
+          # Seems notary tool needs its own keychain but can only refer to it by filename, so create another one
+          security create-keychain -p "" temporary-notary.keychain
+          security list-keychains -d user -s temporary-notary.keychain
+          security default-keychain -s temporary-notary.keychain
           echo ${{ secrets.APPLE_API_KEY }} | base64 --decode > AuthKey_XXXXXX.p8
-          xcrun notarytool store-credentials "notary-profile" --apple-id "apple@evoleen.com" --team-id "3PQF7KVR56" --key "AuthKey_XXXXXX.p8" --keychain "${{ env.KEYCHAIN_NAME }}"
-          xcrun notarytool submit "${{ github.event.repository.name }}-${{ steps.get_version.outputs.VERSION }}.dmg" --keychain-profile "notary-profile" --keychain "${{ env.KEYCHAIN_NAME }}" --wait
+          xcrun notarytool store-credentials "notary-profile" --apple-id "apple@evoleen.com" --team-id "3PQF7KVR56" --key "AuthKey_XXXXXX.p8" --keychain temporary-notary.keychain
+          xcrun notarytool submit "${{ github.event.repository.name }}-${{ steps.get_version.outputs.VERSION }}.dmg" --keychain-profile "notary-profile" --keychain temporary-notary.keychain --wait
           xcrun stapler staple "${{ github.event.repository.name }}-${{ steps.get_version.outputs.VERSION }}.dmg"
-      - name: Delete temporary keychain
-        run: |
-          security delete-keychain "${{ env.KEYCHAIN_NAME }}"
+          security delete-keychain temporary-notary.keychain
+          security default-keychain -s login.keychain
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
