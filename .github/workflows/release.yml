@@ -61,9 +61,15 @@ jobs:
             --window-pos 200 120 \
             --window-size 800 400 \
             --icon-size 100 \
-            --app-drop-link 600 190 \
+            --app-drop-link 600 40 \
             "${{ github.event.repository.name }}-${{ steps.get_version.outputs.VERSION }}.dmg" \
             "build/macos/Build/Products/Release/Fire Scribe.app"
+      - name: Notarize macOS app
+        run: |
+          echo ${{ secrets.APPLE_API_KEY }} | base64 --decode > AuthKey_XXXXXX.p8
+          xcrun notarytool store-credentials "notary-profile" --apple-id "apple@evoleen.com" --team-id "3PQF7KVR56" --key "AuthKey_XXXXXX.p8"
+          xcrun notarytool submit "${{ github.event.repository.name }}-${{ steps.get_version.outputs.VERSION }}.dmg" --keychain-profile "notary-profile" --wait
+          xcrun stapler staple "${{ github.event.repository.name }}-${{ steps.get_version.outputs.VERSION }}.dmg"
       - name: Create Release
         id: create_release
         uses: softprops/action-gh-release@v1
