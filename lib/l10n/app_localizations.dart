@@ -353,4 +353,57 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     name: 'noFileSelected',
     desc: 'Placeholder text when no file is selected',
   );
+
+  String get connectionRequired => Intl.message(
+    'Connection Required',
+    name: 'connectionRequired',
+    desc: 'Title for the dialog shown when user needs to connect to a server',
+  );
+
+  String get connectionRequiredMessage => Intl.message(
+    'You need to be connected to a FHIR server before being able to import or export data.',
+    name: 'connectionRequiredMessage',
+    desc: 'Message shown in the dialog when user needs to connect to a server',
+  );
+
+  String get ok =>
+      Intl.message('OK', name: 'ok', desc: 'OK button text for dialogs');
+
+  String get importError => Intl.message(
+    'Import Error',
+    name: 'importError',
+    desc: 'Title for the dialog shown when import fails',
+  );
+
+  String importErrorMessage(final String error) => Intl.message(
+    'An error occurred while importing the data:\n\n$error',
+    name: 'importErrorMessage',
+    desc: 'Message shown in the dialog when import fails',
+    args: [error],
+  );
+
+  String get importStarted => Intl.message(
+    'Import Started',
+    name: 'importStarted',
+    desc: 'Title for the dialog shown when import is successfully initiated',
+  );
+
+  String get importStartedMessage => Intl.message(
+    'The import process has been started successfully. You can monitor the progress in your FHIR server.',
+    name: 'importStartedMessage',
+    desc: 'Message shown in the dialog when import is successfully initiated',
+  );
+
+  String get importFailed => Intl.message(
+    'Import Failed',
+    name: 'importFailed',
+    desc: 'Title for the dialog shown when import request fails',
+  );
+
+  String importFailedMessage(final String details) => Intl.message(
+    'The import request failed:\n\n$details',
+    name: 'importFailedMessage',
+    desc: 'Message shown in the dialog when import request fails',
+    args: [details],
+  );
 }

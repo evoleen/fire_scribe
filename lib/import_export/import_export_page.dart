@@ -1,6 +1,8 @@
-import 'package:file_picker/file_picker.dart';
+import 'package:dio/dio.dart';
+import 'package:fire_scribe/auth/cubit/fhir_server_connection_cubit.dart';
 import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// A page for handling import and export functionality of FHIR resources.
 ///
@@ -15,32 +17,148 @@ class ImportExportPage extends StatefulWidget {
 }
 
 class _ImportExportPageState extends State<ImportExportPage> {
-  PlatformFile? selectedFile;
+  final TextEditingController _urlController = TextEditingController();
+  final FocusNode _urlFocusNode = FocusNode();
 
-  /// Opens a file picker to select an NDJSON file
-  Future<void> selectFile() async {
-    try {
-      final result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['ndjson', 'json'],
-        allowMultiple: false,
-      );
-
-      if (result != null && result.files.isNotEmpty) {
-        setState(() {
-          selectedFile = result.files.first;
-        });
-      }
-    } catch (e) {
-      // Handle file picker errors silently for now
-      // In a production app, you might want to show a snackbar or dialog
-    }
+  @override
+  void dispose() {
+    _urlController.dispose();
+    _urlFocusNode.dispose();
+    super.dispose();
   }
 
   /// Handles the import button press
-  void handleImport() {
-    // TODO: Implement import functionality
-    // This will be implemented in subsequent steps
+  Future<void> handleImport() async {
+    final url = _urlController.text.trim();
+    if (url.isEmpty) {
+      return;
+    }
+
+    try {
+      final connectionCubit = BlocProvider.of<FhirServerConnectionCubit>(
+        context,
+      );
+
+      // Check if we're authenticated
+      final isAuthenticated = connectionCubit.state.maybeWhen(
+        authenticated: (_, __) => true,
+        orElse: () => false,
+      );
+
+      if (!isAuthenticated) {
+        // Show error message that user needs to be connected to a server
+        await showDialog<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(S.of(context).connectionRequired),
+              content: Text(S.of(context).connectionRequiredMessage),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(S.of(context).ok),
+                ),
+              ],
+            );
+          },
+        );
+        return;
+      }
+
+      // Get the FHIR client from the authenticated state
+      final fhirClient = connectionCubit.state.maybeWhen(
+        authenticated: (_, client) => client,
+        orElse: () => null,
+      );
+
+      if (fhirClient == null) {
+        // TODO: Show error message
+        return;
+      }
+
+      // Make the import request using the underlying Dio client
+      final response = await fhirClient.dio.post(
+        '/\$import',
+        data: {
+          'resourceType': 'Parameters',
+          'parameter': [
+            {'name': 'inputFormat', 'valueString': 'application/fhir+ndjson'},
+            {
+              'name': 'input',
+              'part': [
+                {'name': 'url', 'valueUri': url},
+              ],
+            },
+          ],
+        },
+        options: Options(
+          headers: {
+            'Prefer': 'respond-async',
+            'Content-Type': 'application/fhir+json',
+          },
+        ),
+      );
+
+      // Handle the response based on status code
+      if (response.statusCode.toString().startsWith("2")) {
+        // Success - import started
+        await showDialog<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(S.of(context).importStarted),
+              content: Text(S.of(context).importStartedMessage),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(S.of(context).ok),
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        // Unexpected response - show failure
+        await showDialog<void>(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text(S.of(context).importFailed),
+              content: Text(
+                S
+                    .of(context)
+                    .importFailedMessage(
+                      'Status: ${response.statusCode}\nResponse: ${response.data}',
+                    ),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(S.of(context).ok),
+                ),
+              ],
+            );
+          },
+        );
+      }
+    } catch (e) {
+      // Show error dialog with the exception details
+      await showDialog<void>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text(S.of(context).importError),
+            content: Text(S.of(context).importErrorMessage(e.toString())),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text(S.of(context).ok),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -73,52 +191,32 @@ class _ImportExportPageState extends State<ImportExportPage> {
             ),
             const SizedBox(height: 32),
 
-            // File picker section
+            // URL input section
             Text(
               S.of(context).ndjsonFileToImport,
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 12),
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Theme.of(context).colorScheme.outline,
-                      ),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      selectedFile?.name ?? S.of(context).noFileSelected,
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color:
-                            selectedFile != null
-                                ? Theme.of(context).colorScheme.onSurface
-                                : Theme.of(
-                                  context,
-                                ).colorScheme.onSurfaceVariant,
-                      ),
-                    ),
-                  ),
+            TextField(
+              controller: _urlController,
+              focusNode: _urlFocusNode,
+              decoration: InputDecoration(
+                hintText: 'https://example.com/fhir/resources.ndjson',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                const SizedBox(width: 12),
-                OutlinedButton.icon(
-                  onPressed: selectFile,
-                  icon: const Icon(Icons.folder_open),
-                  label: Text(S.of(context).selectFile),
-                ),
-              ],
+                prefixIcon: const Icon(Icons.link),
+              ),
+              keyboardType: TextInputType.url,
+              textInputAction: TextInputAction.done,
+              onSubmitted: (_) => handleImport(),
             ),
             const SizedBox(height: 24),
 
             // Import button
             FilledButton.icon(
-              onPressed: selectedFile != null ? handleImport : null,
+              onPressed:
+                  _urlController.text.trim().isNotEmpty ? handleImport : null,
               icon: const Icon(Icons.upload),
               label: Text(S.of(context).import),
             ),
