@@ -15,15 +15,15 @@ RouteBase get $homeRoute => ShellRouteData.$route(
       routes: [
         GoRouteData.$route(
           path: '/dashboard',
-          factory: $DashboardRouteExtension._fromState,
+          factory: _$DashboardRoute._fromState,
         ),
         GoRouteData.$route(
           path: '/third-party-licenses',
-          factory: $ThirdPartyLicensesRouteExtension._fromState,
+          factory: _$ThirdPartyLicensesRoute._fromState,
           routes: [
             GoRouteData.$route(
               path: ':thirdPartyLicensePackageName',
-              factory: $ThirdPartyLicensesDetailRouteExtension._fromState,
+              factory: _$ThirdPartyLicensesDetailRoute._fromState,
             ),
           ],
         ),
@@ -34,59 +34,76 @@ extension $HomeRouteExtension on HomeRoute {
   static HomeRoute _fromState(GoRouterState state) => HomeRoute();
 }
 
-extension $DashboardRouteExtension on DashboardRoute {
+mixin _$DashboardRoute on GoRouteData {
   static DashboardRoute _fromState(GoRouterState state) => DashboardRoute();
 
+  @override
   String get location => GoRouteData.$location(
         '/dashboard',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $ThirdPartyLicensesRouteExtension on ThirdPartyLicensesRoute {
+mixin _$ThirdPartyLicensesRoute on GoRouteData {
   static ThirdPartyLicensesRoute _fromState(GoRouterState state) =>
       ThirdPartyLicensesRoute();
 
+  @override
   String get location => GoRouteData.$location(
         '/third-party-licenses',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }
 
-extension $ThirdPartyLicensesDetailRouteExtension
-    on ThirdPartyLicensesDetailRoute {
+mixin _$ThirdPartyLicensesDetailRoute on GoRouteData {
   static ThirdPartyLicensesDetailRoute _fromState(GoRouterState state) =>
       ThirdPartyLicensesDetailRoute(
         thirdPartyLicensePackageName:
             state.pathParameters['thirdPartyLicensePackageName']!,
       );
 
+  ThirdPartyLicensesDetailRoute get _self =>
+      this as ThirdPartyLicensesDetailRoute;
+
+  @override
   String get location => GoRouteData.$location(
-        '/third-party-licenses/${Uri.encodeComponent(thirdPartyLicensePackageName)}',
+        '/third-party-licenses/${Uri.encodeComponent(_self.thirdPartyLicensePackageName)}',
       );
 
+  @override
   void go(BuildContext context) => context.go(location);
 
+  @override
   Future<T?> push<T>(BuildContext context) => context.push<T>(location);
 
+  @override
   void pushReplacement(BuildContext context) =>
       context.pushReplacement(location);
 
+  @override
   void replace(BuildContext context) => context.replace(location);
 }

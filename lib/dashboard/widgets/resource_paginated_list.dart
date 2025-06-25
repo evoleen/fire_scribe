@@ -13,50 +13,44 @@ import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:intl/intl.dart';
 
 class ResourcePaginatedList extends StatefulWidget {
-  const ResourcePaginatedList({
-    super.key,
-  });
+  const ResourcePaginatedList({super.key});
 
   @override
   State<ResourcePaginatedList> createState() => _ResourcePaginatedListState();
 }
 
 class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
-  final pagingController = PagingController<int, Resource>(firstPageKey: 0);
+  // final pagingController = PagingController<int, Resource>(firstPageKey: 0);
+  late final pagingController = PagingController<int, Resource>(
+    fetchPage: (pageKey) => fetchPage(pageKey),
+    getNextPageKey:
+        (state) => state.lastPageIsEmpty ? null : state.nextIntPageKey,
+  );
+
   String? entitySelected;
   String? searchCursor;
 
   @override
-  void initState() {
-    super.initState();
-    pagingController.addPageRequestListener(fetchPage);
-  }
-
-  @override
   void dispose() {
-    pagingController.removePageRequestListener(fetchPage);
     pagingController.dispose();
     super.dispose();
   }
 
-  Future<void> fetchPage(final int pageOffset) async {
+  Future<List<Resource>> fetchPage(final int pageOffset) async {
     final currenEntity = entitySelected;
     if (currenEntity == null || currenEntity.isEmpty) {
-      pagingController.appendLastPage([]);
-      return;
+      return [];
     }
 
-    final parameters = {
-      '_sort': '-_lastUpdated',
-      '_count': '25',
-    };
+    final parameters = {'_sort': '-_lastUpdated', '_count': '25'};
 
     if (searchCursor != null) {
       parameters['ct'] = searchCursor!;
     }
 
-    final rawBundle =
-        await BlocProvider.of<FhirServerConnectionCubit>(context).request(
+    final rawBundle = await BlocProvider.of<FhirServerConnectionCubit>(
+      context,
+    ).request(
       request: FhirRequest(
         operation: FhirRequestOperation.search,
         entityName: currenEntity,
@@ -64,36 +58,26 @@ class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
       ),
     );
     if (rawBundle == null) {
-      pagingController.appendLastPage([]);
-      return;
+      return [];
     }
     final bundle = Bundle.fromJson(rawBundle);
     final nextUrl =
         bundle.link?.firstWhereOrNull((item) => item.relation == 'next')?.url;
     searchCursor = nextUrl?.value?.queryParameters['ct'];
 
-    final entries = (bundle.entry ?? <BundleEntry>[])
-        .map((entry) => entry.resource)
-        .nonNulls
-        .toList();
+    final entries =
+        (bundle.entry ?? <BundleEntry>[])
+            .map((entry) => entry.resource)
+            .nonNulls
+            .toList();
 
-    if (searchCursor == null) {
-      pagingController.appendLastPage(entries);
-    } else {
-      pagingController.appendPage(
-        entries,
-        (pagingController.itemList?.length ?? 0) + entries.length,
-      );
-    }
+    return entries;
   }
 
   void updateExistingResource(final int index, final Resource resource) {
     setState(() {
-      pagingController.itemList?.removeAt(index);
-      pagingController.itemList?.insert(
-        0,
-        resource,
-      );
+      pagingController.items?.removeAt(index);
+      pagingController.items?.insert(0, resource);
     });
   }
 
@@ -101,17 +85,18 @@ class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
     if (entitySelected == null) {
       return;
     }
-    final resource = await FhirResourceEditorBottomSheet.show(context,
-        resource: ResourceX.factoryCreation(entitySelected!));
+    final resource = await FhirResourceEditorBottomSheet.show(
+      context,
+      resource: ResourceX.factoryCreation(entitySelected!),
+    );
     if (resource != null) {
       context.popAndPushSnackbar(
-        message: S.of(context).resourceCreationSuccessful(
-              entitySelected!,
-              resource.fhirId ?? '',
-            ),
+        message: S
+            .of(context)
+            .resourceCreationSuccessful(entitySelected!, resource.fhirId ?? ''),
       );
       setState(() {
-        pagingController.itemList?.insert(0, resource);
+        pagingController.items?.insert(0, resource);
       });
     }
   }
@@ -127,7 +112,7 @@ class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
         ),
       );
       setState(() {
-        pagingController.itemList?.removeAt(index);
+        pagingController.items?.removeAt(index);
       });
     } catch (e) {
       context.popAndPushSnackbar(
@@ -152,12 +137,13 @@ class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
       },
       builder: (context, state) {
         return state.when(
-          noselected: () => Center(
-            child: Text(
-              S.of(context).selectAnEntityFromList,
-              style: Theme.of(context).textTheme.labelLarge,
-            ),
-          ),
+          noselected:
+              () => Center(
+                child: Text(
+                  S.of(context).selectAnEntityFromList,
+                  style: Theme.of(context).textTheme.labelLarge,
+                ),
+              ),
           selected: (entitySelected) {
             return Column(
               children: [
@@ -186,40 +172,50 @@ class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
                   ),
                 ),
                 Expanded(
-                  child: PagedListView<int, Resource>.separated(
-                    pagingController: pagingController,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    itemExtent: 80,
-                    builderDelegate: PagedChildBuilderDelegate<Resource>(
-                      newPageProgressIndicatorBuilder: (context) =>
-                          const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                      noItemsFoundIndicatorBuilder: (context) => Center(
-                        child: Text(
-                          S.of(context).noDataAssociatedToAnEntity,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                      ),
-                      noMoreItemsIndicatorBuilder: (context) =>
-                          const SizedBox(),
-                      itemBuilder: (context, item, index) {
-                        return ResourcePaginatedListCard(
-                          resource: item,
-                          resourceWasUpdated: (resource) =>
-                              updateExistingResource(
-                            index,
-                            resource,
+                  child: PagingListener(
+                    controller: pagingController,
+                    builder:
+                        (
+                          context,
+                          state,
+                          fetchNextPage,
+                        ) => PagedListView<int, Resource>.separated(
+                          state: state,
+                          fetchNextPage: fetchNextPage,
+                          physics: const AlwaysScrollableScrollPhysics(),
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          itemExtent: 80,
+                          builderDelegate: PagedChildBuilderDelegate<Resource>(
+                            newPageProgressIndicatorBuilder:
+                                (context) => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                            noItemsFoundIndicatorBuilder:
+                                (context) => Center(
+                                  child: Text(
+                                    S.of(context).noDataAssociatedToAnEntity,
+                                    textAlign: TextAlign.center,
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                ),
+                            noMoreItemsIndicatorBuilder:
+                                (context) => const SizedBox(),
+                            itemBuilder: (context, item, index) {
+                              return ResourcePaginatedListCard(
+                                resource: item,
+                                resourceWasUpdated:
+                                    (resource) =>
+                                        updateExistingResource(index, resource),
+                                resourceDelete:
+                                    (resource) =>
+                                        deleteResource(index, resource),
+                              );
+                            },
                           ),
-                          resourceDelete: (resource) =>
-                              deleteResource(index, resource),
-                        );
-                      },
-                    ),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox(height: 2),
+                          separatorBuilder:
+                              (context, index) => const SizedBox(height: 2),
+                        ),
                   ),
                 ),
               ],
@@ -234,10 +230,7 @@ class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
 class ResourcePaginatedListHeader extends StatelessWidget {
   final String entityType;
 
-  const ResourcePaginatedListHeader({
-    super.key,
-    required this.entityType,
-  });
+  const ResourcePaginatedListHeader({super.key, required this.entityType});
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -288,10 +281,7 @@ class ResourcePaginatedListCard extends StatelessWidget {
     return InkWell(
       onTap: () => _showCodeEditor(context),
       child: Container(
-        padding: EdgeInsets.symmetric(
-          horizontal: 24,
-          vertical: 12,
-        ),
+        padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surfaceContainerLowest,
           borderRadius: BorderRadius.circular(12),
@@ -312,7 +302,7 @@ class ResourcePaginatedListCard extends StatelessWidget {
             IconButton(
               onPressed: () => {resourceDelete(resource)},
               icon: const Icon(Icons.delete),
-            )
+            ),
           ],
         ),
       ),
