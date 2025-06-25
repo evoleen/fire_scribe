@@ -24,7 +24,18 @@ class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
   late final pagingController = PagingController<int, Resource>(
     fetchPage: (pageKey) => fetchPage(pageKey),
     getNextPageKey:
-        (state) => state.lastPageIsEmpty ? null : state.nextIntPageKey,
+        // The infinite scroller doesn't have appendLastPage anymore, so we
+        // need to determine when the last page is reached. The logic here is
+        // to check if the last page was empty (or never returned any results),
+        // or alternatively see if we already retrieved items (items.isNotEmpty
+        // is true) and the "next" searchCursor is null. In that case the
+        // server doesn't offer more data after the last page.
+        (state) =>
+            (state.lastPageIsEmpty ||
+                    ((state.items?.isNotEmpty ?? false) &&
+                        searchCursor == null))
+                ? null
+                : state.nextIntPageKey,
   );
 
   String? entitySelected;
@@ -37,8 +48,8 @@ class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
   }
 
   Future<List<Resource>> fetchPage(final int pageOffset) async {
-    final currenEntity = entitySelected;
-    if (currenEntity == null || currenEntity.isEmpty) {
+    final currentEntity = entitySelected;
+    if (currentEntity == null || currentEntity.isEmpty) {
       return [];
     }
 
@@ -53,7 +64,7 @@ class _ResourcePaginatedListState extends State<ResourcePaginatedList> {
     ).request(
       request: FhirRequest(
         operation: FhirRequestOperation.search,
-        entityName: currenEntity,
+        entityName: currentEntity,
         parameters: parameters,
       ),
     );
