@@ -35,6 +35,11 @@ class AppDrawerMenu extends StatelessWidget {
                 route: DashboardRoute().location,
               ),
               AppDrawerMenuItemData(
+                icon: Symbols.import_export,
+                title: S.of(context).importExport,
+                route: ImportExportRoute().location,
+              ),
+              AppDrawerMenuItemData(
                 icon: Symbols.license,
                 title: S.of(context).thirdPartyLicenses,
                 route: ThirdPartyLicensesRoute().location,

@@ -1,5 +1,6 @@
 import 'package:fire_scribe/app_scaffold.dart';
 import 'package:fire_scribe/dashboard/dashboard_page.dart';
+import 'package:fire_scribe/import_export/import_export_page.dart';
 import 'package:fire_scribe/license/pages/mic_oss_license_single_page.dart';
 import 'package:fire_scribe/license/pages/third_party_licenses_page.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,7 @@ part 'routes.g.dart';
 @TypedShellRoute<HomeRoute>(
   routes: [
     TypedGoRoute<DashboardRoute>(path: '/dashboard'),
+    TypedGoRoute<ImportExportRoute>(path: '/import-export'),
     TypedGoRoute<ThirdPartyLicensesRoute>(
       path: '/third-party-licenses',
       routes: [
@@ -33,6 +35,14 @@ class DashboardRoute extends GoRouteData with _$DashboardRoute {
   @override
   Page<void> buildPage(BuildContext context, GoRouterState state) {
     return NoTransitionPage(child: AppScaffold(child: DashboardPage()));
+  }
+}
+
+@immutable
+class ImportExportRoute extends GoRouteData with _$ImportExportRoute {
+  @override
+  Page<void> buildPage(BuildContext context, GoRouterState state) {
+    return NoTransitionPage(child: AppScaffold(child: ImportExportPage()));
   }
 }
 

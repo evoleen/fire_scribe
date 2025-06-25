@@ -218,5 +218,17 @@
       "resourceType": {},
       "resourceId": {}
     }
+  },
+  "importExport": "Import / Export",
+  "@importExport": {
+    "description": "Import/Export menu item label",
+    "type": "text",
+    "placeholders": {}
+  },
+  "importExportDescription": "Import and export FHIR resources to and from various formats",
+  "@importExportDescription": {
+    "description": "Description text for the Import/Export page",
+    "type": "text",
+    "placeholders": {}
   }
 }

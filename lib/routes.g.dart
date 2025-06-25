@@ -18,6 +18,10 @@ RouteBase get $homeRoute => ShellRouteData.$route(
           factory: _$DashboardRoute._fromState,
         ),
         GoRouteData.$route(
+          path: '/import-export',
+          factory: _$ImportExportRoute._fromState,
+        ),
+        GoRouteData.$route(
           path: '/third-party-licenses',
           factory: _$ThirdPartyLicensesRoute._fromState,
           routes: [
@@ -40,6 +44,29 @@ mixin _$DashboardRoute on GoRouteData {
   @override
   String get location => GoRouteData.$location(
         '/dashboard',
+      );
+
+  @override
+  void go(BuildContext context) => context.go(location);
+
+  @override
+  Future<T?> push<T>(BuildContext context) => context.push<T>(location);
+
+  @override
+  void pushReplacement(BuildContext context) =>
+      context.pushReplacement(location);
+
+  @override
+  void replace(BuildContext context) => context.replace(location);
+}
+
+mixin _$ImportExportRoute on GoRouteData {
+  static ImportExportRoute _fromState(GoRouterState state) =>
+      ImportExportRoute();
+
+  @override
+  String get location => GoRouteData.$location(
+        '/import-export',
       );
 
   @override
