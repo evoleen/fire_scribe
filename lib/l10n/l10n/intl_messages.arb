@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2025-06-27T14:12:47.731158",
+  "@@last_modified": "2025-06-27T15:08:59.528239",
   "appTitle": "Fire Scribe",
   "@appTitle": {
     "description": "The title of the app",
@@ -243,21 +243,9 @@
     "type": "text",
     "placeholders": {}
   },
-  "selectFile": "Select File",
-  "@selectFile": {
-    "description": "Button text for opening the file picker",
-    "type": "text",
-    "placeholders": {}
-  },
   "import": "Import",
   "@import": {
     "description": "Button text for importing the selected file",
-    "type": "text",
-    "placeholders": {}
-  },
-  "noFileSelected": "No file selected",
-  "@noFileSelected": {
-    "description": "Placeholder text when no file is selected",
     "type": "text",
     "placeholders": {}
   },

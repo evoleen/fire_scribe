@@ -336,22 +336,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
     desc: 'Label for the file picker input field for NDJSON import',
   );
 
-  String get selectFile => Intl.message(
-    'Select File',
-    name: 'selectFile',
-    desc: 'Button text for opening the file picker',
-  );
-
   String get import => Intl.message(
     'Import',
     name: 'import',
     desc: 'Button text for importing the selected file',
-  );
-
-  String get noFileSelected => Intl.message(
-    'No file selected',
-    name: 'noFileSelected',
-    desc: 'Placeholder text when no file is selected',
   );
 
   String get connectionRequired => Intl.message(
