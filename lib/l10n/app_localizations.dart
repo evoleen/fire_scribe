@@ -319,13 +319,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   );
 
   String get importExport => Intl.message(
-    'Import / Export',
+    'Bulk Import',
     name: 'importExport',
     desc: 'Import/Export menu item label',
   );
 
   String get importExportDescription => Intl.message(
-    'Import and export FHIR resources to and from the server',
+    'Bulk import FHIR resources to the server',
     name: 'importExportDescription',
     desc: 'Description text for the Import/Export page',
   );

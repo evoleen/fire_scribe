@@ -1,5 +1,5 @@
 {
-  "@@last_modified": "2024-11-29T13:30:33.994568",
+  "@@last_modified": "2025-06-27T14:12:47.731158",
   "appTitle": "Fire Scribe",
   "@appTitle": {
     "description": "The title of the app",
@@ -166,6 +166,12 @@
     "type": "text",
     "placeholders": {}
   },
+  "errorWhenDeletingResource": "Error when deleting resource, please try again",
+  "@errorWhenDeletingResource": {
+    "description": "Error message when a deletion request is rejected by the server",
+    "type": "text",
+    "placeholders": {}
+  },
   "warningResourceIdChanged": "The resource's id was modified, the update will be saved as new resource or be rejected by the server.\nDo you want to continue?",
   "@warningResourceIdChanged": {
     "description": "Warning message to show when user try to publish an entity with a different ID than original",
@@ -219,16 +225,98 @@
       "resourceId": {}
     }
   },
-  "importExport": "Import / Export",
+  "importExport": "Bulk Import",
   "@importExport": {
     "description": "Import/Export menu item label",
     "type": "text",
     "placeholders": {}
   },
-  "importExportDescription": "Import and export FHIR resources to and from various formats",
+  "importExportDescription": "Bulk import FHIR resources to the server",
   "@importExportDescription": {
     "description": "Description text for the Import/Export page",
     "type": "text",
     "placeholders": {}
+  },
+  "ndjsonFileToImport": "NDJSON file to import",
+  "@ndjsonFileToImport": {
+    "description": "Label for the file picker input field for NDJSON import",
+    "type": "text",
+    "placeholders": {}
+  },
+  "selectFile": "Select File",
+  "@selectFile": {
+    "description": "Button text for opening the file picker",
+    "type": "text",
+    "placeholders": {}
+  },
+  "import": "Import",
+  "@import": {
+    "description": "Button text for importing the selected file",
+    "type": "text",
+    "placeholders": {}
+  },
+  "noFileSelected": "No file selected",
+  "@noFileSelected": {
+    "description": "Placeholder text when no file is selected",
+    "type": "text",
+    "placeholders": {}
+  },
+  "connectionRequired": "Connection Required",
+  "@connectionRequired": {
+    "description": "Title for the dialog shown when user needs to connect to a server",
+    "type": "text",
+    "placeholders": {}
+  },
+  "connectionRequiredMessage": "You need to be connected to a FHIR server before being able to import or export data.",
+  "@connectionRequiredMessage": {
+    "description": "Message shown in the dialog when user needs to connect to a server",
+    "type": "text",
+    "placeholders": {}
+  },
+  "ok": "OK",
+  "@ok": {
+    "description": "OK button text for dialogs",
+    "type": "text",
+    "placeholders": {}
+  },
+  "importError": "Import Error",
+  "@importError": {
+    "description": "Title for the dialog shown when import fails",
+    "type": "text",
+    "placeholders": {}
+  },
+  "importErrorMessage": "An error occurred while importing the data:\n\n{error}",
+  "@importErrorMessage": {
+    "description": "Message shown in the dialog when import fails",
+    "type": "text",
+    "placeholders": {
+      "error": {}
+    }
+  },
+  "importStarted": "Import Started",
+  "@importStarted": {
+    "description": "Title for the dialog shown when import is successfully initiated",
+    "type": "text",
+    "placeholders": {}
+  },
+  "importStartedMessage": "The import process has been started successfully. You can monitor the progress in your FHIR server.",
+  "@importStartedMessage": {
+    "description": "Message shown in the dialog when import is successfully initiated",
+    "type": "text",
+    "placeholders": {}
+  },
+  "importFailed": "Import Failed",
+  "@importFailed": {
+    "description": "Title for the dialog shown when import request fails",
+    "type": "text",
+    "placeholders": {}
+  },
+  "importFailedMessage": "The import request failed:\n\n{details}",
+  "@importFailedMessage": {
+    "description": "Message shown in the dialog when import request fails",
+    "type": "text",
+    "placeholders": {
+      "details": {}
+    }
   }
 }
