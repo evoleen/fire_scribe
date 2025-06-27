@@ -1,6 +1,4 @@
-import 'package:fire_scribe/dashboard/dashboard_route.dart';
 import 'package:fire_scribe/l10n/app_localizations.dart';
-import 'package:fire_scribe/license/license_routes.dart';
 import 'package:fire_scribe/routes.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -14,18 +12,14 @@ class AppDrawerMenu extends StatelessWidget {
       elevation: 2,
       shadowColor: Theme.of(context).colorScheme.shadow,
       child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 22,
-        ),
+        padding: const EdgeInsets.symmetric(vertical: 22),
         child: ListView(
           physics: ClampingScrollPhysics(),
           children: [
             InkWell(
               onTap: () => DashboardRoute().go(context),
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                ),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Image.asset(
                   'assets/app/logo.png',
                   width: 52,
@@ -41,15 +35,16 @@ class AppDrawerMenu extends StatelessWidget {
                 route: DashboardRoute().location,
               ),
               AppDrawerMenuItemData(
+                icon: Symbols.import_export,
+                title: S.of(context).importExport,
+                route: ImportExportRoute().location,
+              ),
+              AppDrawerMenuItemData(
                 icon: Symbols.license,
                 title: S.of(context).thirdPartyLicenses,
                 route: ThirdPartyLicensesRoute().location,
               ),
-            ].map(
-              (item) => AppDrawerMenuItem(
-                data: item,
-              ),
-            ),
+            ].map((item) => AppDrawerMenuItem(data: item)),
           ],
         ),
       ),
@@ -60,10 +55,7 @@ class AppDrawerMenu extends StatelessWidget {
 class AppDrawerMenuItem extends StatelessWidget {
   final AppDrawerMenuItemData data;
 
-  const AppDrawerMenuItem({
-    super.key,
-    required this.data,
-  });
+  const AppDrawerMenuItem({super.key, required this.data});
   @override
   Widget build(BuildContext context) {
     final location = GoRouterState.of(context).uri;
@@ -78,32 +70,24 @@ class AppDrawerMenuItem extends StatelessWidget {
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.symmetric(
-                vertical: 4.0,
-              ),
+              padding: EdgeInsets.symmetric(vertical: 4.0),
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                decoration: isSelected
-                    ? BoxDecoration(
-                        color: Theme.of(context)
-                            .colorScheme
-                            .primaryContainer
-                            .withValues(alpha: 0.3),
-                        borderRadius: BorderRadius.circular(24),
-                      )
-                    : null,
-                child: Icon(
-                  data.icon,
-                  fill: 1,
-                  size: 24,
-                ),
+                decoration:
+                    isSelected
+                        ? BoxDecoration(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.primaryContainer.withValues(alpha: 0.3),
+                          borderRadius: BorderRadius.circular(24),
+                        )
+                        : null,
+                child: Icon(data.icon, fill: 1, size: 24),
               ),
             ),
             SizedBox(width: 4),
             Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 8.0,
-              ),
+              padding: EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
                 data.title,
                 textAlign: TextAlign.center,

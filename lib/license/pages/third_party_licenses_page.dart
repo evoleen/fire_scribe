@@ -1,6 +1,5 @@
 import 'package:collection/collection.dart';
 import 'package:fire_scribe/l10n/app_localizations.dart';
-import 'package:fire_scribe/license/license_routes.dart';
 import 'package:fire_scribe/oss_licenses.dart';
 import 'package:fire_scribe/routes.dart';
 import 'package:flutter/foundation.dart';

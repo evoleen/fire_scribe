@@ -1,6 +1,5 @@
 import 'package:fire_scribe/app_scaffold.dart';
 import 'package:fire_scribe/app_theme.dart';
-import 'package:fire_scribe/dashboard/dashboard_route.dart';
 import 'package:fire_scribe/l10n/app_localizations.dart';
 import 'package:fire_scribe/l10n/cubit/localization_cubit.dart';
 import 'package:fire_scribe/l10n/supported_locales.dart';
@@ -12,9 +11,7 @@ import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 
 class App extends StatelessWidget {
-  const App({
-    super.key,
-  });
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,35 +21,33 @@ class App extends StatelessWidget {
       navigatorKey: GetIt.instance<GlobalKey<NavigatorState>>(),
       routes: $appRoutes,
       errorBuilder: (context, state) {
-        return AppScaffold(
-          child: _AppErrorPage(),
-        );
+        return AppScaffold(child: _AppErrorPage());
       },
     );
 
     return BlocProvider(
-      create: (final context) => LocalizationCubit(
-        sharedPreferences: GetIt.instance(),
-      ),
+      create:
+          (final context) =>
+              LocalizationCubit(sharedPreferences: GetIt.instance()),
       child: BlocBuilder<LocalizationCubit, LocalizationCubitState>(
-        buildWhen: (final _, final current) => current.when(
-          initial: () => false,
-          locale: (final _) => true,
-        ),
+        buildWhen:
+            (final _, final current) =>
+                current.when(initial: () => false, locale: (final _) => true),
         builder: (final context, final state) {
           return state.when(
             initial: () => const SizedBox(),
-            locale: (final locale) => MaterialApp.router(
-              title: S.of(context).appTitle,
-              theme: appTheme,
-              debugShowCheckedModeBanner: false,
-              supportedLocales: supportedLocales,
-              locale: locale,
-              localizationsDelegates: S.delegates,
-              routeInformationProvider: router.routeInformationProvider,
-              routeInformationParser: router.routeInformationParser,
-              routerDelegate: router.routerDelegate,
-            ),
+            locale:
+                (final locale) => MaterialApp.router(
+                  title: S.of(context).appTitle,
+                  theme: appTheme,
+                  debugShowCheckedModeBanner: false,
+                  supportedLocales: supportedLocales,
+                  locale: locale,
+                  localizationsDelegates: S.delegates,
+                  routeInformationProvider: router.routeInformationProvider,
+                  routeInformationParser: router.routeInformationParser,
+                  routerDelegate: router.routerDelegate,
+                ),
           );
         },
       ),
@@ -80,9 +75,7 @@ class _AppErrorPage extends StatelessWidget {
           SizedBox(height: 10),
           ElevatedButton(
             onPressed: () => GoRouter.of(context).refresh(),
-            child: Text(
-              S.of(context).refresh,
-            ),
+            child: Text(S.of(context).refresh),
           ),
         ],
       ),
