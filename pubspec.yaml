@@ -58,7 +58,7 @@ dev_dependencies:
     sdk: flutter
   freezed: 2.5.7
   go_router_builder: 2.8.2
-  intl_translation: 0.20.0
+  intl_translation: 0.22.0
   mocktail: 1.0.4
   remove_from_coverage: 2.0.0
 
