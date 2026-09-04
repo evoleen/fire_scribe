@@ -49,7 +49,7 @@ dependencies:
 
 dev_dependencies:
   bloc_test: 10.0.0
-  build_runner: 2.4.15
+  build_runner: 2.16.1
   dartz: 0.10.1
   flutter_launcher_icons: 0.14.3
   flutter_lints: 5.0.0
